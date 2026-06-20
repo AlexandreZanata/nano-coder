@@ -1,0 +1,27 @@
+\section{Experiments}
+
+Table~\ref{tab:experiments} lists the preregistered benchmark (config/experiments.yaml).
+
+\begin{table}[h]
+\centering
+\caption{Experiment registry (Waves 1--4).}
+\label{tab:experiments}
+\begin{tabular}{llll}
+\toprule
+ID & Method & Evidence & Wave \\
+\midrule
+exp\_001 & LoRA & Established & 1 \\
+exp\_002 & QLoRA & Established & 1 \\
+exp\_003 & DoRA & Established & 1 \\
+exp\_004 & TT-LoRA ($\chi$ sweep) & QuantumInspired & 2 \\
+exp\_005 & TRG & QuantumInspired & 2 \\
+exp\_006 & GaLore & Established & 2 \\
+exp\_007 & MPO & QuantumInspired & 3 \\
+exp\_008 & QTHA & QuantumInspired & 3 \\
+exp\_009 & Incremental vs mixed & Established & 4 \\
+exp\_010 & Decoherence reg. & Speculative & 4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Hardware: NVIDIA RTX 4060 (8\,GB). CI uses CPU stubs until training stack ships.

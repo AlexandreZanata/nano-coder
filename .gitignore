@@ -1,0 +1,40 @@
+# Research artifacts (append-only / large)
+logs/
+data/datasets/
+data/checkpoints/
+data/benchmarks/
+htmlcov/
+.coverage
+coverage.xml
+dist/
+paper/main.aux
+paper/main.log
+paper/main.out
+paper/main.bbl
+paper/main.blg
+paper/main.pdf
+
+# Local-only agent and IDE configuration
+.local/
+.cursor/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# OS and IDE (non-Cursor)
+.DS_Store
+.idea/
+*.swp
+
+# Python tooling (agent-harness scripts)
+__pycache__/
+.venv/
+venv/
+
+# Node / build artifacts (add as stack is chosen)
+node_modules/
+dist/
+build/
+coverage/

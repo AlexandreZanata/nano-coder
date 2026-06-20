@@ -1,0 +1,19 @@
+\section{Methods}
+
+\subsection{Synthetic data}
+We generate 1,500--3,000 validated instruction--code pairs per language from 50--100 manual gold seeds via teacher LLM expansion (Self-Instruct / Evol-Instruct), with syntax gates and held-out isolation (BR-004).
+
+\subsection{Student model}
+Primary candidate: Qwen2.5-Coder-0.5B; escalation per ADR-002 if smoke Pass@1 $<$ 60\%.
+
+\subsection{Compression methods}
+Two orthogonal axes: \textbf{CompressionMethod} (LoRA through tensor networks) and \textbf{DataSchedule} (mixed vs.\ incremental-by-language).
+Evidence levels L1--L4 are reported for every run (BR-013).
+Quantum-inspired methods run on \emph{classical} GPU simulation---no quantum hardware.
+
+\subsection{Evaluation}
+Pass@1 and Pass@5 on held-out tasks; peak VRAM; wall-clock time; trainable parameter count.
+Tensor methods include $\chi \in \{4,8,16,32\}$ heatmaps.
+
+\subsection{Reproducibility}
+Hypothesis-first experiments (\texttt{hypothesis.md} $\rightarrow$ \texttt{run.py} $\rightarrow$ \texttt{results.md}), append-only JSONL logs, CI gates (\texttt{make check}), and local RTX 4060 real gate (\texttt{make check-real}).

@@ -1,0 +1,38 @@
+% nano-coder paper draft
+% Compile: make paper-build
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+\title{Distilling Code SLMs:\\
+A Reproducible Benchmark of PEFT and Tensor-Network Fine-Tuning\\
+on JavaScript, HTML, and FreeMarker}
+\author{Alexandre Zanata}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present nano-coder, an open-source benchmark comparing parameter-efficient fine-tuning
+methods---from LoRA and DoRA through quantum-\emph{inspired} tensor networks (TT-LoRA, TRG, MPO)---
+for sub-1B code models on JavaScript, HTML, and FreeMarker.
+All student models train on teacher-distilled synthetic data with hypothesis-first discipline,
+bond dimension $\chi$ as the central compression axis, and honest evidence labeling
+(Established vs.\ QuantumInspired vs.\ Speculative).
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/methods}
+\input{sections/experiments}
+\input{sections/results}
+\input{sections/limitations}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

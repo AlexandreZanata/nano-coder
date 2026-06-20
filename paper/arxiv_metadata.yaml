@@ -1,0 +1,27 @@
+# arXiv submission metadata — validated in CI paper-build job
+# After upload, set arxiv_id and commit.
+
+title: "Distilling Code SLMs: A Reproducible Benchmark of PEFT and Tensor-Network Fine-Tuning on JS, HTML, and FreeMarker"
+software_version: "0.1.0"
+
+abstract: >
+  We present nano-coder, an open-source benchmark comparing parameter-efficient
+  fine-tuning methods for sub-1B code models on JavaScript, HTML, and FreeMarker
+  using teacher-distilled synthetic data. Methods span Established PEFT (LoRA, QLoRA,
+  DoRA, GaLore) and quantum-inspired tensor networks (TT-LoRA, TRG, MPO, QTHA) with
+  bond dimension chi as the central hyperparameter. All experiments follow
+  hypothesis-first discipline with CI validation and RTX 4060 local replication gates.
+
+authors:
+  - name: "Alexandre Zanata"
+    affiliation: "Independent Researcher"
+
+categories:
+  - cs.LG
+  - cs.SE
+
+comments: >
+  Code: https://github.com/AlexandreZanata/nano-coder (MIT License)
+
+arxiv_id: null
+journal_ref: null

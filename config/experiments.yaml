@@ -1,0 +1,125 @@
+# Central experiment configuration — nano-coder SLM benchmark lab
+# Modeled after quantun-ia/config/experiments.yaml
+
+defaults:
+  profile: publication
+  student_model: Qwen2.5-Coder-0.5B
+  data_schedule: MixedLanguages
+  dataset_version: ds-v1
+  bond_dimension: 16
+  lora_rank: 16
+  seeds: [42, 123, 456, 789, 1024]
+  max_steps: 500
+  batch_size: 4
+
+profiles:
+  ci:
+    max_steps: 20
+    seeds: [42]
+    batch_size: 2
+    target_examples: 50
+  smoke:
+    max_steps: 100
+    seeds: [42]
+    target_examples: 200
+  publication:
+    max_steps: 500
+    seeds: [42, 123, 456, 789, 1024]
+    target_examples: 1500
+
+experiments:
+  exp_001_lora_baseline:
+    description: "Wave 1 — LoRA baseline on mixed JS/HTML/FreeMarker synthetic data"
+    compression_method: LoRA
+    evidence_level: Established
+    lora_rank: 16
+    wave: 1
+
+  exp_002_qlora_baseline:
+    description: "Wave 1 — QLoRA 4-bit baseline"
+    compression_method: QLoRA
+    evidence_level: Established
+    lora_rank: 16
+    wave: 1
+
+  exp_003_dora_baseline:
+    description: "Wave 1 — DoRA magnitude-direction vs LoRA at matched rank"
+    compression_method: DoRA
+    evidence_level: Established
+    lora_rank: 16
+    wave: 1
+
+  exp_004_ttloRA_bond_sweep:
+    description: "Wave 2 — TT-LoRA tensor train with bond dimension χ sweep"
+    compression_method: TTLoRA
+    evidence_level: QuantumInspired
+    bond_dimension_sweep: [4, 8, 16, 32]
+    wave: 2
+
+  exp_005_trg_training_speed:
+    description: "Wave 2 — TRG coarse-graining fine-tune vs LoRA wall-clock"
+    compression_method: TRG
+    evidence_level: QuantumInspired
+    bond_dimension: 16
+    wave: 2
+
+  exp_006_galore_memory:
+    description: "Wave 2 — GaLore gradient subspace vs LoRA VRAM"
+    compression_method: GaLore
+    evidence_level: Established
+    galore_rank: 16
+    wave: 2
+
+  exp_007_mpo_compression:
+    description: "Wave 3 — MPO matrix product operator vs LoRA param count"
+    compression_method: MPO
+    evidence_level: QuantumInspired
+    bond_dimension_sweep: [8, 16]
+    wave: 3
+
+  exp_008_qtha_rank_limit:
+    description: "Wave 3 — QTHA quantum-inspired hybrid vs LoRA at low rank"
+    compression_method: QTHA
+    evidence_level: QuantumInspired
+    bond_dimension: 8
+    wave: 3
+
+  exp_009_incremental_vs_mixed:
+    description: "Wave 4 — IncrementalByLanguage vs MixedLanguages (best W1–2 method)"
+    compression_method: LoRA
+    evidence_level: Established
+    data_schedules: [IncrementalByLanguage, MixedLanguages]
+    wave: 4
+
+  exp_010_decoherence_regularization:
+    description: "Wave 4 — Speculative decoherence regularization + LoRA (L4)"
+    compression_method: DecoherenceRegularization
+    evidence_level: Speculative
+    decoherence_lambda_sweep: [0.01, 0.1]
+    wave: 4
+
+  exp_011_gv_alr_lora_transfer:
+    description: "Wave Q — GV-ALR optimizer on LoRA (quantun-ia exp_054/075 transfer)"
+    compression_method: GradientVarianceAdaptiveLR
+    evidence_level: NovelApplication
+    base_method: LoRA
+    quantun_ia_refs: [exp_015, exp_054, exp_075]
+    wave: Q
+
+  exp_012_reupload_schedule_lora:
+    description: "Wave Q — Data re-upload multi-pass schedule + LoRA (quantun-ia exp_008 transfer)"
+    compression_method: DataReupload
+    evidence_level: NovelApplication
+    base_method: LoRA
+    reupload_passes: [2, 3]
+    quantun_ia_refs: [exp_008, exp_001]
+    wave: Q
+
+  exp_013_frozen_backbone_lora:
+    description: "Wave Q — Frozen backbone + LoRA on head/last blocks (quantun-ia exp_037/051/062/071 transfer)"
+    compression_method: FrozenBackboneHybridHead
+    evidence_level: NovelApplication
+    base_method: LoRA
+    frozen_layers: all_except_last_2
+    quantun_ia_refs: [exp_037, exp_051, exp_062, exp_071]
+    wave: Q

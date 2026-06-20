@@ -1,0 +1,6 @@
+# nano-coder dev / CI dependencies (minimal until training stack is pinned)
+-r agent-harness/requirements.txt
+pytest>=8.0
+pytest-cov>=5.0
+ruff>=0.4
+pyyaml>=6.0

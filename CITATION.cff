@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: "nano-coder: SLM Fine-Tuning Benchmark for JS, HTML, and FreeMarker via Synthetic Distillation"
+message: "If you use this software or benchmark, please cite it as below."
+type: software
+version: 0.1.0
+date-released: 2026-06-20
+authors:
+  - family-names: Zanata
+    given-names: Alexandre
+repository-code: "https://github.com/AlexandreZanata/nano-coder"
+url: "https://github.com/AlexandreZanata/nano-coder"
+license: MIT
+keywords:
+  - small-language-models
+  - knowledge-distillation
+  - parameter-efficient-fine-tuning
+  - tensor-networks
+  - code-generation
+  - reproducible-research
+# After Zenodo sync (optional):
+# doi: 10.5281/zenodo.XXXXXXX

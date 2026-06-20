@@ -1,0 +1,15 @@
+\section{Introduction}
+
+Small language models (SLMs) under 1B parameters can serve constrained hardware such as
+consumer GPUs (e.g.\ RTX 4060), but collapse quickly on multi-language code generation.
+We ask: \emph{which fine-tuning technique delays that collapse longest per language?}
+
+Contributions:
+\begin{itemize}
+  \item A reproducible pipeline: gold seeds $\rightarrow$ synthetic distillation $\rightarrow$ train $\rightarrow$ benchmark.
+  \item A method matrix spanning Established PEFT (LoRA, QLoRA, DoRA, GaLore) and quantum-\emph{inspired} tensor networks (TT-LoRA, TRG, MPO, QTHA).
+  \item Bond dimension $\chi$ sweeps relating compression to JavaScript vs.\ HTML vs.\ FreeMarker Pass@k.
+  \item Honest reporting of negative and null results (sub-1B limits, L4 speculative regularization).
+\end{itemize}
+
+Code and documentation: \url{https://github.com/AlexandreZanata/nano-coder} (MIT License).

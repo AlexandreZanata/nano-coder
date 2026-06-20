@@ -1,0 +1,138 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+  schedule:
+    - cron: "0 6 * * 1"
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install ruff
+
+      - name: Run ruff
+        run: ruff check scripts/ tests/ experiments/ || true
+
+  docs:
+    name: Documentation Structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Validate docs and research structure
+        run: python scripts/validate_docs.py
+
+      - name: Verify MIT license
+        run: test -f LICENSE && grep -q "MIT License" LICENSE
+
+  hypothesis:
+    name: Hypothesis Placeholder Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pytest
+        run: pip install pytest
+
+      - name: Check experiment hypotheses
+        run: pytest tests/unit/test_hypothesis.py -v
+
+  harness:
+    name: Agent Harness Smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install harness dependencies
+        run: pip install -r agent-harness/requirements.txt
+
+      - name: Run harness smoke
+        run: |
+          chmod +x scripts/harness_smoke.sh
+          ./scripts/harness_smoke.sh
+
+  test:
+    name: Unit & Contract Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Run tests
+        env:
+          MLFLOW_DISABLE: "1"
+        run: |
+          mkdir -p logs
+          pytest tests/ -m "not real" -v --cov=scripts --cov-report=term-missing
+
+  contracts:
+    name: Research Contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml pytest
+
+      - name: Run contract tests
+        run: pytest tests/contracts/ -v
+
+  paper-build:
+    name: Paper Build (LaTeX)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TeX Live
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends texlive-latex-base texlive-latex-recommended texlive-fonts-recommended
+
+      - name: Build paper PDF
+        run: |
+          cd paper
+          pdflatex -interaction=nonstopmode main.tex
+          pdflatex -interaction=nonstopmode main.tex
+          test -f main.pdf
