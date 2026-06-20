@@ -1,0 +1,22 @@
+version: v1
+
+defaults:
+  heldOutTestSetVersion: held-out-v1
+  profile: smoke
+  anchorCompressionMethod: LoRA
+  paramMatchTolerancePercent: 10
+
+evaluation:
+  includeTagBuckets: true
+  includeInferenceMetrics: true
+  includeParamMatchFootnotes: true
+  judgeSampleRate: 0.10
+
+inferenceMock:
+  meanLatencyMsPerToken: 12.5
+  throughputTokensPerSec: 82.0
+  baseModelSizeMb: 1024
+
+sources:
+  phase3Report: .local/review/phase3-wave1-report.json
+  smokeTrainReport: .local/review/smoke-train-report.json

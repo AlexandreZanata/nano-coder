@@ -111,6 +111,7 @@ def run_benchmark(
                 {
                     "taskId": task.get("id"),
                     "targetLanguage": language.value,
+                    "tags": list(task.get("tags", [])),
                     "passAt1": pass_at_1,
                     "passAt5": pass_at_k,
                 }
