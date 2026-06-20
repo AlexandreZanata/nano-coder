@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nano-coder.local/schemas/held-out-task-v1.json",
+  "title": "HeldOutTask",
+  "description": "Single held-out benchmark task (BR-004, EVALUATION-METHOD.md)",
+  "type": "object",
+  "required": ["id", "targetLanguage", "topicId", "instruction", "tags"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^ho-(js|html|fmt)-[0-9]{3}$"
+    },
+    "targetLanguage": {
+      "type": "string",
+      "enum": ["JavaScript", "HTML", "FreeMarker"]
+    },
+    "topicId": {
+      "type": "string",
+      "pattern": "^HO-(JS|HTML|FMT)-[0-9]{3}$"
+    },
+    "instruction": {
+      "type": "string",
+      "minLength": 20
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "acceptanceCriteria": {
+      "type": "object",
+      "properties": {
+        "mustParse": { "type": "boolean" },
+        "mustContain": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "mustNotContain": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

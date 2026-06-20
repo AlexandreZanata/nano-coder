@@ -1,0 +1,265 @@
+# Stage 0 — scope and held-out boundary (canonical, BR-004)
+# Operator mirror: .local/review/scope-boundary.md, held-out-topics.md, topic-matrix.csv
+
+version: v1
+effectiveDate: "2026-06-20"
+heldOutTestSetVersion: held-out-v1
+
+targetLanguages:
+  JavaScript:
+    inScope:
+      summary: "ES2020+ modules, pure utilities, DOM helpers, validation, async fetch — no frameworks or Node servers"
+      domainTags: [array, object, async, dom, validation, module, class, functional, error-handling]
+      difficultyMix: { L1: 0.15, L2: 0.50, L3: 0.25, L4: 0.10 }
+    outOfScopePhase1:
+      - "React, Vue, Angular, Svelte, Solid, Astro, Next, Nuxt, Remix"
+      - "Node.js HTTP servers (Express, Fastify, Koa, NestJS)"
+      - "Bundler or build tool configuration (Webpack, Vite, Rollup)"
+      - "ORM, database, or cloud SDK integration"
+      - "Testing frameworks (Jest, Mocha, Cypress, Puppeteer)"
+      - "TypeScript-only syntax (training targets plain JavaScript)"
+  HTML:
+    inScope:
+      summary: "Semantic HTML5, forms, a11y basics, metadata, tables, media — structure only, minimal inline semantics"
+      domainTags: [forms, semantic, accessibility, layout, metadata, tables, media]
+      difficultyMix: { L1: 0.15, L2: 0.50, L3: 0.25, L4: 0.10 }
+    outOfScopePhase1:
+      - "Full CSS layout systems (Grid dashboards, Flex Holy Grail, Tailwind/Bootstrap pages)"
+      - "SPA shells and Web Components"
+      - "Canvas, WebGL, or animation-heavy pages"
+      - "Email-client-compatible table layouts"
+      - "PWA, service worker, or AMP-specific markup"
+  FreeMarker:
+    inScope:
+      summary: "Macros, lists, includes, conditionals, formatting, nested templates — template logic only"
+      domainTags: [macro, include, list, condition, formatting, nested, custom-directive]
+      difficultyMix: { L1: 0.15, L2: 0.50, L3: 0.25, L4: 0.10 }
+    outOfScopePhase1:
+      - "Java/Spring backend integration (@Controller, Spring MVC, Security)"
+      - "Database-driven dynamic includes or JPA entity graphs"
+      - "Build artifact generators (pom.xml, docker-compose, Helm, Jenkins)"
+      - "Non-HTML output templates (JSON API, XML SOAP, YAML configs)"
+      - "Custom Java FreeMarker directive implementations"
+
+trainingTopics:
+  - { id: JS-001, language: JavaScript, difficulty: L1, tags: [array, functional], pattern: "Array map/filter/find utility" }
+  - { id: JS-002, language: JavaScript, difficulty: L1, tags: [array, functional], pattern: "Array reduce accumulator" }
+  - { id: JS-003, language: JavaScript, difficulty: L2, tags: [array, functional], pattern: "Group objects by key" }
+  - { id: JS-004, language: JavaScript, difficulty: L2, tags: [array, functional], pattern: "Unique values by property (uniqueBy)" }
+  - { id: JS-005, language: JavaScript, difficulty: L2, tags: [object], pattern: "Deep merge plain objects" }
+  - { id: JS-006, language: JavaScript, difficulty: L2, tags: [object], pattern: "Pick/omit object keys" }
+  - { id: JS-007, language: JavaScript, difficulty: L2, tags: [validation], pattern: "Email or URL format validator" }
+  - { id: JS-008, language: JavaScript, difficulty: L2, tags: [validation], pattern: "Required field form validator" }
+  - { id: JS-009, language: JavaScript, difficulty: L2, tags: [async, error-handling], pattern: "Fetch JSON with timeout and error mapping" }
+  - { id: JS-010, language: JavaScript, difficulty: L3, tags: [async, error-handling], pattern: "Retry fetch with exponential backoff" }
+  - { id: JS-011, language: JavaScript, difficulty: L2, tags: [dom], pattern: "Query and toggle element classes" }
+  - { id: JS-012, language: JavaScript, difficulty: L2, tags: [dom], pattern: "Create element from template string safely" }
+  - { id: JS-013, language: JavaScript, difficulty: L2, tags: [dom], pattern: "Delegate click events on list" }
+  - { id: JS-014, language: JavaScript, difficulty: L2, tags: [module], pattern: "ES module named exports utility" }
+  - { id: JS-015, language: JavaScript, difficulty: L2, tags: [module, functional], pattern: "Pipe/compose pure functions module" }
+  - { id: JS-016, language: JavaScript, difficulty: L2, tags: [class, error-handling], pattern: "Small class with validation in constructor" }
+  - { id: JS-017, language: JavaScript, difficulty: L3, tags: [class, module], pattern: "Immutable stack or queue class" }
+  - { id: JS-018, language: JavaScript, difficulty: L2, tags: [functional], pattern: "Debounce or throttle function" }
+  - { id: JS-019, language: JavaScript, difficulty: L2, tags: [functional], pattern: "Memoize pure function" }
+  - { id: JS-020, language: JavaScript, difficulty: L4, tags: [error-handling, validation], pattern: "Parse CSV line with quoted fields" }
+  - { id: JS-021, language: JavaScript, difficulty: L4, tags: [async], pattern: "Sequential async task runner with concurrency limit" }
+  - { id: JS-022, language: JavaScript, difficulty: L3, tags: [dom, validation], pattern: "Live form field validation feedback" }
+  - { id: JS-023, language: JavaScript, difficulty: L2, tags: [array], pattern: "Chunk array into fixed-size batches" }
+  - { id: JS-024, language: JavaScript, difficulty: L2, tags: [object], pattern: "Flatten nested object to dot keys" }
+  - { id: JS-025, language: JavaScript, difficulty: L3, tags: [functional, error-handling], pattern: "Result/Either style error wrapper" }
+
+  - { id: HTML-001, language: HTML, difficulty: L1, tags: [semantic], pattern: "Semantic article with header and footer" }
+  - { id: HTML-002, language: HTML, difficulty: L1, tags: [semantic], pattern: "Navigation landmark with list links" }
+  - { id: HTML-003, language: HTML, difficulty: L2, tags: [forms, accessibility], pattern: "Accessible contact form with labels" }
+  - { id: HTML-004, language: HTML, difficulty: L2, tags: [forms], pattern: "Radio group with fieldset" }
+  - { id: HTML-005, language: HTML, difficulty: L2, tags: [forms], pattern: "Select dropdown with optgroups" }
+  - { id: HTML-006, language: HTML, difficulty: L2, tags: [accessibility], pattern: "Skip link and main landmark" }
+  - { id: HTML-007, language: HTML, difficulty: L2, tags: [accessibility], pattern: "ARIA live region for status messages" }
+  - { id: HTML-008, language: HTML, difficulty: L2, tags: [tables], pattern: "Data table with caption and scope" }
+  - { id: HTML-009, language: HTML, difficulty: L2, tags: [tables], pattern: "Table with thead/tbody semantic sections" }
+  - { id: HTML-010, language: HTML, difficulty: L2, tags: [metadata], pattern: "Page head with charset, viewport, description" }
+  - { id: HTML-011, language: HTML, difficulty: L2, tags: [metadata], pattern: "Open Graph basic meta tags" }
+  - { id: HTML-012, language: HTML, difficulty: L2, tags: [media], pattern: "Figure with figcaption and img alt" }
+  - { id: HTML-013, language: HTML, difficulty: L2, tags: [media], pattern: "Audio element with fallback text" }
+  - { id: HTML-014, language: HTML, difficulty: L2, tags: [layout], pattern: "Simple two-column main and aside (semantic only)" }
+  - { id: HTML-015, language: HTML, difficulty: L3, tags: [forms, accessibility], pattern: "Multi-section form with legends" }
+  - { id: HTML-016, language: HTML, difficulty: L3, tags: [semantic], pattern: "Definition list for glossary terms" }
+  - { id: HTML-017, language: HTML, difficulty: L3, tags: [forms], pattern: "Search form with search landmark" }
+  - { id: HTML-018, language: HTML, difficulty: L4, tags: [accessibility, forms], pattern: "Required fields with aria-describedby errors" }
+  - { id: HTML-019, language: HTML, difficulty: L2, tags: [semantic], pattern: "Address and time elements" }
+  - { id: HTML-020, language: HTML, difficulty: L3, tags: [tables, accessibility], pattern: "Complex table with row/col headers" }
+
+  - { id: FMT-001, language: FreeMarker, difficulty: L1, tags: [list], pattern: "Iterate list and render items" }
+  - { id: FMT-002, language: FreeMarker, difficulty: L1, tags: [condition], pattern: "If/else empty check" }
+  - { id: FMT-003, language: FreeMarker, difficulty: L2, tags: [macro], pattern: "Reusable macro with parameters" }
+  - { id: FMT-004, language: FreeMarker, difficulty: L2, tags: [macro, list], pattern: "Macro rendering product or item list" }
+  - { id: FMT-005, language: FreeMarker, difficulty: L2, tags: [include], pattern: "Include partial template fragment" }
+  - { id: FMT-006, language: FreeMarker, difficulty: L2, tags: [formatting], pattern: "Number and date formatting" }
+  - { id: FMT-007, language: FreeMarker, difficulty: L2, tags: [formatting], pattern: "Currency and locale string output" }
+  - { id: FMT-008, language: FreeMarker, difficulty: L2, tags: [condition], pattern: "Switch-like nested if/elseif" }
+  - { id: FMT-009, language: FreeMarker, difficulty: L2, tags: [list, condition], pattern: "Filter list with if inside list" }
+  - { id: FMT-010, language: FreeMarker, difficulty: L2, tags: [nested], pattern: "Nested list rendering (tree one level)" }
+  - { id: FMT-011, language: FreeMarker, difficulty: L3, tags: [macro, nested], pattern: "Recursive macro for comment tree" }
+  - { id: FMT-012, language: FreeMarker, difficulty: L3, tags: [macro, formatting], pattern: "Macro with default parameter values" }
+  - { id: FMT-013, language: FreeMarker, difficulty: L3, tags: [include, macro], pattern: "Layout template with nested content slot" }
+  - { id: FMT-014, language: FreeMarker, difficulty: L2, tags: [list], pattern: "Empty list fallback message" }
+  - { id: FMT-015, language: FreeMarker, difficulty: L3, tags: [condition, formatting], pattern: "Nullable field with default display" }
+  - { id: FMT-016, language: FreeMarker, difficulty: L4, tags: [macro, error-handling], pattern: "Macro validating required model keys" }
+  - { id: FMT-017, language: FreeMarker, difficulty: L3, tags: [list, formatting], pattern: "Paginated list slice rendering" }
+  - { id: FMT-018, language: FreeMarker, difficulty: L2, tags: [custom-directive], pattern: "User-defined macro as custom tag pattern" }
+  - { id: FMT-019, language: FreeMarker, difficulty: L4, tags: [nested, condition], pattern: "Multi-level category breadcrumb from flat list" }
+  - { id: FMT-020, language: FreeMarker, difficulty: L3, tags: [macro, list], pattern: "Table rows macro from record list" }
+
+heldOutTopics:
+  - { id: HO-JS-001, language: JavaScript, pattern: "JWT authentication middleware with refresh tokens", keywords: [jwt, refresh token, middleware, authentication] }
+  - { id: HO-JS-002, language: JavaScript, pattern: "React useEffect data fetching hook", keywords: [react, useeffect, hook, jsx] }
+  - { id: HO-JS-003, language: JavaScript, pattern: "Express.js REST CRUD server", keywords: [express, rest, crud, app.listen] }
+  - { id: HO-JS-004, language: JavaScript, pattern: "Vue 3 Composition API composable", keywords: [vue, composable, ref, reactive] }
+  - { id: HO-JS-005, language: JavaScript, pattern: "Webpack bundle configuration", keywords: [webpack, loader, plugin, entry] }
+  - { id: HO-JS-006, language: JavaScript, pattern: "Next.js API route handler", keywords: [next.js, api route, getserversideprops] }
+  - { id: HO-JS-007, language: JavaScript, pattern: "Node.js stream pipeline with transforms", keywords: [createReadStream, pipeline, transform] }
+  - { id: HO-JS-008, language: JavaScript, pattern: "Redux Toolkit store slice", keywords: [redux, createslice, dispatch] }
+  - { id: HO-JS-009, language: JavaScript, pattern: "Angular HttpClient service", keywords: [angular, httpclient, injectable] }
+  - { id: HO-JS-010, language: JavaScript, pattern: "Jest React Testing Library component test", keywords: [jest, render, screen.getbyrole] }
+  - { id: HO-JS-011, language: JavaScript, pattern: "TypeScript generic repository class", keywords: [typescript, generic, repository, interface] }
+  - { id: HO-JS-012, language: JavaScript, pattern: "Socket.io realtime chat server", keywords: [socket.io, io.on, emit] }
+  - { id: HO-JS-013, language: JavaScript, pattern: "Mongoose MongoDB schema", keywords: [mongoose, schema, model] }
+  - { id: HO-JS-014, language: JavaScript, pattern: "GraphQL Apollo resolver", keywords: [graphql, resolver, apollo] }
+  - { id: HO-JS-015, language: JavaScript, pattern: "Vite plugin development", keywords: [vite, plugin, transformindexhtml] }
+  - { id: HO-JS-016, language: JavaScript, pattern: "OAuth2 PKCE authorization flow client", keywords: [oauth2, pkce, code_verifier] }
+  - { id: HO-JS-017, language: JavaScript, pattern: "Service worker cache-first strategy", keywords: [service worker, caches.open, fetch event] }
+  - { id: HO-JS-018, language: JavaScript, pattern: "Puppeteer headless scraping script", keywords: [puppeteer, page.goto, evaluate] }
+  - { id: HO-JS-019, language: JavaScript, pattern: "NestJS controller with route guards", keywords: [nestjs, controller, useguards] }
+  - { id: HO-JS-020, language: JavaScript, pattern: "Fastify plugin registration", keywords: [fastify, register, plugin] }
+  - { id: HO-JS-021, language: JavaScript, pattern: "Prisma client database queries", keywords: [prisma, prisma client, findmany] }
+  - { id: HO-JS-022, language: JavaScript, pattern: "AWS Lambda handler function", keywords: [lambda, awslambda, exports.handler] }
+  - { id: HO-JS-023, language: JavaScript, pattern: "Stripe payment checkout session", keywords: [stripe, checkout.session, payment] }
+  - { id: HO-JS-024, language: JavaScript, pattern: "Svelte reactive store", keywords: [svelte, writable, subscribe] }
+  - { id: HO-JS-025, language: JavaScript, pattern: "Remix loader and action exports", keywords: [remix, loader, action] }
+  - { id: HO-JS-026, language: JavaScript, pattern: "Rollup multi-entry configuration", keywords: [rollup, input, output] }
+  - { id: HO-JS-027, language: JavaScript, pattern: "Electron main process window manager", keywords: [electron, browserwindow, app.whenready] }
+  - { id: HO-JS-028, language: JavaScript, pattern: "Koa middleware chain application", keywords: [koa, app.use, middleware] }
+  - { id: HO-JS-029, language: JavaScript, pattern: "Cypress E2E test specification", keywords: [cypress, cy.visit, describe] }
+  - { id: HO-JS-030, language: JavaScript, pattern: "Deno HTTP server listener", keywords: [deno, deno.serve, listen] }
+  - { id: HO-JS-031, language: JavaScript, pattern: "WebRTC peer connection setup", keywords: [webrtc, rtcpeerconnection, ice candidate] }
+  - { id: HO-JS-032, language: JavaScript, pattern: "IndexedDB wrapper with promises", keywords: [indexeddb, objectstore, transaction] }
+  - { id: HO-JS-033, language: JavaScript, pattern: "Three.js basic 3D scene", keywords: [three.js, scene, perspectivecamera] }
+  - { id: HO-JS-034, language: JavaScript, pattern: "TensorFlow.js model prediction", keywords: [tensorflow, tf.loadlayersmodel, predict] }
+  - { id: HO-JS-035, language: JavaScript, pattern: "RabbitMQ message consumer worker", keywords: [rabbitmq, amqp, channel.consume] }
+  - { id: HO-JS-036, language: JavaScript, pattern: "Redis pub/sub event handler", keywords: [redis, publish, subscribe] }
+  - { id: HO-JS-037, language: JavaScript, pattern: "gRPC microservice client stub", keywords: [grpc, protobuf, client] }
+  - { id: HO-JS-038, language: JavaScript, pattern: "Serverless framework Lambda function", keywords: [serverless, serverless.yml, handler] }
+  - { id: HO-JS-039, language: JavaScript, pattern: "Mocha Chai API integration test", keywords: [mocha, chai, expect] }
+  - { id: HO-JS-040, language: JavaScript, pattern: "ESLint custom rule plugin", keywords: [eslint, rule, context.report] }
+  - { id: HO-JS-041, language: JavaScript, pattern: "SolidJS createSignal primitive", keywords: [solidjs, createsignal, jsx] }
+  - { id: HO-JS-042, language: JavaScript, pattern: "Astro island component script", keywords: [astro, client:load, frontmatter] }
+  - { id: HO-JS-043, language: JavaScript, pattern: "Nuxt definePageMeta middleware", keywords: [nuxt, definepagemeta, middleware] }
+  - { id: HO-JS-044, language: JavaScript, pattern: "Turborepo monorepo workspace config", keywords: [turborepo, turbo.json, pipeline] }
+  - { id: HO-JS-045, language: JavaScript, pattern: "Bun native HTTP file server", keywords: [bun, bun.serve, serve static] }
+  - { id: HO-JS-046, language: JavaScript, pattern: "Sequelize ORM model definition", keywords: [sequelize, define, sync] }
+  - { id: HO-JS-047, language: JavaScript, pattern: "bcrypt password hash login endpoint", keywords: [bcrypt, hash, login endpoint] }
+  - { id: HO-JS-048, language: JavaScript, pattern: "Microfrontend module federation config", keywords: [module federation, remotes, exposes] }
+  - { id: HO-JS-049, language: JavaScript, pattern: "Playwright browser automation script", keywords: [playwright, page.locator, goto] }
+  - { id: HO-JS-050, language: JavaScript, pattern: "D3.js data-driven chart", keywords: [d3, select, scalelinear] }
+
+  - { id: HO-HTML-001, language: HTML, pattern: "Full CSS grid dashboard layout", keywords: [css grid, dashboard, grid-template-areas] }
+  - { id: HO-HTML-002, language: HTML, pattern: "SVG animation sprite sheet page", keywords: [svg animate, sprite sheet, keyframes] }
+  - { id: HO-HTML-003, language: HTML, pattern: "Bootstrap 5 responsive navbar page", keywords: [bootstrap, navbar, btn-primary] }
+  - { id: HO-HTML-004, language: HTML, pattern: "Tailwind CSS utility landing page", keywords: [tailwind, tailwindcss, utility classes] }
+  - { id: HO-HTML-005, language: HTML, pattern: "CSS flexbox Holy Grail layout", keywords: [holy grail, flexbox, sticky footer css] }
+  - { id: HO-HTML-006, language: HTML, pattern: "CSS keyframes animation gallery", keywords: [keyframes, animation-name, css animation gallery] }
+  - { id: HO-HTML-007, language: HTML, pattern: "CSS Grid magazine layout", keywords: [grid-template-columns, magazine, span 2] }
+  - { id: HO-HTML-008, language: HTML, pattern: "Single-page app shell with shadow DOM", keywords: [shadow dom, attachshadow, spa shell] }
+  - { id: HO-HTML-009, language: HTML, pattern: "Web Components custom element definition", keywords: [customelements.define, connectedcallback, web component] }
+  - { id: HO-HTML-010, language: HTML, pattern: "AMP HTML article page", keywords: [amp html, amp-img, accelerated mobile pages] }
+  - { id: HO-HTML-011, language: HTML, pattern: "Email HTML table layout Outlook-compatible", keywords: [outlook, mso, email table layout] }
+  - { id: HO-HTML-012, language: HTML, pattern: "PWA manifest and service worker registration", keywords: [manifest.json, serviceworker.register] }
+  - { id: HO-HTML-013, language: HTML, pattern: "Canvas game loop page", keywords: [canvas, getcontext 2d, requestanimationframe] }
+  - { id: HO-HTML-014, language: HTML, pattern: "WebGL shader demo page", keywords: [webgl, getshaderprecisionformat, glsl] }
+  - { id: HO-HTML-015, language: HTML, pattern: "CSS-only accordion without details element", keywords: [css-only accordion, checked pseudo, max-height transition] }
+  - { id: HO-HTML-016, language: HTML, pattern: "CSS container queries responsive card", keywords: [container-type, container queries, cqi units] }
+  - { id: HO-HTML-017, language: HTML, pattern: "Multi-column CSS print stylesheet page", keywords: [media print, page-break, print stylesheet] }
+  - { id: HO-HTML-018, language: HTML, pattern: "Responsive picture srcset gallery", keywords: [srcset, sizes, picture source] }
+  - { id: HO-HTML-019, language: HTML, pattern: "CSS subgrid nested card layout", keywords: [subgrid, grid-column, nested grid] }
+  - { id: HO-HTML-020, language: HTML, pattern: "Material Design component markup clone", keywords: [material design, mdc-, ripple] }
+  - { id: HO-HTML-021, language: HTML, pattern: "Landing page hero video background", keywords: [video background, autoplay muted, hero section css] }
+  - { id: HO-HTML-022, language: HTML, pattern: "CSS masonry column-count layout", keywords: [column-count, break-inside, masonry] }
+  - { id: HO-HTML-023, language: HTML, pattern: "Interactive SVG map with data hooks", keywords: [svg map, path data-region, interactive map] }
+  - { id: HO-HTML-024, language: HTML, pattern: "Parallax scrolling sections page", keywords: [parallax, scroll event, transform translatey] }
+  - { id: HO-HTML-025, language: HTML, pattern: "CSS clip-path animation showcase", keywords: [clip-path, polygon animation] }
+  - { id: HO-HTML-026, language: HTML, pattern: "Dark mode toggle CSS variables system", keywords: [prefers-color-scheme, css custom properties, data-theme] }
+  - { id: HO-HTML-027, language: HTML, pattern: "CSS logical properties RTL layout", keywords: [margin-inline, rtl layout, logical properties] }
+  - { id: HO-HTML-028, language: HTML, pattern: "Schema.org microdata product page", keywords: [itemscope, itemprop, schema.org product] }
+  - { id: HO-HTML-029, language: HTML, pattern: "Complete Open Graph social card page", keywords: [open graph, og title, twitter card] }
+  - { id: HO-HTML-030, language: HTML, pattern: "Sandboxed iframe embedding page", keywords: [sandbox, iframe src, allowfullscreen] }
+  - { id: HO-HTML-031, language: HTML, pattern: "WebVTT subtitles video player markup", keywords: [webvtt, subtitles track, vtt file] }
+  - { id: HO-HTML-032, language: HTML, pattern: "CSS @layer cascade demonstration", keywords: [css layer, cascade layer, layer components] }
+  - { id: HO-HTML-033, language: HTML, pattern: "Shadow parts styling demo page", keywords: [exportparts, shadow parts, part selector] }
+  - { id: HO-HTML-034, language: HTML, pattern: "Template slot composition page", keywords: [slot name, template slot, shadowrootmode] }
+  - { id: HO-HTML-035, language: HTML, pattern: "Documentation site sidebar layout", keywords: [sidebar layout, doc site, sticky sidebar css] }
+  - { id: HO-HTML-036, language: HTML, pattern: "Sticky header and sidebar dashboard shell", keywords: [position sticky, header fixed, sidebar scroll] }
+  - { id: HO-HTML-037, language: HTML, pattern: "Infinite scroll list markup pattern", keywords: [infinite scroll, intersection observer list] }
+  - { id: HO-HTML-038, language: HTML, pattern: "Chat UI bubble layout CSS-heavy", keywords: [chat bubble, message thread, flex column reverse] }
+  - { id: HO-HTML-039, language: HTML, pattern: "12-column dashboard widget grid", keywords: [12-column, widget grid, col-span] }
+  - { id: HO-HTML-040, language: HTML, pattern: "CSS tooltip triangle system", keywords: [css tooltip, pseudo element, border triangle] }
+  - { id: HO-HTML-041, language: HTML, pattern: "Print-friendly invoice layout", keywords: [invoice print, page rule css, print layout] }
+  - { id: HO-HTML-042, language: HTML, pattern: "Multi-step wizard UI shell", keywords: [wizard steps, step indicator, progress bar css] }
+  - { id: HO-HTML-043, language: HTML, pattern: "Kanban board column layout", keywords: [kanban, drag column, board layout css] }
+  - { id: HO-HTML-044, language: HTML, pattern: "Calendar month grid layout", keywords: [calendar grid, month view, day cell css] }
+  - { id: HO-HTML-045, language: HTML, pattern: "Pricing table comparison layout", keywords: [pricing table, feature comparison, tier column] }
+  - { id: HO-HTML-046, language: HTML, pattern: "Tab panel system with CSS and ARIA", keywords: [tabpanel, tablist role, aria-selected tabs] }
+  - { id: HO-HTML-047, language: HTML, pattern: "Modal dialog focus trap markup", keywords: [modal dialog, focus trap, aria-modal] }
+  - { id: HO-HTML-048, language: HTML, pattern: "Toast notification stack layout", keywords: [toast stack, notification container, slide-in css] }
+  - { id: HO-HTML-049, language: HTML, pattern: "Skeleton loading screen layout", keywords: [skeleton screen, shimmer animation, placeholder css] }
+  - { id: HO-HTML-050, language: HTML, pattern: "Full-screen video background landing", keywords: [fullscreen video, object-fit cover, overlay gradient css] }
+
+  - { id: HO-FMT-001, language: FreeMarker, pattern: "Spring Boot Controller integration macro set", keywords: [spring controller, modelandview, requestmapping] }
+  - { id: HO-FMT-002, language: FreeMarker, pattern: "Dynamic include from database-driven path", keywords: [database path, dynamic include, dbpath variable] }
+  - { id: HO-FMT-003, language: FreeMarker, pattern: "Spring Security authentication macro", keywords: [spring security, sec authorize, authentication macro] }
+  - { id: HO-FMT-004, language: FreeMarker, pattern: "Hibernate entity display template", keywords: [hibernate, entity, lazy loading, jpa] }
+  - { id: HO-FMT-005, language: FreeMarker, pattern: "Spring MVC form binding template", keywords: [spring form, bind, commandname, spring.mvc] }
+  - { id: HO-FMT-006, language: FreeMarker, pattern: "Multi-tenant theme resolver include", keywords: [tenant theme, theme resolver, multitenant] }
+  - { id: HO-FMT-007, language: FreeMarker, pattern: "CMS content block macro library", keywords: [cms, content block, editorial macro] }
+  - { id: HO-FMT-008, language: FreeMarker, pattern: "Email template with inline CSS generation", keywords: [email template, inline css, mime multipart] }
+  - { id: HO-FMT-009, language: FreeMarker, pattern: "PDF generation HTML intermediate template", keywords: [pdf generation, flying saucer, itext html] }
+  - { id: HO-FMT-010, language: FreeMarker, pattern: "Spring MessageSource i18n macro", keywords: [messagesource, spring message, i18n code macro] }
+  - { id: HO-FMT-011, language: FreeMarker, pattern: "Java enum to FreeMarker hash bridge", keywords: [java enum, enums.values, bridge macro] }
+  - { id: HO-FMT-012, language: FreeMarker, pattern: "Recursive JPA entity tree menu", keywords: [jpa, entity graph, recursive menu] }
+  - { id: HO-FMT-013, language: FreeMarker, pattern: "Spring Pageable pagination macro", keywords: [pageable, spring data, totalPages] }
+  - { id: HO-FMT-014, language: FreeMarker, pattern: "Breadcrumb from Spring request attributes", keywords: [breadcrumb, request attributes, spring mvc] }
+  - { id: HO-FMT-015, language: FreeMarker, pattern: "Custom Java FreeMarker directive usage", keywords: [templatedirectivemodel, java directive, freemarker.ext] }
+  - { id: HO-FMT-016, language: FreeMarker, pattern: "Spring Boot Actuator health template", keywords: [actuator, health endpoint, spring boot status] }
+  - { id: HO-FMT-017, language: FreeMarker, pattern: "Thymeleaf to FreeMarker port pattern", keywords: [thymeleaf, th attribute, port freemarker] }
+  - { id: HO-FMT-018, language: FreeMarker, pattern: "SOAP XML payload template generation", keywords: [soap envelope, xml payload, wsdl] }
+  - { id: HO-FMT-019, language: FreeMarker, pattern: "JSON API response FreeMarker template", keywords: [application/json, json output template, non-html] }
+  - { id: HO-FMT-020, language: FreeMarker, pattern: "Velocity to FreeMarker migration macro", keywords: [velocity foreach, migration macro, velocity template] }
+  - { id: HO-FMT-021, language: FreeMarker, pattern: "Spring WebFlux reactive model template", keywords: [webflux, mono, flux, reactive template] }
+  - { id: HO-FMT-022, language: FreeMarker, pattern: "Gradle build.gradle generator template", keywords: [build.gradle, gradle template, dependencies block] }
+  - { id: HO-FMT-023, language: FreeMarker, pattern: "XML Spring configuration generator", keywords: [applicationcontext.xml, bean definition, spring xml] }
+  - { id: HO-FMT-024, language: FreeMarker, pattern: "LDAP user attribute display macro", keywords: [ldap, distinguished name, user attributes] }
+  - { id: HO-FMT-025, language: FreeMarker, pattern: "OAuth2 login page Spring integration", keywords: [oauth2 login, spring security oauth, authorization endpoint] }
+  - { id: HO-FMT-026, language: FreeMarker, pattern: "Feign client DTO display template", keywords: [feign, dto, microservice client] }
+  - { id: HO-FMT-027, language: FreeMarker, pattern: "Kubernetes manifest YAML generator", keywords: [kubernetes, deployment manifest, apiversion kind] }
+  - { id: HO-FMT-028, language: FreeMarker, pattern: "Swagger OpenAPI doc HTML wrapper", keywords: [swagger, openapi, api documentation html] }
+  - { id: HO-FMT-029, language: FreeMarker, pattern: "Spring Data REST HAL JSON template", keywords: [hal json, spring data rest, links href] }
+  - { id: HO-FMT-030, language: FreeMarker, pattern: "JasperReports subreport include", keywords: [jasperreports, subreport, jasper] }
+  - { id: HO-FMT-031, language: FreeMarker, pattern: "Apache Camel route XML generator", keywords: [apache camel, route xml, camelcontext] }
+  - { id: HO-FMT-032, language: FreeMarker, pattern: "Enterprise portal portlet layout template", keywords: [portlet, portal layout, liferay] }
+  - { id: HO-FMT-033, language: FreeMarker, pattern: "SAML metadata XML template", keywords: [saml, metadata xml, entitydescriptor] }
+  - { id: HO-FMT-034, language: FreeMarker, pattern: "Spring Batch job report template", keywords: [spring batch, job report, stepexecution] }
+  - { id: HO-FMT-035, language: FreeMarker, pattern: "Quartz scheduler config template", keywords: [quartz, cron trigger, scheduler factory] }
+  - { id: HO-FMT-036, language: FreeMarker, pattern: "Log4j XML configuration generator", keywords: [log4j, appender xml, logger config] }
+  - { id: HO-FMT-037, language: FreeMarker, pattern: "Maven pom.xml generator template", keywords: [pom.xml, maven, groupId artifactId] }
+  - { id: HO-FMT-038, language: FreeMarker, pattern: "Spring Cloud Config server template", keywords: [spring cloud config, config server, git backend] }
+  - { id: HO-FMT-039, language: FreeMarker, pattern: "Ehcache XML config generator", keywords: [ehcache, cache xml, maxElementsInMemory] }
+  - { id: HO-FMT-040, language: FreeMarker, pattern: "Tomcat context.xml generator", keywords: [context.xml, tomcat, resource ref] }
+  - { id: HO-FMT-041, language: FreeMarker, pattern: "Spring Boot application.yml generator", keywords: [application.yml, spring boot config yaml] }
+  - { id: HO-FMT-042, language: FreeMarker, pattern: "JUnit test report HTML wrapper", keywords: [junit report, test results html, surefire] }
+  - { id: HO-FMT-043, language: FreeMarker, pattern: "JaCoCo coverage HTML macro", keywords: [jacoco, coverage report, code coverage html] }
+  - { id: HO-FMT-044, language: FreeMarker, pattern: "SonarQube quality gate dashboard", keywords: [sonarqube, quality gate, dashboard template] }
+  - { id: HO-FMT-045, language: FreeMarker, pattern: "Jenkins pipeline Groovy generator", keywords: [jenkins, pipeline groovy, stages block] }
+  - { id: HO-FMT-046, language: FreeMarker, pattern: "Docker Compose generator template", keywords: [docker compose, services block, compose file generator] }
+  - { id: HO-FMT-047, language: FreeMarker, pattern: "Helm chart values.yaml generator", keywords: [helm, values.yaml, chart templates] }
+  - { id: HO-FMT-048, language: FreeMarker, pattern: "MyBatis SQL fragment template", keywords: [mybatis, sql fragment, mapper xml] }
+  - { id: HO-FMT-049, language: FreeMarker, pattern: "WS-Security SOAP envelope builder", keywords: [ws-security, soap header, username token] }
+  - { id: HO-FMT-050, language: FreeMarker, pattern: "Spring Integration flow XML generator", keywords: [spring integration, channel, message flow xml] }

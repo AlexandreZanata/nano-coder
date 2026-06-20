@@ -1,0 +1,23 @@
+{
+  "heldOutTestSetVersion": "held-out-v1",
+  "scopeBoundaryVersion": "v1",
+  "scopeBoundarySource": "config/scope-boundary.yaml",
+  "taskCount": 150,
+  "tasksPerLanguage": 50,
+  "languages": {
+    "js": {
+      "file": "js.jsonl",
+      "taskCount": 50
+    },
+    "html": {
+      "file": "html.jsonl",
+      "taskCount": 50
+    },
+    "fmt": {
+      "file": "fmt.jsonl",
+      "taskCount": 50
+    }
+  },
+  "isolationRule": "BR-004",
+  "immutable": true
+}

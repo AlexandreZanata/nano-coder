@@ -2,7 +2,9 @@
 logs/
 data/datasets/
 data/checkpoints/
-data/benchmarks/
+data/benchmarks/*
+!data/benchmarks/held-out-v1/
+!data/benchmarks/held-out-v1/**
 htmlcov/
 .coverage
 coverage.xml
