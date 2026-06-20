@@ -33,3 +33,12 @@ python scripts/validate_seed.py data/seeds/freemarker/ --require-metadata
 ```
 
 BR-001 requires ≥50 promoted seeds per `TargetLanguage` before synthetic expansion.
+
+## Promotion (Stage 3)
+
+```bash
+python scripts/promote_seeds.py --verify data/seeds --skip-lint
+python scripts/promote_seeds.py --draft .local/seeds/draft   # promote draft → data/seeds/
+```
+
+Manifest: `data/seeds/manifest.json` · ESLint config: `config/eslint/eslint.config.js`

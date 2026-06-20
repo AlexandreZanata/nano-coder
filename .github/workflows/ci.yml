@@ -97,6 +97,13 @@ jobs:
       - name: Install dependencies
         run: pip install -e ".[dev]"
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify promoted gold seeds (Stage 3 gates)
+        run: python scripts/promote_seeds.py --verify data/seeds --skip-lint
+
       - name: Run tests
         env:
           MLFLOW_DISABLE: "1"

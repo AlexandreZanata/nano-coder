@@ -1,0 +1,21 @@
+{
+  "seedSetVersion": "seeds-v1",
+  "scopeBoundaryVersion": "v1",
+  "taxonomyVersion": "v1",
+  "promotedAt": "2026-06-20",
+  "gatesRun": [
+    "SchemaValidation",
+    "SyntaxValidation",
+    "LintPass",
+    "HeldOutLeak",
+    "DuplicateCheck"
+  ],
+  "seedCount": 150,
+  "countsByLanguage": {
+    "JavaScript": 50,
+    "HTML": 50,
+    "FreeMarker": 50
+  },
+  "br001Satisfied": true,
+  "passed": true
+}
