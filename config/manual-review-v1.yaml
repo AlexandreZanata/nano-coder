@@ -1,0 +1,11 @@
+version: v1
+
+sampleRate: 0.05
+minSampleSize: 1
+requireAllSampleAccepted: true
+
+reviewCriteria:
+  - instruction is clear and actionable
+  - code matches the instruction
+  - no obvious factual errors or unsafe patterns
+  - tags and difficulty feel appropriate

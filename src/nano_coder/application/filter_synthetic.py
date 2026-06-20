@@ -8,6 +8,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from nano_coder.domain.dataset_generation_run import DatasetGenerationState
 from nano_coder.domain.quality_gates_config import QualityGatesConfig
 from nano_coder.domain.scope_boundary import ScopeBoundary
 from nano_coder.domain.seed_promotion import language_dir_name, load_seed_records
@@ -137,6 +138,8 @@ def filter_synthetic_run(
         "gatesConfigVersion": config.version,
         "br005SyntaxSatisfied": syntax_rate >= config.min_syntax_pass_rate,
         "br005CountSatisfied": len(accepted_records) >= config.min_accepted_per_language,
+        "state": DatasetGenerationState.FILTERING.value,
+        "readyForManualReview": len(accepted_records) > 0,
     }
     (output_dir / "filter-manifest.json").write_text(
         json.dumps(manifest, indent=2) + "\n",
