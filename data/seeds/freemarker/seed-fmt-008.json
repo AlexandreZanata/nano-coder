@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-008",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that lists `authors` as a definition list: each author map has `name` and `role` string fields. Escape both fields. Show a fallback message when no authors exist.",
+  "code": "<#-- Model: authors: sequence of maps { name, role } -->\n<#if !authors?has_content>\n  <p>No authors listed.</p>\n<#else>\n  <dl class=\"authors\">\n    <#list authors as author>\n      <dt>${author.name?html}</dt>\n      <dd>${author.role?html}</dd>\n    </#list>\n  </dl>\n</#if>\n",
+  "tags": [
+    "list",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-008"
+  }
+}

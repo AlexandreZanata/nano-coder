@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-034",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker recursive macro `renderCommentTree` that renders nested comments from maps with `author`, `body`, and optional `replies` sequence. Indent nested replies in a nested ul. Escape author and body text.",
+  "code": "<#-- Model: comments: sequence of maps { author, body, replies? } -->\n<#macro renderCommentTree comments>\n  <ul class=\"comment-tree\">\n    <#list comments![] as comment>\n      <li>\n        <p><strong>${comment.author?html}</strong>: ${comment.body?html}</p>\n        <#if comment.replies?has_content>\n          <@renderCommentTree comments=comment.replies />\n        </#if>\n      </li>\n    </#list>\n  </ul>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "nested",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-034"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-010",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 form with a fieldset and legend grouping three radio buttons for delivery speed: Standard, Express, and Overnight. Only one option may be selected.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Delivery options</title>\n  </head>\n  <body>\n    <form action=\"/checkout/shipping\" method=\"post\">\n      <fieldset>\n        <legend>Delivery speed</legend>\n        <p>\n          <label>\n            <input type=\"radio\" name=\"speed\" value=\"standard\" checked />\n            Standard\n          </label>\n        </p>\n        <p>\n          <label>\n            <input type=\"radio\" name=\"speed\" value=\"express\" />\n            Express\n          </label>\n        </p>\n        <p>\n          <label>\n            <input type=\"radio\" name=\"speed\" value=\"overnight\" />\n            Overnight\n          </label>\n        </p>\n      </fieldset>\n      <p><button type=\"submit\">Continue</button></p>\n    </form>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-010"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-031",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 definition list with three term-definition pairs explaining API concepts: Endpoint, Payload, and Rate limit.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>API glossary</title>\n  </head>\n  <body>\n    <dl>\n      <dt>Endpoint</dt>\n      <dd>A URL path that accepts HTTP requests for a specific resource.</dd>\n      <dt>Payload</dt>\n      <dd>The request or response body sent between client and server.</dd>\n      <dt>Rate limit</dt>\n      <dd>The maximum number of requests allowed within a time window.</dd>\n    </dl>\n  </body>\n</html>",
+  "tags": [
+    "semantic",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-031"
+  }
+}

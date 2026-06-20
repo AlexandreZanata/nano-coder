@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-046",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 checkout form where each required field links validation hints via aria-describedby and marks invalid fields with aria-invalid=\"true\".",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Checkout validation</title>\n  </head>\n  <body>\n    <main>\n      <h1>Checkout</h1>\n      <form action=\"/checkout\" method=\"post\">\n        <p>\n          <label for=\"ship-name\">Full name</label>\n          <input\n            id=\"ship-name\"\n            name=\"fullName\"\n            type=\"text\"\n            required\n            aria-invalid=\"true\"\n            aria-describedby=\"ship-name-error ship-name-help\"\n          />\n          <span id=\"ship-name-help\">Enter the recipient name as it appears on the shipping label.</span>\n          <span id=\"ship-name-error\" role=\"alert\">Full name is required.</span>\n        </p>\n        <p>\n          <label for=\"ship-postal\">Postal code</label>\n          <input\n            id=\"ship-postal\"\n            name=\"postalCode\"\n            type=\"text\"\n            required\n            aria-invalid=\"true\"\n            aria-describedby=\"ship-postal-error\"\n          />\n          <span id=\"ship-postal-error\" role=\"alert\">Postal code must be five digits.</span>\n        </p>\n        <p><button type=\"submit\">Place order</button></p>\n      </form>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "accessibility",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-046"
+  }
+}

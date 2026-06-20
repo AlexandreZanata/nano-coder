@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-038",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `withTimeout`, which wraps a Promise and rejects when it does not settle within the given milliseconds.",
+  "code": "/**\n * Reject a promise when it exceeds a timeout.\n * @param {Promise<unknown>} promise\n * @param {number} timeoutMs\n * @returns {Promise<unknown>}\n */\nexport function withTimeout(promise, timeoutMs) {\n  return new Promise((resolve, reject) => {\n    const timer = setTimeout(() => {\n      reject(new Error(`Timed out after ${timeoutMs}ms`));\n    }, timeoutMs);\n\n    promise\n      .then((value) => {\n        clearTimeout(timer);\n        resolve(value);\n      })\n      .catch((error) => {\n        clearTimeout(timer);\n        reject(error);\n      });\n  });\n}",
+  "tags": [
+    "async",
+    "error-handling",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-038"
+  }
+}

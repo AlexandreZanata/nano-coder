@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-023",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 form with a checkbox group inside a fieldset. Users may select multiple notification channels: Email, SMS, and Push.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Notification preferences</title>\n  </head>\n  <body>\n    <form action=\"/settings/notifications\" method=\"post\">\n      <fieldset>\n        <legend>Notification channels</legend>\n        <p>\n          <label>\n            <input type=\"checkbox\" name=\"channels\" value=\"email\" checked />\n            Email\n          </label>\n        </p>\n        <p>\n          <label>\n            <input type=\"checkbox\" name=\"channels\" value=\"sms\" />\n            SMS\n          </label>\n        </p>\n        <p>\n          <label>\n            <input type=\"checkbox\" name=\"channels\" value=\"push\" />\n            Push\n          </label>\n        </p>\n      </fieldset>\n      <p><button type=\"submit\">Save preferences</button></p>\n    </form>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-023"
+  }
+}

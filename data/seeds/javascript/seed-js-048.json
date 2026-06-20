@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-048",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports a `DisclosureWidget` class that toggles visibility of a panel when a button is clicked, updating aria-expanded on the button.",
+  "code": "/**\n * Toggle a disclosure panel with aria-expanded state.\n */\nexport class DisclosureWidget {\n  /** @type {HTMLButtonElement} */\n  #button;\n\n  /** @type {HTMLElement} */\n  #panel;\n\n  /**\n   * @param {HTMLButtonElement} button\n   * @param {HTMLElement} panel\n   */\n  constructor(button, panel) {\n    this.#button = button;\n    this.#panel = panel;\n    this.#button.setAttribute('aria-expanded', 'false');\n    this.#panel.hidden = true;\n  }\n\n  /** Toggle panel visibility. */\n  toggle() {\n    const expanded = this.#button.getAttribute('aria-expanded') === 'true';\n    const next = !expanded;\n    this.#button.setAttribute('aria-expanded', String(next));\n    this.#panel.hidden = !next;\n  }\n\n  /** Attach click listener on the button. */\n  bind() {\n    this.#button.addEventListener('click', () => this.toggle());\n  }\n}",
+  "tags": [
+    "dom",
+    "class",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-048"
+  }
+}

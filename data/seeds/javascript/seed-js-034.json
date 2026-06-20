@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-034",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `shallowEqual`, which compares two plain values for shallow equality. Objects compare own enumerable keys and values; arrays compare elements at each index.",
+  "code": "/**\n * Shallow equality for objects and arrays.\n * @param {unknown} left\n * @param {unknown} right\n * @returns {boolean}\n */\nexport function shallowEqual(left, right) {\n  if (left === right) {\n    return true;\n  }\n  if (typeof left !== 'object' || typeof right !== 'object' || left === null || right === null) {\n    return false;\n  }\n  if (Array.isArray(left) && Array.isArray(right)) {\n    if (left.length !== right.length) {\n      return false;\n    }\n    for (let index = 0; index < left.length; index += 1) {\n      if (left[index] !== right[index]) {\n        return false;\n      }\n    }\n    return true;\n  }\n  if (Array.isArray(left) || Array.isArray(right)) {\n    return false;\n  }\n  const leftKeys = Object.keys(left);\n  const rightKeys = Object.keys(right);\n  if (leftKeys.length !== rightKeys.length) {\n    return false;\n  }\n  for (const key of leftKeys) {\n    if (left[key] !== right[key]) {\n      return false;\n    }\n  }\n  return true;\n}",
+  "tags": [
+    "object",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-034"
+  }
+}

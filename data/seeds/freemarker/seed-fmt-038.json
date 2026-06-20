@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-038",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that paginates `allItems` using numeric `page` and `pageSize`, rendering only the current slice via list slicing. Show current page, page count, and formatted item count. Escape item names.",
+  "code": "<#-- Model: allItems: sequence of { name }, page: number, pageSize: number -->\n<#assign currentPage = (page!1)?number>\n<#assign size = (pageSize!10)?number>\n<#assign total = allItems?size>\n<#assign pageCount = ((total + size - 1) / size)?int>\n<#assign offset = (currentPage - 1) * size>\n\n<ul>\n  <#list allItems[offset..*size] as item>\n    <li>${item.name?html}</li>\n  <#else>\n    <li>No items on this page.</li>\n  </#list>\n</ul>\n<p>Page ${currentPage} of ${pageCount?c} (${total?c} items)</p>\n",
+  "tags": [
+    "list",
+    "formatting",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-038"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-041",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `showElement` and `hideElement`, which toggle the hidden attribute on an element. Hidden elements have the hidden attribute set; visible elements have it removed.",
+  "code": "/**\n * Show an element by removing the hidden attribute.\n * @param {HTMLElement} element\n */\nexport function showElement(element) {\n  element.hidden = false;\n  element.removeAttribute('hidden');\n}\n\n/**\n * Hide an element using the hidden attribute.\n * @param {HTMLElement} element\n */\nexport function hideElement(element) {\n  element.hidden = true;\n  element.setAttribute('hidden', '');\n}",
+  "tags": [
+    "dom",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-041"
+  }
+}

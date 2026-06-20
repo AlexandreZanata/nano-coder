@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-040",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `renderMenu` that renders a two-level navigation menu from `menuItems` with optional nested `children` sequences. Top-level items without children render as plain links. Escape labels and URLs.",
+  "code": "<#-- Model: menuItems: [{ label, url, children? }] -->\n<#macro renderMenu items>\n  <ul class=\"menu\">\n    <#list items![] as item>\n      <li>\n        <a href=\"${item.url?html}\">${item.label?html}</a>\n        <#if item.children?has_content>\n          <ul>\n            <#list item.children as child>\n              <li><a href=\"${child.url?html}\">${child.label?html}</a></li>\n            </#list>\n          </ul>\n        </#if>\n      </li>\n    </#list>\n  </ul>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "nested",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-040"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-014",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that maps an order `status` string to a human-readable label using nested `<#if>` / `<#elseif>` branches for pending, shipped, delivered, and cancelled. Unknown statuses fall back to \"Unknown status\".",
+  "code": "<#-- Model: status: string -->\n<#assign normalized = (status!\"\")?lower_case>\n<p class=\"order-status\">\n  Status:\n  <#if normalized == \"pending\">\n    Pending payment\n  <#elseif normalized == \"shipped\">\n    Shipped\n  <#elseif normalized == \"delivered\">\n    Delivered\n  <#elseif normalized == \"cancelled\">\n    Cancelled\n  <#else>\n    Unknown status\n  </#if>\n</p>\n",
+  "tags": [
+    "condition",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-014"
+  }
+}

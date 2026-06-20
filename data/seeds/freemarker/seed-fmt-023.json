@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-023",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that assigns a priority label (Low, Medium, High, Critical) from numeric `priorityLevel` using nested conditionals. Values outside 1–4 map to \"Unspecified\".",
+  "code": "<#-- Model: priorityLevel: number (optional) -->\n<#assign level = priorityLevel!0>\n<span class=\"priority\">\n  <#if level == 1>Low\n  <#elseif level == 2>Medium\n  <#elseif level == 3>High\n  <#elseif level == 4>Critical\n  <#else>Unspecified\n  </#if>\n</span>\n",
+  "tags": [
+    "condition",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-023"
+  }
+}

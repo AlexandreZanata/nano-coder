@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-050",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 enterprise settings form combining text, email, number, select, checkbox, and textarea controls with required attributes and linked helper text via aria-describedby.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Enterprise settings</title>\n  </head>\n  <body>\n    <main>\n      <h1>Enterprise settings</h1>\n      <form action=\"/settings/enterprise\" method=\"post\">\n        <fieldset>\n          <legend>Organization profile</legend>\n          <p>\n            <label for=\"org-name\">Organization name</label>\n            <input id=\"org-name\" name=\"organizationName\" type=\"text\" required aria-describedby=\"org-name-help\" />\n            <span id=\"org-name-help\">Displayed on invoices and audit exports.</span>\n          </p>\n          <p>\n            <label for=\"org-email\">Billing email</label>\n            <input id=\"org-email\" name=\"billingEmail\" type=\"email\" required autocomplete=\"email\" />\n          </p>\n          <p>\n            <label for=\"org-seats\">Licensed seats</label>\n            <input id=\"org-seats\" name=\"seatCount\" type=\"number\" min=\"1\" max=\"5000\" required />\n          </p>\n          <p>\n            <label for=\"org-region\">Primary region</label>\n            <select id=\"org-region\" name=\"region\" required>\n              <option value=\"\">Select a region</option>\n              <option value=\"us-east\">US East</option>\n              <option value=\"eu-west\">EU West</option>\n            </select>\n          </p>\n          <p>\n            <label>\n              <input type=\"checkbox\" name=\"ssoEnabled\" value=\"true\" />\n              Enable single sign-on\n            </label>\n          </p>\n          <p>\n            <label for=\"org-notes\">Internal notes</label>\n            <textarea id=\"org-notes\" name=\"notes\" rows=\"4\" aria-describedby=\"org-notes-help\"></textarea>\n            <span id=\"org-notes-help\">Optional context for your account team.</span>\n          </p>\n        </fieldset>\n        <p><button type=\"submit\">Save settings</button></p>\n      </form>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "accessibility",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-050"
+  }
+}

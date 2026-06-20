@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-037",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `delay`, which returns a Promise that resolves after the given number of milliseconds with an optional value.",
+  "code": "/**\n * Resolve after a delay with an optional value.\n * @param {number} ms\n * @param {unknown} [value]\n * @returns {Promise<unknown>}\n */\nexport function delay(ms, value) {\n  return new Promise((resolve) => {\n    setTimeout(() => resolve(value), ms);\n  });\n}",
+  "tags": [
+    "async",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-037"
+  }
+}

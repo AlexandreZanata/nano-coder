@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-020",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 page with a main landmark and a complementary aside landmark. The aside summarizes related links without using CSS layout properties.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Article with aside</title>\n  </head>\n  <body>\n    <main>\n      <article>\n        <h1>Release notes 4.2</h1>\n        <p>Version 4.2 adds bulk export and improved audit logging.</p>\n      </article>\n    </main>\n    <aside aria-label=\"Related resources\">\n      <h2>Related</h2>\n      <ul>\n        <li><a href=\"/docs/migration\">Migration guide</a></li>\n        <li><a href=\"/docs/changelog\">Full changelog</a></li>\n      </ul>\n    </aside>\n  </body>\n</html>",
+  "tags": [
+    "layout",
+    "semantic",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-020"
+  }
+}

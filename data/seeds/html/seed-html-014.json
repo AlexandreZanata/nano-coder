@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-014",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 data table with a caption, thead, and tbody. Use scope=\"col\" on column header cells for Region, Revenue, and Growth.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Regional revenue</title>\n  </head>\n  <body>\n    <table>\n      <caption>Q2 revenue by region</caption>\n      <thead>\n        <tr>\n          <th scope=\"col\">Region</th>\n          <th scope=\"col\">Revenue</th>\n          <th scope=\"col\">Growth</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <th scope=\"row\">North America</th>\n          <td>$1.2M</td>\n          <td>8%</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Europe</th>\n          <td>$980K</td>\n          <td>5%</td>\n        </tr>\n      </tbody>\n    </table>\n  </body>\n</html>",
+  "tags": [
+    "tables",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-014"
+  }
+}

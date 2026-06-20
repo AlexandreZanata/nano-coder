@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-032",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `zipArrays`, which pairs elements from two arrays into tuples. The result length matches the shorter array. Throw a TypeError when either argument is not an array.",
+  "code": "/**\n * Zip two arrays into tuple pairs.\n * @param {unknown[]} left\n * @param {unknown[]} right\n * @returns {unknown[][]}\n * @throws {TypeError} When arguments are not arrays\n */\nexport function zipArrays(left, right) {\n  if (!Array.isArray(left) || !Array.isArray(right)) {\n    throw new TypeError('left and right must be arrays');\n  }\n  const length = Math.min(left.length, right.length);\n  const pairs = [];\n  for (let index = 0; index < length; index += 1) {\n    pairs.push([left[index], right[index]]);\n  }\n  return pairs;\n}",
+  "tags": [
+    "array",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-032"
+  }
+}

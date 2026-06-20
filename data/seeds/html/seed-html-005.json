@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-005",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 ordered list of three steps for resetting a password. Each list item must be a complete sentence.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Password reset steps</title>\n  </head>\n  <body>\n    <ol>\n      <li>Open the sign-in page and choose Forgot password.</li>\n      <li>Enter the email address linked to your account.</li>\n      <li>Follow the link in the email to set a new password.</li>\n    </ol>\n  </body>\n</html>",
+  "tags": [
+    "semantic",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-005"
+  }
+}

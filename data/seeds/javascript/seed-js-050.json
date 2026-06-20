@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-050",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `partition`, which splits an array into two arrays based on a predicate: `[passing, failing]`. Throw a TypeError when items is not an array.",
+  "code": "/**\n * Split an array by a predicate.\n * @param {unknown[]} items\n * @param {(item: unknown, index: number) => boolean} predicate\n * @returns {[unknown[], unknown[]]}\n * @throws {TypeError} When items is not an array\n */\nexport function partition(items, predicate) {\n  if (!Array.isArray(items)) {\n    throw new TypeError('items must be an array');\n  }\n  const passing = [];\n  const failing = [];\n  for (let index = 0; index < items.length; index += 1) {\n    const item = items[index];\n    if (predicate(item, index)) {\n      passing.push(item);\n    } else {\n      failing.push(item);\n    }\n  }\n  return [passing, failing];\n}",
+  "tags": [
+    "array",
+    "error-handling",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-050"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-024",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that renders FAQ sections from `sections`, each with `title` and `questions` (sequence of maps with `q` and `a`). Escape all text. Nest questions inside each section heading.",
+  "code": "<#-- Model: sections: sequence of { title, questions: [{ q, a }] } -->\n<div class=\"faq\">\n  <#list sections![] as section>\n    <section>\n      <h2>${section.title?html}</h2>\n      <dl>\n        <#list section.questions![] as qa>\n          <dt>${qa.q?html}</dt>\n          <dd>${qa.a?html}</dd>\n        </#list>\n      </dl>\n    </section>\n  </#list>\n</div>\n",
+  "tags": [
+    "nested",
+    "list",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-024"
+  }
+}

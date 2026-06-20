@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-024",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 search form using input type=\"search\" and a submit button labeled Search. Place the form inside a search landmark.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Site search</title>\n  </head>\n  <body>\n    <header>\n      <search>\n        <form action=\"/search\" method=\"get\" role=\"search\">\n          <label for=\"site-query\">Search documentation</label>\n          <input id=\"site-query\" name=\"q\" type=\"search\" required />\n          <button type=\"submit\">Search</button>\n        </form>\n      </search>\n    </header>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-024"
+  }
+}

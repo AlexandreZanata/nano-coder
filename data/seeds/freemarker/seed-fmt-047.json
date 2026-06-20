@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-047",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that builds a category trail from a flat `categories` list (maps with `id`, `name`, `parentId`). Walk parent links from `currentCategoryId` upward, then render names in root-to-leaf order separated by \" / \". Escape names.",
+  "code": "<#-- Model: categories: [{ id, name, parentId }], currentCategoryId: string -->\n<#assign trail = []>\n<#assign cursor = currentCategoryId!\"\">\n<#list 1..20 as _>\n  <#if !cursor?has_content><#break></#if>\n  <#assign match = \"\">\n  <#list categories![] as cat>\n    <#if cat.id == cursor>\n      <#assign trail = [cat] + trail>\n      <#assign cursor = cat.parentId!\"\">\n      <#assign match = cat.id>\n      <#break>\n    </#if>\n  </#list>\n  <#if !match?has_content><#break></#if>\n</#list>\n<nav aria-label=\"Category trail\">\n  <#list trail as crumb>\n    ${crumb.name?html}<#if crumb?has_next> / </#if>\n  </#list>\n</nav>\n",
+  "tags": [
+    "nested",
+    "condition",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-047"
+  }
+}

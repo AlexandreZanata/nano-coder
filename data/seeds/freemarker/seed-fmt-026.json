@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-026",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `initialsAvatar` that derives two-letter initials from a `fullName` string and renders them inside a span with class `avatar`. Escape the initials output.",
+  "code": "<#-- Macro: initialsAvatar(fullName) -->\n<#macro initialsAvatar fullName>\n  <#assign parts = (fullName!\"\")?trim?split(\"\\\\s+\", \"r\")>\n  <#assign initials = \"\">\n  <#list parts as part>\n    <#if part?has_content && initials?length < 2>\n      <#assign initials = initials + part?substring(0, 1)?upper_case>\n    </#if>\n  </#list>\n  <span class=\"avatar\" aria-hidden=\"true\">${initials?html}</span>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "formatting",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-026"
+  }
+}

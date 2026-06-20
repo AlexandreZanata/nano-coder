@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-001",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that renders an unordered list from a sequence `items` of strings. Escape each item for HTML output. When `items` is missing or empty, render a paragraph saying no items were found.",
+  "code": "<#-- Model: items: sequence of strings -->\n<#if !items?has_content>\n  <p>No items were found.</p>\n<#else>\n  <ul>\n    <#list items as item>\n      <li>${item?html}</li>\n    </#list>\n  </ul>\n</#if>\n",
+  "tags": [
+    "list",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-001"
+  }
+}

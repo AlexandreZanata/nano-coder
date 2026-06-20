@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-032",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 form with a date input for selecting a subscription renewal date. Include min and max attributes spanning one calendar year.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Renewal date</title>\n  </head>\n  <body>\n    <form action=\"/billing/renewal\" method=\"post\">\n      <label for=\"renewal-date\">Renewal date</label>\n      <input\n        id=\"renewal-date\"\n        name=\"renewalDate\"\n        type=\"date\"\n        min=\"2026-01-01\"\n        max=\"2026-12-31\"\n        required\n      />\n      <p><button type=\"submit\">Schedule renewal</button></p>\n    </form>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-032"
+  }
+}

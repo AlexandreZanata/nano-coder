@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-035",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `isValidUrl`, which returns true for http or https URLs with a host. Non-strings and malformed URLs return false.",
+  "code": "/**\n * Validate an http(s) URL string.\n * @param {unknown} value\n * @returns {boolean}\n */\nexport function isValidUrl(value) {\n  if (typeof value !== 'string') {\n    return false;\n  }\n  try {\n    const parsed = new URL(value);\n    return (parsed.protocol === 'http:' || parsed.protocol === 'https:') && parsed.hostname.length > 0;\n  } catch {\n    return false;\n  }\n}",
+  "tags": [
+    "validation",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-035"
+  }
+}

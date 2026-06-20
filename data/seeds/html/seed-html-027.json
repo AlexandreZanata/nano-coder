@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-027",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 video element with controls, a poster image, and fallback text for unsupported browsers.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Product demo</title>\n  </head>\n  <body>\n    <main>\n      <h1>Product walkthrough</h1>\n      <video controls poster=\"/media/demo-poster.jpg\" width=\"640\" height=\"360\">\n        <source src=\"/media/demo.mp4\" type=\"video/mp4\" />\n        <p>Your browser does not support embedded video.</p>\n      </video>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "media",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-027"
+  }
+}

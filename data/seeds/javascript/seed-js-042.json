@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-042",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports a `ListenerList` class with `on` to add named listeners and `notify` to invoke all listeners with a payload. `off` removes a listener by name.",
+  "code": "/**\n * Named listener registry for simple pub/sub.\n */\nexport class ListenerList {\n  /** @type {Map<string, (payload: unknown) => void>} */\n  #listeners = new Map();\n\n  /**\n   * @param {string} name\n   * @param {(payload: unknown) => void} listener\n   */\n  on(name, listener) {\n    this.#listeners.set(name, listener);\n  }\n\n  /**\n   * @param {string} name\n   */\n  off(name) {\n    this.#listeners.delete(name);\n  }\n\n  /**\n   * @param {unknown} payload\n   */\n  notify(payload) {\n    for (const listener of this.#listeners.values()) {\n      listener(payload);\n    }\n  }\n}",
+  "tags": [
+    "module",
+    "class",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-042"
+  }
+}

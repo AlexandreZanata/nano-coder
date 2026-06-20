@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-015",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 table separating header and body rows with thead and tbody. Include three columns: SKU, Name, and Quantity.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Inventory table</title>\n  </head>\n  <body>\n    <table>\n      <thead>\n        <tr>\n          <th>SKU</th>\n          <th>Name</th>\n          <th>Quantity</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <td>SKU-1001</td>\n          <td>Widget A</td>\n          <td>24</td>\n        </tr>\n        <tr>\n          <td>SKU-1002</td>\n          <td>Widget B</td>\n          <td>12</td>\n        </tr>\n      </tbody>\n    </table>\n  </body>\n</html>",
+  "tags": [
+    "tables",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-015"
+  }
+}

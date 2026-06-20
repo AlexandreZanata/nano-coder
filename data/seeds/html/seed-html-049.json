@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-049",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 page with a nav landmark where each link uses aria-current=\"page\" on the active item and aria-label on the nav for screen readers.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Docs navigation</title>\n  </head>\n  <body>\n    <nav aria-label=\"Documentation sections\">\n      <ul>\n        <li><a href=\"/docs/getting-started\">Getting started</a></li>\n        <li><a href=\"/docs/authentication\" aria-current=\"page\">Authentication</a></li>\n        <li><a href=\"/docs/webhooks\">Webhooks</a></li>\n        <li><a href=\"/docs/rate-limits\">Rate limits</a></li>\n      </ul>\n    </nav>\n    <main>\n      <h1>Authentication</h1>\n      <p>Use OAuth 2.0 client credentials for server-to-server integrations.</p>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "accessibility",
+    "layout",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-049"
+  }
+}

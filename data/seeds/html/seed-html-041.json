@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-041",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 table using colspan and rowspan to merge header cells for a two-level column heading over monthly metrics.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Metrics matrix</title>\n  </head>\n  <body>\n    <table>\n      <caption>Monthly metrics by team</caption>\n      <thead>\n        <tr>\n          <th rowspan=\"2\" scope=\"col\">Team</th>\n          <th colspan=\"2\" scope=\"colgroup\">May</th>\n          <th colspan=\"2\" scope=\"colgroup\">June</th>\n        </tr>\n        <tr>\n          <th scope=\"col\">Tickets closed</th>\n          <th scope=\"col\">CSAT</th>\n          <th scope=\"col\">Tickets closed</th>\n          <th scope=\"col\">CSAT</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <th scope=\"row\">Support</th>\n          <td>420</td>\n          <td>4.6</td>\n          <td>455</td>\n          <td>4.7</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Success</th>\n          <td>310</td>\n          <td>4.8</td>\n          <td>328</td>\n          <td>4.9</td>\n        </tr>\n      </tbody>\n    </table>\n  </body>\n</html>",
+  "tags": [
+    "tables",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-041"
+  }
+}

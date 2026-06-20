@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-026",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `firstElement` and `lastElement`, which return the first and last item of an array or undefined when empty. Throw a TypeError when the argument is not an array.",
+  "code": "/**\n * @param {unknown[]} items\n * @returns {unknown | undefined}\n * @throws {TypeError} When items is not an array\n */\nexport function firstElement(items) {\n  if (!Array.isArray(items)) {\n    throw new TypeError('items must be an array');\n  }\n  return items.length === 0 ? undefined : items[0];\n}\n\n/**\n * @param {unknown[]} items\n * @returns {unknown | undefined}\n * @throws {TypeError} When items is not an array\n */\nexport function lastElement(items) {\n  if (!Array.isArray(items)) {\n    throw new TypeError('items must be an array');\n  }\n  return items.length === 0 ? undefined : items[items.length - 1];\n}",
+  "tags": [
+    "array",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-026"
+  }
+}

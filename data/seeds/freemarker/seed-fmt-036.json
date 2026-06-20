@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-036",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker layout macro `pageLayout` accepting `title` and nested content. The macro renders html/head/body scaffolding, includes `partials/head-meta.ftl`, and places nested content inside main. Escape the title.",
+  "code": "<#-- Macro: pageLayout(title) with nested main content -->\n<#macro pageLayout title>\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <#include \"partials/head-meta.ftl\">\n  <title>${title?html}</title>\n</head>\n<body>\n  <main>\n    <#nested>\n  </main>\n</body>\n</html>\n</#macro>\n",
+  "tags": [
+    "include",
+    "macro",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-036"
+  }
+}

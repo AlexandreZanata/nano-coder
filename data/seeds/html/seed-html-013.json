@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-013",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 status message region using role=\"status\" and aria-live=\"polite\" for non-critical save confirmations.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Save status</title>\n  </head>\n  <body>\n    <main>\n      <h1>Profile settings</h1>\n      <form action=\"/profile\" method=\"post\">\n        <label for=\"display-name\">Display name</label>\n        <input id=\"display-name\" name=\"displayName\" type=\"text\" />\n        <p><button type=\"submit\">Save changes</button></p>\n      </form>\n      <p role=\"status\" aria-live=\"polite\">Your changes were saved successfully.</p>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "accessibility",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-013"
+  }
+}

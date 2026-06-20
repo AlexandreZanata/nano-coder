@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-004",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that displays a page title from `pageTitle`. When the title is missing, fall back to the literal text \"Untitled Page\". Escape the title when present.",
+  "code": "<#-- Model: pageTitle: string (optional) -->\n<#assign title = pageTitle!\"Untitled Page\">\n<h1>${title?html}</h1>\n",
+  "tags": [
+    "condition",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-004"
+  }
+}

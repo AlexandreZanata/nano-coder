@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-006",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 blockquote citing a customer review. Include a cite element referencing the reviewer name.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Customer quote</title>\n  </head>\n  <body>\n    <blockquote cite=\"https://example.com/reviews/42\">\n      <p>The onboarding checklist saved our team hours every week.</p>\n      <footer>— <cite>Jordan Lee</cite>, Operations lead</footer>\n    </blockquote>\n  </body>\n</html>",
+  "tags": [
+    "semantic",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-006"
+  }
+}

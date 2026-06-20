@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-036",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `isValidPhoneDigits`, which returns true when a string contains only digits and optional leading plus, with length between 7 and 15.",
+  "code": "/**\n * Basic digit-only phone validation.\n * @param {unknown} value\n * @returns {boolean}\n */\nexport function isValidPhoneDigits(value) {\n  if (typeof value !== 'string') {\n    return false;\n  }\n  const trimmed = value.trim();\n  if (!trimmed) {\n    return false;\n  }\n  const digits = trimmed.startsWith('+') ? trimmed.slice(1) : trimmed;\n  if (!/^[0-9]+$/.test(digits)) {\n    return false;\n  }\n  return digits.length >= 7 && digits.length <= 15;\n}",
+  "tags": [
+    "validation",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-036"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-008",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `validateRequiredFields`, which checks a plain object against a list of required field names and returns an array of missing field names. Throw a TypeError when the record is not a plain object.",
+  "code": "/**\n * @param {unknown} value\n * @returns {boolean}\n */\nfunction isPlainObject(value) {\n  return typeof value === 'object' && value !== null && !Array.isArray(value);\n}\n\n/**\n * List required field names that are missing or empty.\n * @param {Record<string, unknown>} record\n * @param {string[]} requiredFields\n * @returns {string[]}\n * @throws {TypeError} When record is not a plain object\n */\nexport function validateRequiredFields(record, requiredFields) {\n  if (!isPlainObject(record)) {\n    throw new TypeError('record must be a plain object');\n  }\n\n  const missing = [];\n  for (const field of requiredFields) {\n    const value = record[field];\n    if (value === undefined || value === null || value === '') {\n      missing.push(field);\n    }\n  }\n  return missing;\n}",
+  "tags": [
+    "validation",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-008"
+  }
+}

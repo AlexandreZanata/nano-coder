@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-025",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `ok`, `err`, and `unwrap`, implementing a lightweight Result type. `ok` and `err` create success or failure results. `unwrap` returns the value or throws the stored error.",
+  "code": "/**\n * @typedef {{ ok: true, value: unknown } | { ok: false, error: Error }} Result\n */\n\n/**\n * @param {unknown} value\n * @returns {Result}\n */\nexport function ok(value) {\n  return { ok: true, value };\n}\n\n/**\n * @param {string | Error} error\n * @returns {Result}\n */\nexport function err(error) {\n  const failure = error instanceof Error ? error : new Error(error);\n  return { ok: false, error: failure };\n}\n\n/**\n * @param {Result} result\n * @returns {unknown}\n */\nexport function unwrap(result) {\n  if (result.ok) {\n    return result.value;\n  }\n  throw result.error;\n}",
+  "tags": [
+    "functional",
+    "error-handling",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-025"
+  }
+}

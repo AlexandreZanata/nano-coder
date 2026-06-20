@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-021",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `statusBadge` that maps a `status` string to badge text and CSS modifier classes for open, in_progress, and closed. Unknown statuses use a neutral badge. Escape status-derived text.",
+  "code": "<#-- Macro: statusBadge(status) -->\n<#macro statusBadge status>\n  <#assign key = (status!\"\")?lower_case?replace(\" \", \"_\")>\n  <#if key == \"open\">\n    <span class=\"badge badge-open\">Open</span>\n  <#elseif key == \"in_progress\">\n    <span class=\"badge badge-progress\">In progress</span>\n  <#elseif key == \"closed\">\n    <span class=\"badge badge-closed\">Closed</span>\n  <#else>\n    <span class=\"badge badge-neutral\">${(status!\"Unknown\")?html}</span>\n  </#if>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "condition",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-021"
+  }
+}

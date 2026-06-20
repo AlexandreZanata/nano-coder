@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-009",
+  "targetLanguage": "HTML",
+  "instruction": "Write a semantic HTML5 contact form with required fields for name, email (type email), and message (textarea). Link each label to its control with for and id attributes.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Contact form</title>\n  </head>\n  <body>\n    <main>\n      <h1>Contact us</h1>\n      <form action=\"/contact\" method=\"post\">\n        <p>\n          <label for=\"contact-name\">Name</label>\n          <input id=\"contact-name\" name=\"name\" type=\"text\" required autocomplete=\"name\" />\n        </p>\n        <p>\n          <label for=\"contact-email\">Email</label>\n          <input id=\"contact-email\" name=\"email\" type=\"email\" required autocomplete=\"email\" />\n        </p>\n        <p>\n          <label for=\"contact-message\">Message</label>\n          <textarea id=\"contact-message\" name=\"message\" rows=\"5\" required></textarea>\n        </p>\n        <p><button type=\"submit\">Send message</button></p>\n      </form>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "accessibility",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-009"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-029",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 head with a canonical link element and a descriptive page title for a documentation article.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <link rel=\"canonical\" href=\"https://example.com/docs/authentication\" />\n    <title>Authentication overview — Docs</title>\n  </head>\n  <body>\n    <main>\n      <h1>Authentication overview</h1>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "metadata",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-029"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-032",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that groups `tasks` by string `status` without a hash built-in helper: iterate tasks and emit a heading each time the status changes, listing task titles beneath. Escape titles and status labels.",
+  "code": "<#-- Model: tasks: sequence of maps { title, status } sorted by status -->\n<#assign previousStatus = \"\">\n<#list tasks![] as task>\n  <#if task.status!\"\" != previousStatus>\n    <#if previousStatus?has_content></ul></#if>\n    <h3>${task.status?html}</h3>\n    <ul>\n    <#assign previousStatus = task.status!\"\">\n  </#if>\n  <li>${task.title?html}</li>\n  <#if !task?has_next></ul></#if>\n</#list>\n",
+  "tags": [
+    "list",
+    "nested",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-032"
+  }
+}

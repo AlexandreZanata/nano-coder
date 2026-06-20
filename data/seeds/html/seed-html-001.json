@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-001",
+  "targetLanguage": "HTML",
+  "instruction": "Write a minimal HTML5 page with a semantic article containing a header with an h1 and a footer with a copyright paragraph. Use lang=\"en\" on the root element.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Article</title>\n  </head>\n  <body>\n    <article>\n      <header>\n        <h1>Quarterly update</h1>\n      </header>\n      <p>Revenue increased across all regions during Q2.</p>\n      <footer>\n        <p>Copyright 2026 Example Corp.</p>\n      </footer>\n    </article>\n  </body>\n</html>",
+  "tags": [
+    "semantic",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-001"
+  }
+}

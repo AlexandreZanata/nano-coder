@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-031",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `getPath`, which reads a nested property from an object using a dot-separated path string. Return undefined when any segment is missing.",
+  "code": "/**\n * Read a nested property via dot path.\n * @param {Record<string, unknown>} source\n * @param {string} path\n * @returns {unknown}\n */\nexport function getPath(source, path) {\n  const segments = path.split('.');\n  let current = source;\n  for (const segment of segments) {\n    if (current === null || typeof current !== 'object') {\n      return undefined;\n    }\n    current = current[segment];\n  }\n  return current;\n}",
+  "tags": [
+    "object",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-031"
+  }
+}

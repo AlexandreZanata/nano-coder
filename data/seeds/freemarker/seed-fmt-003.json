@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-003",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that renders an ordered list from a sequence `steps` of instruction strings. Prefix each step with its one-based index. Escape all step text.",
+  "code": "<#-- Model: steps: sequence of strings -->\n<#if steps?has_content>\n  <ol>\n    <#list steps as step>\n      <li><span class=\"step-number\">${step?index + 1}.</span> ${step?html}</li>\n    </#list>\n  </ol>\n<#else>\n  <p>No steps available.</p>\n</#if>\n",
+  "tags": [
+    "list",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-003"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-006",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that renders a comma-separated inline list from `tags`, a sequence of strings. Escape each tag. When the sequence is empty, output the word \"none\".",
+  "code": "<#-- Model: tags: sequence of strings -->\n<p class=\"tag-list\">\n  <#if tags?has_content>\n    <#list tags as tag>\n      ${tag?html}<#if tag?has_next>, </#if>\n    </#list>\n  <#else>\n    none\n  </#if>\n</p>\n",
+  "tags": [
+    "list",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-006"
+  }
+}

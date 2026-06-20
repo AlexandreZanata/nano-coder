@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-048",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 complex data table for a budget matrix with row and column headers, a tfoot summary row, and scope attributes throughout.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Budget matrix</title>\n  </head>\n  <body>\n    <table>\n      <caption>Department budget allocation for FY2026</caption>\n      <thead>\n        <tr>\n          <th scope=\"col\">Department</th>\n          <th scope=\"col\">Personnel</th>\n          <th scope=\"col\">Infrastructure</th>\n          <th scope=\"col\">Training</th>\n          <th scope=\"col\">Total</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <th scope=\"row\">Engineering</th>\n          <td>$820,000</td>\n          <td>$140,000</td>\n          <td>$35,000</td>\n          <td>$995,000</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Support</th>\n          <td>$410,000</td>\n          <td>$25,000</td>\n          <td>$18,000</td>\n          <td>$453,000</td>\n        </tr>\n      </tbody>\n      <tfoot>\n        <tr>\n          <th scope=\"row\">Grand total</th>\n          <td>$1,230,000</td>\n          <td>$165,000</td>\n          <td>$53,000</td>\n          <td>$1,448,000</td>\n        </tr>\n      </tfoot>\n    </table>\n  </body>\n</html>",
+  "tags": [
+    "tables",
+    "accessibility",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-048"
+  }
+}

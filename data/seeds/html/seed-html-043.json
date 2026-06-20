@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-043",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 figure with an img, figcaption, and a linked long description via aria-describedby on the image.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Architecture diagram</title>\n  </head>\n  <body>\n    <figure>\n      <img\n        id=\"arch-diagram\"\n        src=\"/assets/diagrams/request-flow.png\"\n        alt=\"Request flow diagram\"\n        aria-describedby=\"arch-diagram-desc\"\n        width=\"800\"\n        height=\"450\"\n      />\n      <figcaption>High-level request flow across gateway, services, and datastore.</figcaption>\n      <p id=\"arch-diagram-desc\">\n        Requests enter through the API gateway, route to auth and billing services, then persist\n        events in the audit datastore.\n      </p>\n    </figure>\n  </body>\n</html>",
+  "tags": [
+    "media",
+    "accessibility",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-043"
+  }
+}

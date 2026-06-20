@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-044",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `card` with parameters `title` and optional `footer`. Render a div.card containing a header, nested body content, and footer block only when the footer parameter is non-empty. Escape title and footer.",
+  "code": "<#-- Macro: card(title, footer=\"\") with nested body -->\n<#macro card title footer=\"\">\n  <article class=\"card\">\n    <header><h3>${title?html}</h3></header>\n    <div class=\"card-body\">\n      <#nested>\n    </div>\n    <#if footer?has_content>\n      <footer>${footer?html}</footer>\n    </#if>\n  </article>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "custom-directive",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-044"
+  }
+}

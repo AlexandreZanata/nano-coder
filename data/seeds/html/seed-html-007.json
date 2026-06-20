@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-007",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 head section with charset utf-8, a viewport meta tag, and a descriptive title. The body may be empty.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Inventory overview</title>\n  </head>\n  <body></body>\n</html>",
+  "tags": [
+    "metadata",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-007"
+  }
+}

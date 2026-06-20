@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-016",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that renders a one-level nested list from `categories`, where each category map has `name` and optional `items` (sequence of strings). Escape all text. Categories without items still render their heading.",
+  "code": "<#-- Model: categories: sequence of maps { name, items? } -->\n<ul class=\"category-tree\">\n  <#list categories![] as category>\n    <li>\n      <strong>${category.name?html}</strong>\n      <#if category.items?has_content>\n        <ul>\n          <#list category.items as item>\n            <li>${item?html}</li>\n          </#list>\n        </ul>\n      </#if>\n    </li>\n  </#list>\n</ul>\n",
+  "tags": [
+    "nested",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-016"
+  }
+}

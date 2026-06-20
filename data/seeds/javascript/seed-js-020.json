@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-020",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `parseCsvLine`, which splits a single CSV line into fields, supporting quoted fields with escaped double quotes. Throw a TypeError when the line is not a string.",
+  "code": "/**\n * Parse one CSV line into fields.\n * @param {string} line\n * @returns {string[]}\n * @throws {TypeError} When line is not a string\n */\nexport function parseCsvLine(line) {\n  if (typeof line !== 'string') {\n    throw new TypeError('line must be a string');\n  }\n\n  const fields = [];\n  let current = '';\n  let inQuotes = false;\n\n  for (let index = 0; index < line.length; index += 1) {\n    const char = line[index];\n    if (char === '\"') {\n      if (inQuotes && line[index + 1] === '\"') {\n        current += '\"';\n        index += 1;\n      } else {\n        inQuotes = !inQuotes;\n      }\n      continue;\n    }\n    if (char === ',' && !inQuotes) {\n      fields.push(current);\n      current = '';\n      continue;\n    }\n    current += char;\n  }\n\n  fields.push(current);\n  return fields;\n}",
+  "tags": [
+    "error-handling",
+    "validation",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-020"
+  }
+}

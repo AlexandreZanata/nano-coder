@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-021",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 address element inside a footer with a physical mailing address and a contact email link.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Company footer</title>\n  </head>\n  <body>\n    <footer>\n      <address>\n        Example Corp<br />\n        100 Market Street<br />\n        San Francisco, CA 94105<br />\n        <a href=\"mailto:support@example.com\">support@example.com</a>\n      </address>\n    </footer>\n  </body>\n</html>",
+  "tags": [
+    "semantic",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-021"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-002",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `sumValues`, which reduces an array of numbers to their total. An empty array returns 0. Throw a TypeError when the argument is not an array or contains non-numbers.",
+  "code": "/**\n * Sum numeric values in an array.\n * @param {number[]} values\n * @returns {number}\n * @throws {TypeError} When values is invalid\n */\nexport function sumValues(values) {\n  if (!Array.isArray(values)) {\n    throw new TypeError('values must be an array');\n  }\n\n  let total = 0;\n  for (const value of values) {\n    if (typeof value !== 'number' || Number.isNaN(value)) {\n      throw new TypeError('each item must be a number');\n    }\n    total += value;\n  }\n  return total;\n}",
+  "tags": [
+    "array",
+    "functional",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-002"
+  }
+}

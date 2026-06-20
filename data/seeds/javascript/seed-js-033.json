@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-033",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `arrayDifference`, which returns values present in the first array but not the second, preserving first-array order without duplicates.",
+  "code": "/**\n * Values in left not present in right.\n * @param {unknown[]} left\n * @param {unknown[]} right\n * @returns {unknown[]}\n * @throws {TypeError} When arguments are not arrays\n */\nexport function arrayDifference(left, right) {\n  if (!Array.isArray(left) || !Array.isArray(right)) {\n    throw new TypeError('left and right must be arrays');\n  }\n  const exclude = new Set(right);\n  const result = [];\n  const seen = new Set();\n  for (const value of left) {\n    if (exclude.has(value) || seen.has(value)) {\n      continue;\n    }\n    seen.add(value);\n    result.push(value);\n  }\n  return result;\n}",
+  "tags": [
+    "array",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-033"
+  }
+}

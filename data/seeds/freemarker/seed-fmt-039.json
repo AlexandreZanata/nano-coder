@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-039",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `renderDataTable` that accepts `columns` (sequence of header strings) and `rows` (sequence of cell sequences), outputting a complete table with thead and tbody. Escape all header and cell values.",
+  "code": "<#-- Macro: renderDataTable(columns, rows) -->\n<#macro renderDataTable columns rows>\n  <table>\n    <thead>\n      <tr>\n        <#list columns![] as column>\n          <th scope=\"col\">${column?html}</th>\n        </#list>\n      </tr>\n    </thead>\n    <tbody>\n      <#list rows![] as row>\n        <tr>\n          <#list row as cell>\n            <td>${cell?html}</td>\n          </#list>\n        </tr>\n      </#list>\n    </tbody>\n  </table>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "list",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-039"
+  }
+}

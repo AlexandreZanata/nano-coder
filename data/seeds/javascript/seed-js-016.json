@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-016",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports a `CurrencyAmount` class storing minor units (integer cents) and currency code. The constructor throws when cents is not an integer or currency is not a three-letter string.",
+  "code": "/**\n * Immutable currency amount in minor units.\n */\nexport class CurrencyAmount {\n  /** @type {number} */\n  #cents;\n\n  /** @type {string} */\n  #currency;\n\n  /**\n   * @param {number} cents\n   * @param {string} currency\n   */\n  constructor(cents, currency) {\n    if (!Number.isInteger(cents)) {\n      throw new TypeError('cents must be an integer');\n    }\n    if (typeof currency !== 'string' || !/^[A-Z]{3}$/.test(currency)) {\n      throw new TypeError('currency must be a three-letter code');\n    }\n    this.#cents = cents;\n    this.#currency = currency;\n  }\n\n  /** @returns {number} */\n  get cents() {\n    return this.#cents;\n  }\n\n  /** @returns {string} */\n  get currency() {\n    return this.#currency;\n  }\n\n  /**\n   * @param {CurrencyAmount} other\n   * @returns {CurrencyAmount}\n   */\n  add(other) {\n    if (other.currency !== this.#currency) {\n      throw new Error('currency mismatch');\n    }\n    return new CurrencyAmount(this.#cents + other.cents, this.#currency);\n  }\n}",
+  "tags": [
+    "class",
+    "error-handling",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-016"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-020",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that conditionally includes `partials/promo-banner.ftl` only when boolean `showPromo` is true. Always render the main content area regardless of the promo flag.",
+  "code": "<#-- Model: showPromo: boolean, pageTitle: string -->\n<#if showPromo!false>\n  <#include \"partials/promo-banner.ftl\">\n</#if>\n\n<main>\n  <h1>${pageTitle?html}</h1>\n</main>\n",
+  "tags": [
+    "include",
+    "condition",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-020"
+  }
+}

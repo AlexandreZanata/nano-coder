@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-050",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that filters `articles` to those matching optional `query` substring in the title (case-insensitive), sorts nothing (preserve input order), paginates with `page`/`pageSize`, and shows an empty-state when the filtered slice is blank. Escape titles.",
+  "code": "<#-- Model: articles: [{ title }], query: string, page, pageSize -->\n<#assign term = (query!\"\")?lower_case>\n<#assign filtered = []>\n<#list articles![] as article>\n  <#assign title = article.title!\"\">\n  <#if !term?has_content || title?lower_case?contains(term)>\n    <#assign filtered = filtered + [article]>\n  </#if>\n</#list>\n<#assign pageNum = (page!1)?number>\n<#assign size = (pageSize!5)?number>\n<#assign offset = (pageNum - 1) * size>\n<ul>\n  <#list filtered[offset..*size] as article>\n    <li>${article.title?html}</li>\n  <#else>\n    <li>No articles matched your search.</li>\n  </#list>\n</ul>\n",
+  "tags": [
+    "list",
+    "condition",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-050"
+  }
+}

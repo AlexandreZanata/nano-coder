@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-005",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that formats a numeric `score` using two decimal places via `?string.number`. When `score` is missing, display \"N/A\" instead of a number.",
+  "code": "<#-- Model: score: number (optional) -->\n<p class=\"score\">\n  Score:\n  <#if score??>\n    ${score?string.number}\n  <#else>\n    N/A\n  </#if>\n</p>\n",
+  "tags": [
+    "formatting",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-005"
+  }
+}

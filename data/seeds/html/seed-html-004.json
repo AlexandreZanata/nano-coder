@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-004",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 page with a main landmark containing one h1 and a short paragraph. The main element must be the sole top-level content wrapper.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Main landmark</title>\n  </head>\n  <body>\n    <main>\n      <h1>Account overview</h1>\n      <p>Your subscription renews on the first of each month.</p>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "layout",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-004"
+  }
+}

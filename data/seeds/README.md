@@ -26,8 +26,10 @@ data/seeds/
 ## Validate before promotion
 
 ```bash
-python scripts/validate_seed.py .local/seeds/draft/ --require-metadata
-python scripts/validate_seed.py data/seeds/reference/
+python scripts/bootstrap_gold_seeds.py   # regenerate from catalog
+python scripts/validate_seed.py data/seeds/javascript/ --require-metadata
+python scripts/validate_seed.py data/seeds/html/ --require-metadata
+python scripts/validate_seed.py data/seeds/freemarker/ --require-metadata
 ```
 
 BR-001 requires ≥50 promoted seeds per `TargetLanguage` before synthetic expansion.

@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-028",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 password input with autocomplete=\"current-password\" inside a sign-in form. Include a labeled email field.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Sign in</title>\n  </head>\n  <body>\n    <main>\n      <h1>Sign in</h1>\n      <form action=\"/sign-in\" method=\"post\">\n        <p>\n          <label for=\"signin-email\">Email</label>\n          <input id=\"signin-email\" name=\"email\" type=\"email\" required autocomplete=\"email\" />\n        </p>\n        <p>\n          <label for=\"signin-password\">Password</label>\n          <input\n            id=\"signin-password\"\n            name=\"password\"\n            type=\"password\"\n            required\n            autocomplete=\"current-password\"\n          />\n        </p>\n        <p><button type=\"submit\">Sign in</button></p>\n      </form>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-028"
+  }
+}

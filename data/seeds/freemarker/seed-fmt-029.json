@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-029",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `truncateText` that outputs at most `maxLength` characters of `text`, appending an ellipsis when truncated. Default maxLength to 80. Escape the result.",
+  "code": "<#-- Macro: truncateText(text, maxLength=80) -->\n<#macro truncateText text maxLength=80>\n  <#assign value = text!\"\">\n  <#if value?length <= maxLength>\n    ${value?html}\n  <#else>\n    ${value?substring(0, maxLength)?html}&hellip;\n  </#if>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "formatting",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-029"
+  }
+}

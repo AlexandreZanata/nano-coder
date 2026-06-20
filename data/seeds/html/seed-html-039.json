@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-039",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 page combining header, nav, main, aside, and footer landmarks. Each landmark must contain identifiable heading text.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Full landmark page</title>\n  </head>\n  <body>\n    <header>\n      <h1>Operations console</h1>\n    </header>\n    <nav aria-label=\"Primary\">\n      <h2>Primary navigation</h2>\n      <ul>\n        <li><a href=\"/overview\">Overview</a></li>\n        <li><a href=\"/incidents\">Incidents</a></li>\n      </ul>\n    </nav>\n    <main>\n      <h2>Incident queue</h2>\n      <p>No active incidents.</p>\n    </main>\n    <aside aria-label=\"Runbook links\">\n      <h2>Runbooks</h2>\n      <ul>\n        <li><a href=\"/runbooks/db-failover\">Database failover</a></li>\n        <li><a href=\"/runbooks/cache-purge\">Cache purge</a></li>\n      </ul>\n    </aside>\n    <footer>\n      <h2>Support</h2>\n      <p>Contact on-call via pager rotation.</p>\n    </footer>\n  </body>\n</html>",
+  "tags": [
+    "layout",
+    "semantic",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-039"
+  }
+}

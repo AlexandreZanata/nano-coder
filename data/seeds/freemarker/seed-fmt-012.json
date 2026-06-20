@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-012",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that formats `createdAt` as a medium date and `quantity` as a grouped integer. Both fields may be missing; show \"Unknown date\" and \"0\" respectively as defaults.",
+  "code": "<#-- Model: createdAt: date, quantity: number (both optional) -->\n<p>\n  Created:\n  <#if createdAt??>\n    ${createdAt?string.medium}\n  <#else>\n    Unknown date\n  </#if>\n</p>\n<p>\n  Quantity: ${(quantity!0)?string.number}\n</p>\n",
+  "tags": [
+    "formatting",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-012"
+  }
+}

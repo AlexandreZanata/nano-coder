@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-045",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 page with a breadcrumb nav using an ordered list. Mark the current page as the final list item without a link.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Invoice detail</title>\n  </head>\n  <body>\n    <nav aria-label=\"Breadcrumb\">\n      <ol>\n        <li><a href=\"/billing\">Billing</a></li>\n        <li><a href=\"/billing/invoices\">Invoices</a></li>\n        <li aria-current=\"page\">Invoice 1042</li>\n      </ol>\n    </nav>\n    <main>\n      <h1>Invoice 1042</h1>\n      <p>Issued June 1, 2026.</p>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "semantic",
+    "accessibility",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-045"
+  }
+}

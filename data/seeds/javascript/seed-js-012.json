@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-012",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `createFragmentFromHtml`, which parses an HTML template string into a DocumentFragment using a template element. Throw a TypeError when markup is not a string.",
+  "code": "/**\n * Parse HTML markup into a DocumentFragment safely via <template>.\n * @param {string} markup\n * @returns {DocumentFragment}\n * @throws {TypeError} When markup is not a string\n */\nexport function createFragmentFromHtml(markup) {\n  if (typeof markup !== 'string') {\n    throw new TypeError('markup must be a string');\n  }\n\n  const template = document.createElement('template');\n  template.innerHTML = markup.trim();\n  return template.content;\n}",
+  "tags": [
+    "dom",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-012"
+  }
+}

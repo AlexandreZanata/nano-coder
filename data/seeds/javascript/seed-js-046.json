@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-046",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `invertObject`, which swaps keys and values of a plain object with stringifiable values. Duplicate values become arrays of keys in the result.",
+  "code": "/**\n * @param {unknown} value\n * @returns {boolean}\n */\nfunction isPlainObject(value) {\n  return typeof value === 'object' && value !== null && !Array.isArray(value);\n}\n\n/**\n * Invert object keys and values.\n * @param {Record<string, unknown>} source\n * @returns {Record<string, unknown>}\n * @throws {TypeError} When source is not a plain object\n */\nexport function invertObject(source) {\n  if (!isPlainObject(source)) {\n    throw new TypeError('source must be a plain object');\n  }\n\n  const inverted = {};\n  for (const [key, value] of Object.entries(source)) {\n    const invertedKey = String(value);\n    const existing = inverted[invertedKey];\n    if (existing === undefined) {\n      inverted[invertedKey] = key;\n    } else if (Array.isArray(existing)) {\n      existing.push(key);\n    } else {\n      inverted[invertedKey] = [existing, key];\n    }\n  }\n  return inverted;\n}",
+  "tags": [
+    "object",
+    "functional",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-046"
+  }
+}

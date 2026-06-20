@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-044",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `once`, which wraps a function so it executes only on the first invocation. Subsequent calls return the first result without calling the function again.",
+  "code": "/**\n * Invoke a function only once.\n * @param {() => unknown} fn\n * @returns {() => unknown}\n */\nexport function once(fn) {\n  let called = false;\n  let stored;\n\n  return () => {\n    if (!called) {\n      stored = fn();\n      called = true;\n    }\n    return stored;\n  };\n}",
+  "tags": [
+    "functional",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-044"
+  }
+}

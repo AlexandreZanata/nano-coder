@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-022",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 time element with a machine-readable datetime attribute for a published article timestamp.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Published article</title>\n  </head>\n  <body>\n    <article>\n      <header>\n        <h1>Security patch advisory</h1>\n        <p>Published <time datetime=\"2026-06-20T09:30:00Z\">June 20, 2026</time></p>\n      </header>\n      <p>A maintenance window is scheduled for critical infrastructure updates.</p>\n    </article>\n  </body>\n</html>",
+  "tags": [
+    "semantic",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-022"
+  }
+}

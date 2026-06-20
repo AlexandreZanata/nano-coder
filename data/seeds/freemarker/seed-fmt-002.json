@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-002",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that greets a user by name. When `userName` is present and non-blank, output a welcome heading with the escaped name. Otherwise output a generic sign-in prompt paragraph.",
+  "code": "<#-- Model: userName: string (optional) -->\n<#if userName?? && userName?trim?has_content>\n  <h1>Welcome, ${userName?html}!</h1>\n<#else>\n  <p>Please sign in to continue.</p>\n</#if>\n",
+  "tags": [
+    "condition",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-002"
+  }
+}

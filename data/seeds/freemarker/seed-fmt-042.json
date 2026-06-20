@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-042",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that renders `events` grouped by `date` string, emitting a heading per date and a nested list of event titles and times. Assume events are pre-sorted by date. Escape all displayed text.",
+  "code": "<#-- Model: events: [{ date, title, time }] sorted by date -->\n<#assign lastDate = \"\">\n<div class=\"event-groups\">\n  <#list events![] as event>\n    <#if event.date!\"\" != lastDate>\n      <#if lastDate?has_content></ul></section></#if>\n      <section>\n        <h2>${event.date?html}</h2>\n        <ul>\n      <#assign lastDate = event.date!\"\">\n    </#if>\n    <li><time>${event.time?html}</time> ${event.title?html}</li>\n    <#if !event?has_next></ul></section></#if>\n  </#list>\n</div>\n",
+  "tags": [
+    "nested",
+    "list",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-042"
+  }
+}

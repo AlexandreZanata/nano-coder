@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-027",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that builds a two-column feature grid by iterating `features` and wrapping every odd-indexed item in a new row div. Each feature map has `title` and `summary`. Escape both fields.",
+  "code": "<#-- Model: features: sequence of maps { title, summary } -->\n<div class=\"feature-grid\">\n  <#list features![] as feature>\n    <#if feature?index % 2 == 0>\n      <div class=\"row\">\n    </#if>\n    <article>\n      <h3>${feature.title?html}</h3>\n      <p>${feature.summary?html}</p>\n    </article>\n    <#if feature?index % 2 == 1 || !feature?has_next>\n      </div>\n    </#if>\n  </#list>\n</div>\n",
+  "tags": [
+    "list",
+    "nested",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-027"
+  }
+}

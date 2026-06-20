@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-024",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `flattenToDotKeys`, which flattens a nested plain object into dot-separated keys. Arrays are copied as leaf values, not recursed into.",
+  "code": "/**\n * @param {unknown} value\n * @returns {boolean}\n */\nfunction isPlainObject(value) {\n  return typeof value === 'object' && value !== null && !Array.isArray(value);\n}\n\n/**\n * Flatten nested plain objects to dot keys.\n * @param {Record<string, unknown>} source\n * @param {string} [prefix]\n * @returns {Record<string, unknown>}\n */\nexport function flattenToDotKeys(source, prefix = '') {\n  const flat = {};\n\n  for (const [key, value] of Object.entries(source)) {\n    const path = prefix ? `${prefix}.${key}` : key;\n    if (isPlainObject(value)) {\n      const nested = flattenToDotKeys(value, path);\n      Object.assign(flat, nested);\n    } else {\n      flat[path] = value;\n    }\n  }\n\n  return flat;\n}",
+  "tags": [
+    "object",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-024"
+  }
+}

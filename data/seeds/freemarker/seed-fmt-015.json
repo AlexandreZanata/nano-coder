@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-015",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that lists only active users from a `users` sequence. Each user map has `name` and boolean `active`. Skip inactive users inside the list loop. Escape names. Show a message when no active users remain.",
+  "code": "<#-- Model: users: sequence of maps { name, active } -->\n<#assign activeUsers = users![]>\n<ul class=\"user-list\">\n  <#assign rendered = 0>\n  <#list activeUsers as user>\n    <#if user.active!false>\n      <#assign rendered = rendered + 1>\n      <li>${user.name?html}</li>\n    </#if>\n  </#list>\n</ul>\n<#if rendered == 0>\n  <p>No active users found.</p>\n</#if>\n",
+  "tags": [
+    "list",
+    "condition",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-015"
+  }
+}

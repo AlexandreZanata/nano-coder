@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-018",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `debounce`, which delays invoking a function until after wait milliseconds have elapsed since the last call. Return a debounced function with a `cancel` method.",
+  "code": "/**\n * Debounce a function call.\n * @param {(value: unknown) => void} fn\n * @param {number} waitMs\n * @returns {{ call: (value: unknown) => void, cancel: () => void }}\n */\nexport function debounce(fn, waitMs) {\n  let timerId;\n\n  const cancel = () => {\n    if (timerId !== undefined) {\n      clearTimeout(timerId);\n      timerId = undefined;\n    }\n  };\n\n  const call = (value) => {\n    cancel();\n    timerId = setTimeout(() => {\n      timerId = undefined;\n      fn(value);\n    }, waitMs);\n  };\n\n  return { call, cancel };\n}",
+  "tags": [
+    "functional",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-018"
+  }
+}

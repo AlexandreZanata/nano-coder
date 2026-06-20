@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-014",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module with named exports `clamp`, `minOf`, and `maxOf` for numeric bounds. `clamp` constrains a number between min and max inclusive. Throw a TypeError when any argument is not a number.",
+  "code": "/**\n * Constrain a number within inclusive bounds.\n * @param {number} value\n * @param {number} min\n * @param {number} max\n * @returns {number}\n * @throws {TypeError} When arguments are not numbers\n */\nexport function clamp(value, min, max) {\n  if (typeof value !== 'number' || typeof min !== 'number' || typeof max !== 'number') {\n    throw new TypeError('value, min, and max must be numbers');\n  }\n  return Math.min(max, Math.max(min, value));\n}\n\n/**\n * @param {number} a\n * @param {number} b\n * @returns {number}\n * @throws {TypeError} When arguments are not numbers\n */\nexport function minOf(a, b) {\n  if (typeof a !== 'number' || typeof b !== 'number') {\n    throw new TypeError('arguments must be numbers');\n  }\n  return Math.min(a, b);\n}\n\n/**\n * @param {number} a\n * @param {number} b\n * @returns {number}\n * @throws {TypeError} When arguments are not numbers\n */\nexport function maxOf(a, b) {\n  if (typeof a !== 'number' || typeof b !== 'number') {\n    throw new TypeError('arguments must be numbers');\n  }\n  return Math.max(a, b);\n}",
+  "tags": [
+    "module",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-014"
+  }
+}

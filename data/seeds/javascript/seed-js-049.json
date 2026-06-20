@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-049",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `parseJsonSafe`, which parses JSON and returns a Result-style object with `ok` true and `value`, or `ok` false and `error` as an Error. Never throws.",
+  "code": "/**\n * @typedef {{ ok: true, value: unknown } | { ok: false, error: Error }} SafeResult\n */\n\n/**\n * Parse JSON without throwing.\n * @param {string} text\n * @returns {SafeResult}\n */\nexport function parseJsonSafe(text) {\n  try {\n    return { ok: true, value: JSON.parse(text) };\n  } catch (error) {\n    const failure = error instanceof Error ? error : new Error(String(error));\n    return { ok: false, error: failure };\n  }\n}",
+  "tags": [
+    "functional",
+    "error-handling",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-049"
+  }
+}

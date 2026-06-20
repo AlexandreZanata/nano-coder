@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-019",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 audio element with controls and fallback paragraph text for browsers that cannot play audio.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Podcast clip</title>\n  </head>\n  <body>\n    <main>\n      <h1>Episode preview</h1>\n      <audio controls>\n        <source src=\"/media/ep12-preview.mp3\" type=\"audio/mpeg\" />\n        <p>Your browser does not support embedded audio. Download the preview instead.</p>\n      </audio>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "media",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-019"
+  }
+}

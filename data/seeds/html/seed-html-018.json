@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-018",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 figure containing an img with descriptive alt text and a figcaption explaining the chart shown.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Monthly chart</title>\n  </head>\n  <body>\n    <figure>\n      <img\n        src=\"/assets/charts/signups-may.png\"\n        alt=\"Bar chart showing signups rising from 120 in week one to 210 in week four\"\n        width=\"640\"\n        height=\"360\"\n      />\n      <figcaption>May signup trend across four weekly intervals.</figcaption>\n    </figure>\n  </body>\n</html>",
+  "tags": [
+    "media",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-018"
+  }
+}

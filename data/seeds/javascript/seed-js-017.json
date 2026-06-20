@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-017",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports an immutable `Stack` class with `push`, `pop`, `peek`, and `size`. `push` returns a new stack. `pop` returns the top value and a new stack without it. `pop` and `peek` throw when the stack is empty.",
+  "code": "/**\n * Immutable LIFO stack.\n */\nexport class Stack {\n  /** @type {unknown[]} */\n  #items;\n\n  /** @param {unknown[]} [items] */\n  constructor(items = []) {\n    this.#items = [...items];\n  }\n\n  /** @param {unknown} value */\n  push(value) {\n    return new Stack([...this.#items, value]);\n  }\n\n  /**\n   * @returns {{ value: unknown, stack: Stack }}\n   */\n  pop() {\n    if (this.#items.length === 0) {\n      throw new Error('stack is empty');\n    }\n    const value = this.#items[this.#items.length - 1];\n    const stack = new Stack(this.#items.slice(0, -1));\n    return { value, stack };\n  }\n\n  /** @returns {unknown} */\n  peek() {\n    if (this.#items.length === 0) {\n      throw new Error('stack is empty');\n    }\n    return this.#items[this.#items.length - 1];\n  }\n\n  /** @returns {number} */\n  size() {\n    return this.#items.length;\n  }\n}",
+  "tags": [
+    "class",
+    "module",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-017"
+  }
+}

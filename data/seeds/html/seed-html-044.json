@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-044",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 form with a datalist providing suggested values for a company size field while still allowing free text entry.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Company profile</title>\n  </head>\n  <body>\n    <form action=\"/profile/company\" method=\"post\">\n      <label for=\"company-size\">Company size</label>\n      <input id=\"company-size\" name=\"companySize\" type=\"text\" list=\"company-size-options\" required />\n      <datalist id=\"company-size-options\">\n        <option value=\"1-10 employees\"></option>\n        <option value=\"11-50 employees\"></option>\n        <option value=\"51-200 employees\"></option>\n        <option value=\"201-1000 employees\"></option>\n      </datalist>\n      <p><button type=\"submit\">Save profile</button></p>\n    </form>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-044"
+  }
+}

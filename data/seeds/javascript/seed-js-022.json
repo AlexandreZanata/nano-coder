@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-022",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `attachFieldValidator`, which validates a form field on change and toggles an error class plus aria-invalid on the control. The validator returns an error message string or null when valid.",
+  "code": "/**\n * Attach live validation feedback to a form control.\n * @param {HTMLElement} field\n * @param {(value: string) => string | null} validator\n * @param {string} errorClass\n * @returns {() => void}\n */\nexport function attachFieldValidator(field, validator, errorClass = 'is-invalid') {\n  const runValidation = () => {\n    const value = 'value' in field ? String(field.value) : '';\n    const message = validator(value);\n    const isValid = message === null;\n    field.classList.toggle(errorClass, !isValid);\n    field.setAttribute('aria-invalid', isValid ? 'false' : 'true');\n    return message;\n  };\n\n  const listener = () => runValidation();\n  field.addEventListener('change', listener);\n  runValidation();\n  return () => field.removeEventListener('change', listener);\n}",
+  "tags": [
+    "dom",
+    "validation",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-022"
+  }
+}

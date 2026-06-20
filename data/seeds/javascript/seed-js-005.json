@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-005",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `deepMerge`, which recursively merges plain objects. Arrays and non-objects are replaced by the source value. Throw a TypeError when either argument is not a plain object.",
+  "code": "/**\n * @param {unknown} value\n * @returns {boolean}\n */\nfunction isPlainObject(value) {\n  return typeof value === 'object' && value !== null && !Array.isArray(value);\n}\n\n/**\n * Deep merge plain objects.\n * @param {Record<string, unknown>} target\n * @param {Record<string, unknown>} source\n * @returns {Record<string, unknown>}\n * @throws {TypeError} When arguments are not plain objects\n */\nexport function deepMerge(target, source) {\n  if (!isPlainObject(target) || !isPlainObject(source)) {\n    throw new TypeError('target and source must be plain objects');\n  }\n\n  const merged = { ...target };\n  for (const [key, value] of Object.entries(source)) {\n    const existing = merged[key];\n    if (isPlainObject(existing) && isPlainObject(value)) {\n      merged[key] = deepMerge(existing, value);\n    } else {\n      merged[key] = value;\n    }\n  }\n  return merged;\n}",
+  "tags": [
+    "object",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-005"
+  }
+}

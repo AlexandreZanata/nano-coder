@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-049",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker recursive macro `renderSiteMap` that walks a tree of `nodes` (maps with `url`, `label`, optional `children`), stopping recursion at `maxDepth`. Render nested ul elements. Escape labels and URLs.",
+  "code": "<#-- Macro: renderSiteMap(nodes, depth=0, maxDepth=3) -->\n<#macro renderSiteMap nodes depth=0 maxDepth=3>\n  <#if depth >= maxDepth>\n    <#return>\n  </#if>\n  <ul class=\"sitemap depth-${depth?c}\">\n    <#list nodes![] as node>\n      <li>\n        <a href=\"${node.url?html}\">${node.label?html}</a>\n        <#if node.children?has_content>\n          <@renderSiteMap nodes=node.children depth=depth + 1 maxDepth=maxDepth />\n        </#if>\n      </li>\n    </#list>\n  </ul>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "nested",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-049"
+  }
+}

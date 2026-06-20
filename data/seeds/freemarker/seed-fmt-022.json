@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-022",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that renders a price list table from `lineItems`, each map having `description` and `amount`. Escape descriptions and format amounts as currency. Show a table footnote row with `grandTotal`.",
+  "code": "<#-- Model: lineItems: sequence of { description, amount }, grandTotal: number -->\n<table class=\"price-list\">\n  <thead>\n    <tr><th>Item</th><th>Amount</th></tr>\n  </thead>\n  <tbody>\n    <#list lineItems![] as item>\n      <tr>\n        <td>${item.description?html}</td>\n        <td>${item.amount?string.currency}</td>\n      </tr>\n    </#list>\n  </tbody>\n  <tfoot>\n    <tr>\n      <th>Total</th>\n      <td>${(grandTotal!0)?string.currency}</td>\n    </tr>\n  </tfoot>\n</table>\n",
+  "tags": [
+    "list",
+    "formatting",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-022"
+  }
+}

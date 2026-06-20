@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-019",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `memoize`, which caches results of a unary function keyed by the first argument using a Map. Only the first argument is used as the cache key.",
+  "code": "/**\n * Memoize a unary function by first argument.\n * @param {(value: unknown) => unknown} fn\n * @returns {(value: unknown) => unknown}\n */\nexport function memoize(fn) {\n  const cache = new Map();\n\n  return (value) => {\n    if (cache.has(value)) {\n      return cache.get(value);\n    }\n    const result = fn(value);\n    cache.set(value, result);\n    return result;\n  };\n}",
+  "tags": [
+    "functional",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-019"
+  }
+}

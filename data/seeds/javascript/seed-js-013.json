@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-013",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `delegateClicks`, which listens for clicks on a container and invokes a callback when the event target matches a selector. Return a cleanup function that removes the listener.",
+  "code": "/**\n * Delegate click events from a container to matching descendants.\n * @param {Element} container\n * @param {string} selector\n * @param {(target: Element, event: MouseEvent) => void} callback\n * @returns {() => void}\n */\nexport function delegateClicks(container, selector, callback) {\n  const listener = (event) => {\n    const target = event.target;\n    if (!(target instanceof Element)) {\n      return;\n    }\n    const match = target.closest(selector);\n    if (!match || !container.contains(match)) {\n      return;\n    }\n    callback(match, event);\n  };\n\n  container.addEventListener('click', listener);\n  return () => container.removeEventListener('click', listener);\n}",
+  "tags": [
+    "dom",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-013"
+  }
+}

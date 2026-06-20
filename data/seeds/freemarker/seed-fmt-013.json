@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-013",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that displays `totalAmount` formatted as currency inside a receipt summary block. When the amount is missing, show \"$0.00\".",
+  "code": "<#-- Model: totalAmount: number (optional) -->\n<div class=\"receipt-summary\">\n  <span class=\"label\">Total</span>\n  <span class=\"amount\">${(totalAmount!0)?string.currency}</span>\n</div>\n",
+  "tags": [
+    "formatting",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-013"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-010",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `fetchWithRetry`, which retries an async fetch function with exponential backoff until success or max attempts. Return the final result or throw the last error.",
+  "code": "/**\n * Retry an async operation with exponential backoff.\n * @param {() => Promise<unknown>} operation\n * @param {{ maxAttempts?: number, baseDelayMs?: number }} options\n * @returns {Promise<unknown>}\n */\nexport async function fetchWithRetry(operation, options = {}) {\n  const maxAttempts = options.maxAttempts ?? 3;\n  const baseDelayMs = options.baseDelayMs ?? 200;\n  let attempt = 0;\n  let lastError;\n\n  while (attempt < maxAttempts) {\n    try {\n      return await operation();\n    } catch (error) {\n      lastError = error instanceof Error ? error : new Error(String(error));\n      attempt += 1;\n      if (attempt >= maxAttempts) {\n        break;\n      }\n      const delay = baseDelayMs * 2 ** (attempt - 1);\n      await new Promise((resolve) => setTimeout(resolve, delay));\n    }\n  }\n\n  throw lastError ?? new Error('Operation failed');\n}",
+  "tags": [
+    "async",
+    "error-handling",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-010"
+  }
+}

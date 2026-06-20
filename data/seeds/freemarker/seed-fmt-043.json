@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-043",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `banner` that selects icon and CSS class from `kind` (success, error, info) and renders a paragraph with nested body content via `<#nested>`. Unknown kinds default to info styling.",
+  "code": "<#-- Macro: banner(kind) with nested message body -->\n<#macro banner kind=\"info\">\n  <#assign cssKind = kind?lower_case>\n  <#if cssKind != \"success\" && cssKind != \"error\" && cssKind != \"info\">\n    <#assign cssKind = \"info\">\n  </#if>\n  <div class=\"banner banner-${cssKind?html}\" role=\"status\">\n    <#nested>\n  </div>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "condition",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-043"
+  }
+}

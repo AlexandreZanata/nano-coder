@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-006",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `pickKeys` and `omitKeys`. `pickKeys` returns a new object with only the listed keys. `omitKeys` returns a new object excluding the listed keys. Throw a TypeError when the source is not a plain object.",
+  "code": "/**\n * @param {unknown} value\n * @returns {boolean}\n */\nfunction isPlainObject(value) {\n  return typeof value === 'object' && value !== null && !Array.isArray(value);\n}\n\n/**\n * Copy selected keys from a plain object.\n * @param {Record<string, unknown>} source\n * @param {string[]} keys\n * @returns {Record<string, unknown>}\n * @throws {TypeError} When source is not a plain object\n */\nexport function pickKeys(source, keys) {\n  if (!isPlainObject(source)) {\n    throw new TypeError('source must be a plain object');\n  }\n  const picked = {};\n  for (const key of keys) {\n    if (key in source) {\n      picked[key] = source[key];\n    }\n  }\n  return picked;\n}\n\n/**\n * Copy a plain object excluding listed keys.\n * @param {Record<string, unknown>} source\n * @param {string[]} keys\n * @returns {Record<string, unknown>}\n * @throws {TypeError} When source is not a plain object\n */\nexport function omitKeys(source, keys) {\n  if (!isPlainObject(source)) {\n    throw new TypeError('source must be a plain object');\n  }\n  const omitted = { ...source };\n  for (const key of keys) {\n    delete omitted[key];\n  }\n  return omitted;\n}",
+  "tags": [
+    "object",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-006"
+  }
+}

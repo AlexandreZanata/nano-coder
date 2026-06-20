@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-025",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 section labeled with aria-labelledby pointing to its h2 heading. The section contains one explanatory paragraph.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Labeled section</title>\n  </head>\n  <body>\n    <section aria-labelledby=\"billing-heading\">\n      <h2 id=\"billing-heading\">Billing cycle</h2>\n      <p>Invoices are generated on the first day of each month.</p>\n    </section>\n  </body>\n</html>",
+  "tags": [
+    "accessibility",
+    "semantic",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-025"
+  }
+}

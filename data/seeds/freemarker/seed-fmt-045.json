@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-045",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that renders a changelog from `releases`, each with `version`, `date`, and nested `changes` list. Format dates as medium strings. Escape version labels and change descriptions.",
+  "code": "<#-- Model: releases: [{ version, date, changes: [string] }] -->\n<div class=\"changelog\">\n  <#list releases![] as release>\n    <section>\n      <h2>${release.version?html} <small>${release.date?string.medium}</small></h2>\n      <ul>\n        <#list release.changes![] as change>\n          <li>${change?html}</li>\n        </#list>\n      </ul>\n    </section>\n  </#list>\n</div>\n",
+  "tags": [
+    "list",
+    "nested",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-045"
+  }
+}

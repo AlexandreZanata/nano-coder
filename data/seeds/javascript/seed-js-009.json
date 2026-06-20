@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-009",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `fetchJsonWithTimeout`, which fetches a URL, parses JSON, and rejects on non-OK responses or timeouts. Map failures to Error instances with readable messages.",
+  "code": "/**\n * Fetch JSON with a timeout and normalized errors.\n * @param {string} url\n * @param {number} timeoutMs\n * @returns {Promise<unknown>}\n */\nexport async function fetchJsonWithTimeout(url, timeoutMs = 5000) {\n  const timeoutPromise = new Promise((_, reject) => {\n    setTimeout(() => reject(new Error(`Request timed out after ${timeoutMs}ms`)), timeoutMs);\n  });\n\n  try {\n    const response = await Promise.race([fetch(url), timeoutPromise]);\n    if (!(response instanceof Response)) {\n      throw new Error('Request failed');\n    }\n    if (!response.ok) {\n      throw new Error(`Request failed with status ${response.status}`);\n    }\n    return await response.json();\n  } catch (error) {\n    if (error instanceof Error) {\n      throw error;\n    }\n    throw new Error('Request failed');\n  }\n}",
+  "tags": [
+    "async",
+    "error-handling",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-009"
+  }
+}

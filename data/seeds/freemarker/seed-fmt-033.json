@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-033",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `fieldLabel` that renders a label element for `fieldId` and `caption`, optionally showing a required asterisk when `required` is true. Escape fieldId and caption in attributes and text.",
+  "code": "<#-- Macro: fieldLabel(fieldId, caption, required=false) -->\n<#macro fieldLabel fieldId caption required=false>\n  <label for=\"${fieldId?html}\">\n    ${caption?html}<#if required> <span aria-hidden=\"true\">*</span></#if>\n  </label>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "condition",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-033"
+  }
+}

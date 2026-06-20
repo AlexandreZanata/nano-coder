@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-035",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 article page with nested sections for Overview, Requirements, and Rollout plan. Maintain a logical heading hierarchy from h1 through h3.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Feature proposal</title>\n  </head>\n  <body>\n    <article>\n      <header>\n        <h1>Self-service billing exports</h1>\n        <p>Proposal for finance and operations teams.</p>\n      </header>\n      <section>\n        <h2>Overview</h2>\n        <p>Customers can download CSV invoices without contacting support.</p>\n      </section>\n      <section>\n        <h2>Requirements</h2>\n        <h3>Access control</h3>\n        <p>Only billing admins may export historical invoices.</p>\n        <h3>Audit trail</h3>\n        <p>Each export event is logged with user and timestamp.</p>\n      </section>\n      <section>\n        <h2>Rollout plan</h2>\n        <p>Pilot with ten enterprise accounts before general availability.</p>\n      </section>\n    </article>\n  </body>\n</html>",
+  "tags": [
+    "semantic",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-035"
+  }
+}

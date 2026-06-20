@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-017",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that renders `notifications` as a list. When the sequence is empty or missing, show a friendly empty-state paragraph instead of an empty ul element.",
+  "code": "<#-- Model: notifications: sequence of strings (optional) -->\n<#if notifications?has_content>\n  <ul class=\"notifications\">\n    <#list notifications as note>\n      <li>${note?html}</li>\n    </#list>\n  </ul>\n<#else>\n  <p class=\"empty-state\">You have no notifications.</p>\n</#if>\n",
+  "tags": [
+    "list",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-017"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-021",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `runTasksWithLimit`, which runs async task functions with a maximum concurrency limit and returns results in original order. Tasks receive their index as an argument.",
+  "code": "/**\n * Run async tasks with bounded concurrency.\n * @param {((index: number) => Promise<unknown>)[]} tasks\n * @param {number} limit\n * @returns {Promise<unknown[]>}\n */\nexport async function runTasksWithLimit(tasks, limit) {\n  const results = new Array(tasks.length);\n  let nextIndex = 0;\n\n  async function worker() {\n    while (nextIndex < tasks.length) {\n      const current = nextIndex;\n      nextIndex += 1;\n      results[current] = await tasks[current](current);\n    }\n  }\n\n  const workers = Array.from({ length: Math.min(limit, tasks.length) }, () => worker());\n  await Promise.all(workers);\n  return results;\n}",
+  "tags": [
+    "async",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-021"
+  }
+}

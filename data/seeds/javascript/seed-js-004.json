@@ -1,0 +1,18 @@
+{
+  "id": "seed-js-004",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `uniqueByKey`, which returns a new array keeping the first object for each distinct property value. Throw a TypeError when the items argument is not an array.",
+  "code": "/**\n * Keep the first record per distinct key value.\n * @param {Record<string, unknown>[]} items\n * @param {string} key\n * @returns {Record<string, unknown>[]}\n * @throws {TypeError} When items is not an array\n */\nexport function uniqueByKey(items, key) {\n  if (!Array.isArray(items)) {\n    throw new TypeError('items must be an array');\n  }\n\n  const seen = new Set();\n  const result = [];\n  for (const item of items) {\n    const value = item?.[key];\n    if (seen.has(value)) {\n      continue;\n    }\n    seen.add(value);\n    result.push(item);\n  }\n  return result;\n}",
+  "tags": [
+    "array",
+    "functional",
+    "module",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-004"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-015",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `pipe` and `compose`, which combine unary functions. `pipe` applies functions left-to-right; `compose` applies them right-to-left.",
+  "code": "/**\n * Pipe unary functions from left to right.\n * @param {...(value: unknown) => unknown} functions\n * @returns {(value: unknown) => unknown}\n */\nexport function pipe(...functions) {\n  return (value) => {\n    let current = value;\n    for (const fn of functions) {\n      current = fn(current);\n    }\n    return current;\n  };\n}\n\n/**\n * Compose unary functions from right to left.\n * @param {...(value: unknown) => unknown} functions\n * @returns {(value: unknown) => unknown}\n */\nexport function compose(...functions) {\n  return (value) => {\n    let current = value;\n    for (let index = functions.length - 1; index >= 0; index -= 1) {\n      current = functions[index](current);\n    }\n    return current;\n  };\n}",
+  "tags": [
+    "module",
+    "functional",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-015"
+  }
+}

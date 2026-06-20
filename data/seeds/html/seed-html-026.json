@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-026",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 details element with a summary titled Show API limits and hidden content listing three rate-limit tiers.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>API limits</title>\n  </head>\n  <body>\n    <details>\n      <summary>Show API limits</summary>\n      <ul>\n        <li>Free: 100 requests per hour</li>\n        <li>Pro: 1,000 requests per hour</li>\n        <li>Enterprise: 10,000 requests per hour</li>\n      </ul>\n    </details>\n  </body>\n</html>",
+  "tags": [
+    "semantic",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-026"
+  }
+}

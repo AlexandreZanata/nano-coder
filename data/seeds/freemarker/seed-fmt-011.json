@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-011",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker page template that includes a shared partial `partials/header.ftl` at the top and `partials/footer.ftl` at the bottom, with main content between them in a `<main>` element.",
+  "code": "<#-- Page layout using static includes -->\n<#include \"partials/header.ftl\">\n\n<main id=\"content\">\n  <h1>${pageTitle?html}</h1>\n  <#if bodyHtml??>\n    ${bodyHtml}\n  </#if>\n</main>\n\n<#include \"partials/footer.ftl\">\n",
+  "tags": [
+    "include",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-011"
+  }
+}

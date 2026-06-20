@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-025",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that displays `completionRate` as a percentage with one decimal place using `?string.percent`. When missing, show \"0%\".",
+  "code": "<#-- Model: completionRate: number between 0 and 1 (optional) -->\n<p class=\"completion\">\n  Completion: ${(completionRate!0)?string.percent}\n</p>\n",
+  "tags": [
+    "formatting",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-025"
+  }
+}

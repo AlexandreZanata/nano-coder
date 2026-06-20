@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-027",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `isPlainObject`, which returns true only for non-null objects that are not arrays. Export as the sole named export.",
+  "code": "/**\n * Detect plain objects (not arrays or null).\n * @param {unknown} value\n * @returns {boolean}\n */\nexport function isPlainObject(value) {\n  return typeof value === 'object' && value !== null && !Array.isArray(value);\n}",
+  "tags": [
+    "object",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-027"
+  }
+}

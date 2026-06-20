@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-012",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 page with a skip link targeting the main landmark. The skip link must be the first focusable element in the body.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Skip link page</title>\n  </head>\n  <body>\n    <a href=\"#main-content\">Skip to main content</a>\n    <header>\n      <h1>Support center</h1>\n      <nav aria-label=\"Primary\">\n        <ul>\n          <li><a href=\"/help\">Help</a></li>\n          <li><a href=\"/status\">Status</a></li>\n        </ul>\n      </nav>\n    </header>\n    <main id=\"main-content\">\n      <h2>Ticket history</h2>\n      <p>No open tickets.</p>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "accessibility",
+    "layout",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-012"
+  }
+}

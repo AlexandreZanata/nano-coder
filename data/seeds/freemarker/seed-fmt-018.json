@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-018",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template defining a macro `alertBox` that wraps nested content in a div with role=\"alert\" and a CSS class derived from `level` (info, warning, error). Use `<#nested>` for the body. Escape the level string used in class names.",
+  "code": "<#-- Macro: alertBox(level) with nested body -->\n<#macro alertBox level=\"info\">\n  <div class=\"alert alert-${level?html}\" role=\"alert\">\n    <#nested>\n  </div>\n</#macro>\n\n<#-- Usage example -->\n<@alertBox level=\"warning\">\n  <p>Your session will expire soon.</p>\n</@alertBox>\n",
+  "tags": [
+    "custom-directive",
+    "macro",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-018"
+  }
+}

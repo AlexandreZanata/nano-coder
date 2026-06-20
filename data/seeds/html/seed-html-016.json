@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-016",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 head with charset, viewport, and a meta description summarizing the page purpose for search engines.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <meta\n      name=\"description\"\n      content=\"Manage team permissions, audit logs, and billing settings for your organization.\"\n    />\n    <title>Organization settings</title>\n  </head>\n  <body>\n    <main>\n      <h1>Organization settings</h1>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "metadata",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-016"
+  }
+}

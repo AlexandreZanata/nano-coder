@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-045",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `sortByKey`, which returns a new array sorted by a property name. Sorting is stable for equal keys. Throw a TypeError when items is not an array.",
+  "code": "/**\n * Stable sort objects by a property key.\n * @param {Record<string, unknown>[]} items\n * @param {string} key\n * @returns {Record<string, unknown>[]}\n * @throws {TypeError} When items is not an array\n */\nexport function sortByKey(items, key) {\n  if (!Array.isArray(items)) {\n    throw new TypeError('items must be an array');\n  }\n  return items\n    .map((item, index) => ({ item, index }))\n    .sort((left, right) => {\n      const leftValue = left.item?.[key];\n      const rightValue = right.item?.[key];\n      if (leftValue === rightValue) {\n        return left.index - right.index;\n      }\n      if (leftValue === undefined) {\n        return 1;\n      }\n      if (rightValue === undefined) {\n        return -1;\n      }\n      if (typeof leftValue === 'string' && typeof rightValue === 'string') {\n        return leftValue.localeCompare(rightValue);\n      }\n      return leftValue < rightValue ? -1 : 1;\n    })\n    .map((row) => row.item);\n}",
+  "tags": [
+    "array",
+    "functional",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-045"
+  }
+}

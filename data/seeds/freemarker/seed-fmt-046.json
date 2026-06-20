@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-046",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `requireFields` that accepts a map `model` and a sequence of required key names. When any key is missing or blank, render an error div listing the missing keys. Otherwise invoke nested content. Escape key names in output.",
+  "code": "<#-- Macro: requireFields(model, requiredKeys) with nested body -->\n<#macro requireFields model requiredKeys>\n  <#assign missing = []>\n  <#list requiredKeys as key>\n    <#assign value = model[key]!\"\">\n    <#if !value?has_content>\n      <#assign missing = missing + [key]>\n    </#if>\n  </#list>\n  <#if missing?has_content>\n    <div class=\"model-error\" role=\"alert\">\n      Missing required fields:\n      <ul>\n        <#list missing as key>\n          <li>${key?html}</li>\n        </#list>\n      </ul>\n    </div>\n  <#else>\n    <#nested>\n  </#if>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "condition",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-046"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-030",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 form error summary using role=\"alert\" listing two validation messages for missing required fields.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Form errors</title>\n  </head>\n  <body>\n    <main>\n      <h1>Create account</h1>\n      <div role=\"alert\">\n        <h2>Please fix the following errors</h2>\n        <ul>\n          <li>Email is required.</li>\n          <li>Password must be at least 12 characters.</li>\n        </ul>\n      </div>\n      <form action=\"/register\" method=\"post\">\n        <p>\n          <label for=\"register-email\">Email</label>\n          <input id=\"register-email\" name=\"email\" type=\"email\" required />\n        </p>\n        <p>\n          <label for=\"register-password\">Password</label>\n          <input id=\"register-password\" name=\"password\" type=\"password\" required minlength=\"12\" />\n        </p>\n        <p><button type=\"submit\">Create account</button></p>\n      </form>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "accessibility",
+    "forms",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-030"
+  }
+}

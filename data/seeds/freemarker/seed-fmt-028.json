@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-028",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that displays `publishedOn` formatted as a long date when present, otherwise the literal \"Not published\". Use appropriate date formatting built-ins.",
+  "code": "<#-- Model: publishedOn: date (optional) -->\n<p class=\"published-on\">\n  <#if publishedOn??>\n    Published on ${publishedOn?string.long}\n  <#else>\n    Not published\n  </#if>\n</p>\n",
+  "tags": [
+    "condition",
+    "formatting",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-028"
+  }
+}

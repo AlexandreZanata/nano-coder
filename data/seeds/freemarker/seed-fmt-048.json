@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-048",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `renderSpecTable` that renders rows from `specs` (maps with `label`, `value`, and optional boolean `highlight`). Highlighted rows wrap the value in strong. Escape labels and values.",
+  "code": "<#-- Macro: renderSpecTable(specs) -->\n<#macro renderSpecTable specs>\n  <table class=\"spec-table\">\n    <tbody>\n      <#list specs![] as spec>\n        <tr<#if spec.highlight!false> class=\"highlight\"</#if>>\n          <th scope=\"row\">${spec.label?html}</th>\n          <td>\n            <#if spec.highlight!false>\n              <strong>${spec.value?html}</strong>\n            <#else>\n              ${spec.value?html}\n            </#if>\n          </td>\n        </tr>\n      </#list>\n    </tbody>\n  </table>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "list",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-048"
+  }
+}

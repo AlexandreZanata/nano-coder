@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-037",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that displays profile fields `bio`, `website`, and `location`, using \"Not provided\" for each missing or blank string. Escape all user-provided values when present.",
+  "code": "<#-- Model: bio, website, location: strings (optional) -->\n<dl class=\"profile\">\n  <dt>Bio</dt>\n  <dd><#if bio?has_content>${bio?html}<#else>Not provided</#if></dd>\n  <dt>Website</dt>\n  <dd><#if website?has_content>${website?html}<#else>Not provided</#if></dd>\n  <dt>Location</dt>\n  <dd><#if location?has_content>${location?html}<#else>Not provided</#if></dd>\n</dl>\n",
+  "tags": [
+    "condition",
+    "formatting",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-037"
+  }
+}

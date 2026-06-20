@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-038",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 form where each required input uses aria-describedby to link helper text. Include fields for username and API token.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>API credentials form</title>\n  </head>\n  <body>\n    <main>\n      <h1>API credentials</h1>\n      <form action=\"/settings/api\" method=\"post\">\n        <p>\n          <label for=\"api-username\">Username</label>\n          <input id=\"api-username\" name=\"username\" type=\"text\" required aria-describedby=\"username-help\" />\n          <span id=\"username-help\">Use the service account name shown in the admin console.</span>\n        </p>\n        <p>\n          <label for=\"api-token\">API token</label>\n          <input id=\"api-token\" name=\"token\" type=\"text\" required aria-describedby=\"token-help\" />\n          <span id=\"token-help\">Paste the token generated during provisioning.</span>\n        </p>\n        <p><button type=\"submit\">Save credentials</button></p>\n      </form>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "accessibility",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-038"
+  }
+}

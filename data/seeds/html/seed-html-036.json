@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-036",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 search form inside a search landmark with role=\"search\", a labeled query input, and a submit button.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Knowledge base search</title>\n  </head>\n  <body>\n    <header>\n      <h1>Knowledge base</h1>\n      <search role=\"search\" aria-label=\"Knowledge base search\">\n        <form action=\"/kb/search\" method=\"get\">\n          <label for=\"kb-query\">Search articles</label>\n          <input id=\"kb-query\" name=\"q\" type=\"search\" required />\n          <button type=\"submit\">Search</button>\n        </form>\n      </search>\n    </header>\n    <main>\n      <p>Find answers across onboarding, billing, and security topics.</p>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "layout",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-036"
+  }
+}

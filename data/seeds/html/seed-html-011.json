@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-011",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 select element with two optgroups labeled Fruits and Vegetables. Each group must contain at least two option elements.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Produce selector</title>\n  </head>\n  <body>\n    <form action=\"/order\" method=\"post\">\n      <label for=\"produce\">Choose an item</label>\n      <select id=\"produce\" name=\"produce\" required>\n        <optgroup label=\"Fruits\">\n          <option value=\"apple\">Apple</option>\n          <option value=\"banana\">Banana</option>\n        </optgroup>\n        <optgroup label=\"Vegetables\">\n          <option value=\"carrot\">Carrot</option>\n          <option value=\"spinach\">Spinach</option>\n        </optgroup>\n      </select>\n      <p><button type=\"submit\">Add to cart</button></p>\n    </form>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-011"
+  }
+}

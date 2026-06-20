@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-023",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `chunkArray`, which splits an array into sub-arrays of a given size. The last chunk may be smaller. Throw a TypeError when the array is invalid or size is not a positive integer.",
+  "code": "/**\n * Split an array into fixed-size chunks.\n * @param {unknown[]} items\n * @param {number} size\n * @returns {unknown[][]}\n * @throws {TypeError} When arguments are invalid\n */\nexport function chunkArray(items, size) {\n  if (!Array.isArray(items)) {\n    throw new TypeError('items must be an array');\n  }\n  if (!Number.isInteger(size) || size <= 0) {\n    throw new TypeError('size must be a positive integer');\n  }\n\n  const chunks = [];\n  for (let index = 0; index < items.length; index += size) {\n    chunks.push(items.slice(index, index + size));\n  }\n  return chunks;\n}",
+  "tags": [
+    "array",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-023"
+  }
+}

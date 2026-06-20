@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-040",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `setText`, which sets textContent on an element, clearing children when the text is empty. Throw a TypeError when the element is invalid.",
+  "code": "/**\n * Set text content on an element safely.\n * @param {Element} element\n * @param {string} text\n * @throws {TypeError} When element is not an Element\n */\nexport function setText(element, text) {\n  if (!(element instanceof Element)) {\n    throw new TypeError('element must be an Element');\n  }\n  element.textContent = text;\n}",
+  "tags": [
+    "dom",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-040"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-007",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that shows whether a boolean flag `isActive` is true or false. Render a span with class `active` or `inactive` and human-readable text. Default to inactive when the flag is missing.",
+  "code": "<#-- Model: isActive: boolean (optional) -->\n<#assign active = isActive!false>\n<#if active>\n  <span class=\"active\">Active</span>\n<#else>\n  <span class=\"inactive\">Inactive</span>\n</#if>\n",
+  "tags": [
+    "condition",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-007"
+  }
+}

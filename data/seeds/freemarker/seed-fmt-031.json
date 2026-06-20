@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-031",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that renders a sidebar navigation list from `navItems` (maps with `label` and `url`). Mark the item whose `url` equals `currentPath` with class `active`. Escape labels and URLs.",
+  "code": "<#-- Model: navItems: [{ label, url }], currentPath: string -->\n<nav aria-label=\"Sidebar\">\n  <ul>\n    <#list navItems![] as item>\n      <#assign isActive = (item.url!\"\") == (currentPath!\"\")>\n      <li<#if isActive> class=\"active\"</#if>>\n        <a href=\"${item.url?html}\">${item.label?html}</a>\n      </li>\n    </#list>\n  </ul>\n</nav>\n",
+  "tags": [
+    "list",
+    "condition",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-031"
+  }
+}

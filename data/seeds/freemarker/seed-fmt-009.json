@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-009",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template defining a macro `renderBadge` that accepts `label` and optional `tone` (default \"neutral\"). Output a span with classes `badge` and `badge-{tone}`. Escape the label.",
+  "code": "<#-- Macro: renderBadge(label, tone=\"neutral\") -->\n<#macro renderBadge label tone=\"neutral\">\n  <span class=\"badge badge-${tone?html}\">${label?html}</span>\n</#macro>\n\n<#-- Usage example -->\n<@renderBadge label=\"Draft\" tone=\"warning\" />\n",
+  "tags": [
+    "macro",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-009"
+  }
+}

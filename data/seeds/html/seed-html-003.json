@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-003",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 section with a single h2 heading and two paragraphs of body text. Do not use div wrappers for the section content.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Section example</title>\n  </head>\n  <body>\n    <section>\n      <h2>Shipping policy</h2>\n      <p>Orders placed before noon ship the same business day.</p>\n      <p>International delivery may require additional customs processing.</p>\n    </section>\n  </body>\n</html>",
+  "tags": [
+    "semantic",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-003"
+  }
+}

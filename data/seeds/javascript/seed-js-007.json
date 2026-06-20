@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-007",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `isValidEmail`, which returns true when a string matches a basic email pattern (local@domain.tld) without spaces. Non-strings return false.",
+  "code": "/**\n * Validate a basic email address format.\n * @param {unknown} value\n * @returns {boolean}\n */\nexport function isValidEmail(value) {\n  if (typeof value !== 'string') {\n    return false;\n  }\n  const trimmed = value.trim();\n  if (!trimmed) {\n    return false;\n  }\n  return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(trimmed);\n}",
+  "tags": [
+    "validation",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-007"
+  }
+}

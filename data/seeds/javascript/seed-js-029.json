@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-029",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `isNonEmptyString`, which returns true when the value is a string with non-whitespace content.",
+  "code": "/**\n * Check for a non-empty trimmed string.\n * @param {unknown} value\n * @returns {boolean}\n */\nexport function isNonEmptyString(value) {\n  return typeof value === 'string' && value.trim().length > 0;\n}",
+  "tags": [
+    "validation",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-029"
+  }
+}

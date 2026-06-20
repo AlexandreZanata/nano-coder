@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-010",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template with macro `renderProductList` accepting a sequence of product maps (`name`, `price`, `inStock`). Render an unordered list; out-of-stock items show a strikethrough name and \"(unavailable)\" suffix. Escape names and format prices as currency.",
+  "code": "<#-- Model: products: sequence of maps { name, price, inStock } -->\n<#macro renderProductList products>\n  <#if !products?has_content>\n    <p>No products available.</p>\n  <#else>\n    <ul class=\"product-list\">\n      <#list products as product>\n        <li>\n          <#if product.inStock!false>\n            <span>${product.name?html}</span>\n            <span>${product.price?string.currency}</span>\n          <#else>\n            <span class=\"unavailable\">\n              <s>${product.name?html}</s> (unavailable)\n            </span>\n            <span>${product.price?string.currency}</span>\n          </#if>\n        </li>\n      </#list>\n    </ul>\n  </#if>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "list",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-010"
+  }
+}

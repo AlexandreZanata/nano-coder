@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-030",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `renderTableRows` that accepts a sequence of row maps with `cells` (sequence of strings) and outputs tr/td elements. Escape every cell value.",
+  "code": "<#-- Macro: renderTableRows(rows) -->\n<#macro renderTableRows rows>\n  <#list rows![] as row>\n    <tr>\n      <#list row.cells![] as cell>\n        <td>${cell?html}</td>\n      </#list>\n    </tr>\n  </#list>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "list",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-030"
+  }
+}

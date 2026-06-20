@@ -1,0 +1,17 @@
+{
+  "id": "seed-js-003",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `groupByKey`, which groups an array of objects into a plain object keyed by a given property name. Missing keys are grouped under the string 'undefined'. Throw a TypeError when the first argument is not an array.",
+  "code": "/**\n * Group records by a property value.\n * @param {Record<string, unknown>[]} records\n * @param {string} key\n * @returns {Record<string, Record<string, unknown>[]>}\n * @throws {TypeError} When records is not an array\n */\nexport function groupByKey(records, key) {\n  if (!Array.isArray(records)) {\n    throw new TypeError('records must be an array');\n  }\n\n  const grouped = {};\n  for (const record of records) {\n    const bucketKey = String(record?.[key]);\n    if (!grouped[bucketKey]) {\n      grouped[bucketKey] = [];\n    }\n    grouped[bucketKey].push(record);\n  }\n  return grouped;\n}",
+  "tags": [
+    "array",
+    "functional",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-003"
+  }
+}

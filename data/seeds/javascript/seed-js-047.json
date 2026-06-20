@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-047",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `mapAsync`, which applies an async mapper to each array item sequentially and returns all results in order.",
+  "code": "/**\n * Map an array with an async function sequentially.\n * @param {unknown[]} items\n * @param {(item: unknown, index: number) => Promise<unknown>} mapper\n * @returns {Promise<unknown[]>}\n * @throws {TypeError} When items is not an array\n */\nexport async function mapAsync(items, mapper) {\n  if (!Array.isArray(items)) {\n    throw new TypeError('items must be an array');\n  }\n  const results = [];\n  for (let index = 0; index < items.length; index += 1) {\n    results.push(await mapper(items[index], index));\n  }\n  return results;\n}",
+  "tags": [
+    "async",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-047"
+  }
+}

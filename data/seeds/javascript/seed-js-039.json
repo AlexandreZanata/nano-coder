@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-039",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `mapElements`, which queries all elements matching a selector within a root and maps them through a callback. Return an array of callback results.",
+  "code": "/**\n * Map over elements matching a selector.\n * @param {ParentNode} root\n * @param {string} selector\n * @param {(element: Element, index: number) => unknown} callback\n * @returns {unknown[]}\n */\nexport function mapElements(root, selector, callback) {\n  const nodes = root.querySelectorAll(selector);\n  const results = [];\n  nodes.forEach((element, index) => {\n    results.push(callback(element, index));\n  });\n  return results;\n}",
+  "tags": [
+    "dom",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-039"
+  }
+}

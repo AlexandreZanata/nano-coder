@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-041",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that composes a sidebar from static includes: `partials/nav-profile.ftl`, a dynamic list of `shortcuts`, then `partials/nav-footer.ftl`. Escape shortcut labels and hrefs in the list loop.",
+  "code": "<#-- Model: shortcuts: sequence of { label, href } -->\n<aside class=\"sidebar\">\n  <#include \"partials/nav-profile.ftl\">\n  <ul class=\"shortcuts\">\n    <#list shortcuts![] as link>\n      <li><a href=\"${link.href?html}\">${link.label?html}</a></li>\n    </#list>\n  </ul>\n  <#include \"partials/nav-footer.ftl\">\n</aside>\n",
+  "tags": [
+    "include",
+    "list",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-041"
+  }
+}

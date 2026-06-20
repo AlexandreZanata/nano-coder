@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-033",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 nav landmark marking the current page with aria-current=\"page\" on the active link among three sibling links.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Account navigation</title>\n  </head>\n  <body>\n    <nav aria-label=\"Account sections\">\n      <ul>\n        <li><a href=\"/account/profile\">Profile</a></li>\n        <li><a href=\"/account/security\" aria-current=\"page\">Security</a></li>\n        <li><a href=\"/account/billing\">Billing</a></li>\n      </ul>\n    </nav>\n  </body>\n</html>",
+  "tags": [
+    "accessibility",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-033"
+  }
+}

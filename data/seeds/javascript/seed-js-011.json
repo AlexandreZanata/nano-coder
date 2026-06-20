@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-011",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `toggleClass`, which adds or removes a CSS class on an element based on a force flag. When force is omitted, the class is toggled. Return whether the class is present after the operation.",
+  "code": "/**\n * Toggle a class on a DOM element.\n * @param {Element} element\n * @param {string} className\n * @param {boolean} [force]\n * @returns {boolean}\n */\nexport function toggleClass(element, className, force) {\n  if (force === undefined) {\n    return element.classList.toggle(className);\n  }\n  return element.classList.toggle(className, force);\n}",
+  "tags": [
+    "dom",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-011"
+  }
+}

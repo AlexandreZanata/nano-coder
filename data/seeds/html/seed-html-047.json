@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-047",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 multi-step enrollment form structured as three numbered sections with hidden fieldsets for Personal, Plan, and Review steps. Use semantic section headings only.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Enrollment wizard markup</title>\n  </head>\n  <body>\n    <main>\n      <h1>Enroll in Analytics Pro</h1>\n      <form action=\"/enroll\" method=\"post\">\n        <section aria-labelledby=\"step-personal\">\n          <h2 id=\"step-personal\">Step 1 — Personal details</h2>\n          <fieldset>\n            <legend>Contact information</legend>\n            <label for=\"enroll-name\">Full name</label>\n            <input id=\"enroll-name\" name=\"fullName\" type=\"text\" required autocomplete=\"name\" />\n            <label for=\"enroll-email\">Work email</label>\n            <input id=\"enroll-email\" name=\"email\" type=\"email\" required autocomplete=\"email\" />\n          </fieldset>\n        </section>\n        <section aria-labelledby=\"step-plan\">\n          <h2 id=\"step-plan\">Step 2 — Plan selection</h2>\n          <fieldset>\n            <legend>Billing plan</legend>\n            <label><input type=\"radio\" name=\"plan\" value=\"monthly\" checked /> Monthly</label>\n            <label><input type=\"radio\" name=\"plan\" value=\"annual\" /> Annual</label>\n          </fieldset>\n        </section>\n        <section aria-labelledby=\"step-review\">\n          <h2 id=\"step-review\">Step 3 — Review</h2>\n          <p>Confirm your details before submitting enrollment.</p>\n        </section>\n        <p><button type=\"submit\">Submit enrollment</button></p>\n      </form>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "semantic",
+    "L4-edge-case"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-047"
+  }
+}

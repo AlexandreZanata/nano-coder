@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-002",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 navigation landmark using a nav element with an unordered list of three internal links to Home, Products, and Contact sections.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Site navigation</title>\n  </head>\n  <body>\n    <nav aria-label=\"Primary\">\n      <ul>\n        <li><a href=\"#home\">Home</a></li>\n        <li><a href=\"#products\">Products</a></li>\n        <li><a href=\"#contact\">Contact</a></li>\n      </ul>\n    </nav>\n  </body>\n</html>",
+  "tags": [
+    "semantic",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-002"
+  }
+}

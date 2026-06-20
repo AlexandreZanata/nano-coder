@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-043",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `throttle`, which invokes a function at most once per wait period. Return an object with `call` and `cancel` methods.",
+  "code": "/**\n * Throttle a function to once per interval.\n * @param {(value: unknown) => void} fn\n * @param {number} waitMs\n * @returns {{ call: (value: unknown) => void, cancel: () => void }}\n */\nexport function throttle(fn, waitMs) {\n  let timerId;\n  let lastValue;\n\n  const cancel = () => {\n    if (timerId !== undefined) {\n      clearTimeout(timerId);\n      timerId = undefined;\n    }\n  };\n\n  const call = (value) => {\n    lastValue = value;\n    if (timerId !== undefined) {\n      return;\n    }\n    fn(lastValue);\n    timerId = setTimeout(() => {\n      timerId = undefined;\n    }, waitMs);\n  };\n\n  return { call, cancel };\n}",
+  "tags": [
+    "functional",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-043"
+  }
+}

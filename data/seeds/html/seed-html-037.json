@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-037",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 data table for a quarterly report with row headers, column headers, a caption, and scope attributes on all th elements.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Quarterly report table</title>\n  </head>\n  <body>\n    <table>\n      <caption>2026 quarterly performance summary</caption>\n      <thead>\n        <tr>\n          <th scope=\"col\">Quarter</th>\n          <th scope=\"col\">Active users</th>\n          <th scope=\"col\">Churn rate</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <th scope=\"row\">Q1</th>\n          <td>12,400</td>\n          <td>2.1%</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Q2</th>\n          <td>13,050</td>\n          <td>1.8%</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Q3</th>\n          <td>13,900</td>\n          <td>1.6%</td>\n        </tr>\n      </tbody>\n    </table>\n  </body>\n</html>",
+  "tags": [
+    "tables",
+    "accessibility",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-037"
+  }
+}

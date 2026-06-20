@@ -1,0 +1,17 @@
+{
+  "id": "seed-fmt-035",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `renderMeta` with parameters `title`, optional `description` defaulting to empty, and optional `robots` defaulting to \"index,follow\". Output title and meta description tags with escaped values.",
+  "code": "<#-- Macro: renderMeta(title, description=\"\", robots=\"index,follow\") -->\n<#macro renderMeta title description=\"\" robots=\"index,follow\">\n  <title>${title?html}</title>\n  <#if description?has_content>\n    <meta name=\"description\" content=\"${description?html}\">\n  </#if>\n  <meta name=\"robots\" content=\"${robots?html}\">\n</#macro>\n",
+  "tags": [
+    "macro",
+    "formatting",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-035"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-042",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 head combining charset, viewport, description, canonical link, and a referrer policy meta tag.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <meta name=\"description\" content=\"Release notes for version 5.0 of the analytics platform.\" />\n    <link rel=\"canonical\" href=\"https://example.com/releases/5-0\" />\n    <meta name=\"referrer\" content=\"strict-origin-when-cross-origin\" />\n    <title>Analytics 5.0 release notes</title>\n  </head>\n  <body>\n    <main>\n      <h1>Analytics 5.0 release notes</h1>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "metadata",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-042"
+  }
+}

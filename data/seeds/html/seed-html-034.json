@@ -1,0 +1,17 @@
+{
+  "id": "seed-html-034",
+  "targetLanguage": "HTML",
+  "instruction": "Write a multi-section HTML5 registration form with two fieldsets: Account details (email, password) and Organization (company name, role). Each fieldset has a legend.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Registration form</title>\n  </head>\n  <body>\n    <main>\n      <h1>Register</h1>\n      <form action=\"/register\" method=\"post\">\n        <fieldset>\n          <legend>Account details</legend>\n          <p>\n            <label for=\"reg-email\">Email</label>\n            <input id=\"reg-email\" name=\"email\" type=\"email\" required autocomplete=\"email\" />\n          </p>\n          <p>\n            <label for=\"reg-password\">Password</label>\n            <input id=\"reg-password\" name=\"password\" type=\"password\" required minlength=\"12\" />\n          </p>\n        </fieldset>\n        <fieldset>\n          <legend>Organization</legend>\n          <p>\n            <label for=\"reg-company\">Company name</label>\n            <input id=\"reg-company\" name=\"company\" type=\"text\" required autocomplete=\"organization\" />\n          </p>\n          <p>\n            <label for=\"reg-role\">Role</label>\n            <input id=\"reg-role\" name=\"role\" type=\"text\" required autocomplete=\"organization-title\" />\n          </p>\n        </fieldset>\n        <p><button type=\"submit\">Create account</button></p>\n      </form>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "accessibility",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-034"
+  }
+}

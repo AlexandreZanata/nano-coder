@@ -1,0 +1,16 @@
+{
+  "id": "seed-fmt-019",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker macro `renderButton` that accepts `label`, optional `href`, and optional `variant` defaulting to \"primary\". Render an anchor when href is provided, otherwise a button element. Escape label and href.",
+  "code": "<#-- Macro: renderButton(label, href?, variant=\"primary\") -->\n<#macro renderButton label href=\"\" variant=\"primary\">\n  <#if href?has_content>\n    <a class=\"btn btn-${variant?html}\" href=\"${href?html}\">${label?html}</a>\n  <#else>\n    <button type=\"button\" class=\"btn btn-${variant?html}\">${label?html}</button>\n  </#if>\n</#macro>\n",
+  "tags": [
+    "macro",
+    "L2-standard"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: FMT-019"
+  }
+}

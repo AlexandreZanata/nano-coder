@@ -1,0 +1,16 @@
+{
+  "id": "seed-js-028",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports `identity` and `constant`, unary helpers that return the argument or a fixed value respectively.",
+  "code": "/**\n * Return the argument unchanged.\n * @param {unknown} value\n * @returns {unknown}\n */\nexport function identity(value) {\n  return value;\n}\n\n/**\n * Return a function that always yields the same value.\n * @param {unknown} value\n * @returns {() => unknown}\n */\nexport function constant(value) {\n  return () => value;\n}",
+  "tags": [
+    "functional",
+    "L1-trivial"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: JS-028"
+  }
+}

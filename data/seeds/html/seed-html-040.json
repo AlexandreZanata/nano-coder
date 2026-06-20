@@ -1,0 +1,16 @@
+{
+  "id": "seed-html-040",
+  "targetLanguage": "HTML",
+  "instruction": "Write an HTML5 file upload form accepting a single PDF document. Restrict the input with accept=\"application/pdf\" and include helper text.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Document upload</title>\n  </head>\n  <body>\n    <main>\n      <h1>Upload contract</h1>\n      <form action=\"/contracts/upload\" method=\"post\" enctype=\"multipart/form-data\">\n        <p>\n          <label for=\"contract-file\">PDF document</label>\n          <input id=\"contract-file\" name=\"contract\" type=\"file\" accept=\"application/pdf\" required />\n        </p>\n        <p>Only unsigned PDF files up to 10 MB are accepted.</p>\n        <p><button type=\"submit\">Upload</button></p>\n      </form>\n    </main>\n  </body>\n</html>",
+  "tags": [
+    "forms",
+    "L3-composite"
+  ],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "manual",
+    "notes": "topic: HTML-040"
+  }
+}
