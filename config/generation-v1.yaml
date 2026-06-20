@@ -1,0 +1,26 @@
+version: v1
+promptVersion: v1
+
+defaults:
+  targetCount: 1500
+  batchSize: 25
+  maxBudgetUsd: 200
+  minGoldSeeds: 50
+
+methodWeights:
+  selfInstruct: 0.60
+  evolDeepen: 0.15
+  evolWiden: 0.15
+  evolShorten: 0.10
+
+teacher:
+  provider: anthropic
+  model: claude-sonnet-4-20250514
+  maxTokens: 4096
+
+pricingUsdPerMillionTokens:
+  input: 3.0
+  output: 15.0
+
+output:
+  rawDir: .local/generation/raw
