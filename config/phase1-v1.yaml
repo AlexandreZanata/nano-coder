@@ -1,0 +1,29 @@
+version: v1
+
+# Phase 1 — synthetic data prerequisites per TargetLanguage (operator playbook Part 1)
+
+defaults:
+  targetCount: 1500
+  wave: 1
+  dateStamp: "2026-06-20"
+  operatorId: pipeline-operator
+  dryRunGeneration: true
+  skipLint: true
+  skipPublishThresholds: false
+  autoApproveReview: false
+  runSmokeTrain: true
+
+languageCodes:
+  JavaScript: js
+  HTML: html
+  FreeMarker: fmt
+
+runIdTemplate: "gen-{lang}-v{wave}"
+versionTemplate: "ds-{date}-{lang}-v{wave}"
+mixedVersionTemplate: "ds-{date}-mixed-v{wave}"
+
+requiredSeedsPerLanguage: 50
+requiredPublishedLanguages:
+  - JavaScript
+  - HTML
+  - FreeMarker
