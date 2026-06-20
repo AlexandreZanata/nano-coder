@@ -6,6 +6,9 @@ install:
 	$(PYTHON) -m pip install -r requirements-dev.txt
 	$(PYTHON) -m pip install -e .
 
+install-gpu: install
+	$(PYTHON) -m pip install -r requirements-gpu.txt
+
 lint:
 	$(PYTHON) -m ruff check scripts/ tests/ experiments/ src/ 2>/dev/null || \
 	$(PYTHON) -m ruff check scripts/ tests/ experiments/

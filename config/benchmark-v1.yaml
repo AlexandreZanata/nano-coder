@@ -5,3 +5,4 @@ defaults:
   passAtK: [1, 5]
   samplesPerTask: 5
   mockPassRatio: 0.72
+  realMaxTasksPerLanguage: 5

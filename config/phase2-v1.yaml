@@ -5,7 +5,7 @@ evidenceLevel: Established
 wave: 1
 
 defaults:
-  datasetVersion: ds-2026-06-20-mixed-v1
+  datasetVersion: ds-2026-06-20-js-v1
   smokeDatasetVersion: ds-2026-06-20-js-v1
   studentModel: Qwen2.5-Coder-0.5B
   dataSchedule: MixedLanguages

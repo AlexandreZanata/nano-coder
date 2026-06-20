@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 from nano_coder.application.fewshot_baseline import run_fewshot_baseline
 from nano_coder.domain.compression_method import CompressionMethod

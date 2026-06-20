@@ -48,18 +48,17 @@ def run_benchmark(
     test_set_version: str | None = None,
     events_log: Path | None = None,
     dry_run: bool = True,
+    max_tasks_per_language: int | None = None,
 ) -> BenchmarkResult:
-    if not dry_run:
-        raise NotImplementedError(
-            "GPU benchmark requires torch/transformers — use dry-run for pipeline validation"
-        )
-
     expected_version = test_set_version or config.held_out_test_set_version
     validate_test_set_version(held_out_root, expected_version=expected_version)
     checkpoint_manifest = load_checkpoint_manifest(checkpoint_dir)
     checkpoint_run_id = str(checkpoint_manifest["runId"])
     method = CompressionMethod(checkpoint_manifest.get("compressionMethod", "LoRA"))
     pass_ratio = mock_pass_ratio(method)
+    task_limit = max_tasks_per_language
+    if not dry_run and task_limit is None:
+        task_limit = config.real_max_tasks_per_language
 
     run = BenchmarkRun(run_id, checkpoint_run_id)
     run.transition(BenchmarkRunState.RUNNING)
@@ -77,55 +76,61 @@ def run_benchmark(
     language_summaries = []
     task_results: list[dict[str, Any]] = []
 
-    for language, tasks in tasks_by_language.items():
-        pass_at_1_hits = 0
-        pass_at_k_hits = 0
-        syntax_valid_hits = 0
-        for task_index, task in enumerate(tasks):
-            samples = [
-                mock_generate_response(
-                    task,
+    try:
+        for language, tasks in tasks_by_language.items():
+            selected_tasks = tasks[:task_limit] if task_limit else tasks
+            pass_at_1_hits = 0
+            pass_at_k_hits = 0
+            syntax_valid_hits = 0
+            for task_index, task in enumerate(selected_tasks):
+                samples = _generate_task_samples(
+                    task=task,
                     language=language,
                     task_index=task_index,
+                    checkpoint_dir=checkpoint_dir,
+                    dry_run=dry_run,
                     pass_ratio=pass_ratio,
-                    sample_index=sample_index,
+                    samples_per_task=config.samples_per_task,
                 )
-                for sample_index in range(config.samples_per_task)
-            ]
-            pass_at_1, pass_at_k = evaluate_task_pass_at_k(
-                task,
-                language=language,
-                samples=samples,
-            )
-            if pass_at_1:
-                pass_at_1_hits += 1
-            if pass_at_k:
-                pass_at_k_hits += 1
-            if evaluate_smoke_task(task, samples[0], language=language).passed or _syntax_valid(
-                language,
-                samples[0],
-            ):
-                syntax_valid_hits += 1
+                pass_at_1, pass_at_k = evaluate_task_pass_at_k(
+                    task,
+                    language=language,
+                    samples=samples,
+                )
+                if pass_at_1:
+                    pass_at_1_hits += 1
+                if pass_at_k:
+                    pass_at_k_hits += 1
+                if evaluate_smoke_task(task, samples[0], language=language).passed or _syntax_valid(
+                    language,
+                    samples[0],
+                ):
+                    syntax_valid_hits += 1
 
-            task_results.append(
-                {
-                    "taskId": task.get("id"),
-                    "targetLanguage": language.value,
-                    "tags": list(task.get("tags", [])),
-                    "passAt1": pass_at_1,
-                    "passAt5": pass_at_k,
-                }
-            )
+                task_results.append(
+                    {
+                        "taskId": task.get("id"),
+                        "targetLanguage": language.value,
+                        "tags": list(task.get("tags", [])),
+                        "passAt1": pass_at_1,
+                        "passAt5": pass_at_k,
+                    }
+                )
 
-        language_summaries.append(
-            summarize_language_benchmark(
-                language=language,
-                pass_at_1_hits=pass_at_1_hits,
-                pass_at_k_hits=pass_at_k_hits,
-                syntax_valid_hits=syntax_valid_hits,
-                task_count=len(tasks),
+            language_summaries.append(
+                summarize_language_benchmark(
+                    language=language,
+                    pass_at_1_hits=pass_at_1_hits,
+                    pass_at_k_hits=pass_at_k_hits,
+                    syntax_valid_hits=syntax_valid_hits,
+                    task_count=len(selected_tasks),
+                )
             )
-        )
+    finally:
+        if not dry_run:
+            from nano_coder.infrastructure.hf_student_inference import clear_inference_cache
+
+            clear_inference_cache()
 
     summary = summarize_benchmark(
         language_summaries,
@@ -165,6 +170,38 @@ def run_benchmark(
         summary=summary,
         results_path=results_path,
         summary_path=summary_path,
+    )
+
+
+def _generate_task_samples(
+    *,
+    task: dict[str, Any],
+    language: TargetLanguage,
+    task_index: int,
+    checkpoint_dir: Path,
+    dry_run: bool,
+    pass_ratio: float,
+    samples_per_task: int,
+) -> list[str]:
+    if dry_run:
+        return [
+            mock_generate_response(
+                task,
+                language=language,
+                task_index=task_index,
+                pass_ratio=pass_ratio,
+                sample_index=sample_index,
+            )
+            for sample_index in range(samples_per_task)
+        ]
+
+    from nano_coder.infrastructure.hf_student_inference import generate_student_samples
+
+    instruction = str(task.get("instruction", "")).strip()
+    return generate_student_samples(
+        checkpoint_dir,
+        instruction=instruction,
+        num_samples=samples_per_task,
     )
 
 

@@ -49,6 +49,7 @@ def run_phase2_lora_pipeline(
     benchmark_run_id: str | None = None,
     run_smoke: bool = False,
     stop_after: Phase2Step | None = None,
+    dry_run: bool = True,
 ) -> Phase2PipelineResult:
     method_result = run_method_experiment(
         spec=_to_experiment_spec(config),
@@ -59,6 +60,7 @@ def run_phase2_lora_pipeline(
         benchmark_run_id=benchmark_run_id,
         run_smoke=run_smoke,
         stop_after=MethodExperimentStep(stop_after.value) if stop_after else None,
+        dry_run=dry_run,
     )
     return _from_method_result(method_result)
 

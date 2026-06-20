@@ -1,1 +1,5 @@
 {"event": "DatasetPublished", "timestamp": "2026-06-20T21:57:26.483331+00:00", "datasetVersion": "ds-2026-06-20-js-v1", "draftId": "gen-js-smoke", "targetLanguage": "JavaScript", "exampleCount": 10, "publishedBy": "operator"}
+{"event": "TrainingRunStarted", "runId": "train-lora-ci-001", "datasetVersion": "ds-2026-06-20-js-v1", "compressionMethod": "LoRA", "profile": "ci", "seed": 42, "timestamp": "2026-06-20T22:34:59.415858+00:00"}
+{"event": "TrainingRunCompleted", "runId": "train-lora-ci-001", "datasetVersion": "ds-2026-06-20-js-v1", "durationSeconds": 39.692405561996566, "peakVramGb": 1.5039572715759277, "trainableParamCount": 2162688, "timestamp": "2026-06-20T22:35:43.820113+00:00"}
+{"event": "BenchmarkRunStarted", "runId": "bench-lora-ci-001", "checkpointRunId": "train-lora-ci-001", "heldOutTestSetVersion": "held-out-v1", "timestamp": "2026-06-20T22:35:43.820711+00:00"}
+{"event": "BenchmarkRunCompleted", "runId": "bench-lora-ci-001", "passAt1": 0.0, "passAt5": 0.3333, "timestamp": "2026-06-20T22:42:10.912995+00:00"}

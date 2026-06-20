@@ -21,6 +21,47 @@ from nano_coder.domain.training_run import TrainingRun, TrainingRunState
 from nano_coder.infrastructure.mock_trainer import run_mock_train
 
 
+def _run_training_backend(
+    *,
+    dry_run: bool,
+    run_id: str,
+    dataset_version: str,
+    languages: tuple,
+    training_examples: list,
+    compression_method: CompressionMethod,
+    lora_rank: int,
+    profile: str,
+    student_model: str,
+    data_schedule: DataSchedule,
+    max_steps: int,
+    batch_size: int,
+    epochs: int,
+    seed: int,
+    checkpoint_root: Path,
+):
+    common = {
+        "run_id": run_id,
+        "dataset_version": dataset_version,
+        "languages": languages,
+        "training_examples": training_examples,
+        "compression_method": compression_method,
+        "lora_rank": lora_rank,
+        "profile": profile,
+        "student_model": student_model,
+        "data_schedule": data_schedule,
+        "max_steps": max_steps,
+        "batch_size": batch_size,
+        "epochs": epochs,
+        "seed": seed,
+        "checkpoint_root": checkpoint_root,
+    }
+    if dry_run:
+        return run_mock_train(**common)
+    from nano_coder.infrastructure.hf_lora_trainer import run_hf_lora_train
+
+    return run_hf_lora_train(**common)
+
+
 @dataclass(frozen=True)
 class TrainResult:
     run_id: str
@@ -51,11 +92,6 @@ def run_train(
     dry_run: bool = True,
     evidence_level: str = "Established",
 ) -> TrainResult:
-    if not dry_run:
-        raise NotImplementedError(
-            "GPU training requires torch/transformers/peft — use dry-run for pipeline validation"
-        )
-
     rank = lora_rank if lora_rank is not None else config.lora_rank
     validate_train_hyperparams(compression_method=compression_method, lora_rank=rank)
     train_profile = resolve_train_profile(config, profile)
@@ -82,7 +118,8 @@ def run_train(
         },
     )
 
-    train_result = run_mock_train(
+    train_result = _run_training_backend(
+        dry_run=dry_run,
         run_id=run_id,
         dataset_version=dataset_version,
         languages=dataset.target_languages,
@@ -93,7 +130,7 @@ def run_train(
         student_model=student_model,
         data_schedule=data_schedule,
         max_steps=train_profile.max_steps,
-        batch_size=config.batch_size,
+        batch_size=config.batch_size if dry_run else min(config.batch_size, 2),
         epochs=config.epochs,
         seed=chosen_seed,
         checkpoint_root=checkpoint_root,

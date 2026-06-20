@@ -59,6 +59,7 @@ def run_method_experiment(
     benchmark_run_id: str | None = None,
     run_smoke: bool = False,
     stop_after: MethodExperimentStep | None = None,
+    dry_run: bool = True,
 ) -> MethodExperimentResult:
     paths = resolve_experiment_paths(project_root)
     version = dataset_version or spec.dataset_version
@@ -114,6 +115,7 @@ def run_method_experiment(
             train_cfg=train_cfg,
             profile=profile,
             paths=paths,
+            dry_run=dry_run,
         )
     if result.failed or stop_after is MethodExperimentStep.TRAIN:
         return _finalize(result, paths)
@@ -125,6 +127,7 @@ def run_method_experiment(
         spec=spec,
         bench_cfg=bench_cfg,
         paths=paths,
+        dry_run=dry_run,
     )
     return _finalize(result, paths)
 
@@ -182,6 +185,7 @@ def _step_train(
     train_cfg: TrainConfig,
     profile: str,
     paths: dict[str, Path],
+    dry_run: bool,
 ) -> None:
     try:
         train = run_train(
@@ -196,7 +200,7 @@ def _step_train(
             profile=profile,
             lora_rank=spec.lora_rank,
             events_log=paths["events"],
-            dry_run=True,
+            dry_run=dry_run,
             evidence_level=spec.evidence_level,
         )
         result.record(
@@ -244,6 +248,7 @@ def _step_benchmark(
     spec: ExperimentSpec,
     bench_cfg: BenchmarkConfig,
     paths: dict[str, Path],
+    dry_run: bool,
 ) -> None:
     try:
         bench = run_benchmark(
@@ -254,7 +259,7 @@ def _step_benchmark(
             config=bench_cfg,
             test_set_version=spec.held_out_test_set_version,
             events_log=paths["events"],
-            dry_run=True,
+            dry_run=dry_run,
         )
         _enrich_benchmark_results(bench.results_path, spec=spec)
         result.record(
