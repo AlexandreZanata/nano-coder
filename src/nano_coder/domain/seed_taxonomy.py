@@ -16,6 +16,7 @@ class SeedTaxonomy:
     allowed_sources: frozenset[str]
     seed_id_pattern: re.Pattern[str]
     reference_id_pattern: re.Pattern[str]
+    synthetic_id_pattern: re.Pattern[str]
     instruction_min_length: int
     code_min_length: int
     tags_min_count: int
@@ -36,6 +37,7 @@ def load_seed_taxonomy(path: Path) -> SeedTaxonomy:
         allowed_sources=frozenset(raw["metadata"]["allowedSources"]),
         seed_id_pattern=re.compile(raw["idPatterns"]["seed"]),
         reference_id_pattern=re.compile(raw["idPatterns"]["reference"]),
+        synthetic_id_pattern=re.compile(raw["idPatterns"]["synthetic"]),
         instruction_min_length=raw["limits"]["instructionMinLength"],
         code_min_length=raw["limits"]["codeMinLength"],
         tags_min_count=raw["limits"]["tagsMinCount"],

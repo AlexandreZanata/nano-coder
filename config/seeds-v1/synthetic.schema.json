@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nano-coder.local/schemas/synthetic-example-v1.json",
+  "title": "SyntheticExample",
+  "description": "Teacher-generated training example (GLOSSARY.md, BR-002)",
+  "type": "object",
+  "required": ["id", "targetLanguage", "instruction", "code", "tags"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^syn-(js|html|fmt)-[0-9]{4}$"
+    },
+    "targetLanguage": {
+      "type": "string",
+      "enum": ["JavaScript", "HTML", "FreeMarker"]
+    },
+    "instruction": {
+      "type": "string",
+      "minLength": 20
+    },
+    "code": {
+      "type": "string",
+      "minLength": 10
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["author", "created", "source"],
+      "properties": {
+        "author": { "type": "string" },
+        "created": { "type": "string" },
+        "source": { "type": "string", "enum": ["synthetic"] },
+        "notes": { "type": "string" }
+      }
+    },
+    "judgeScore": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    }
+  }
+}

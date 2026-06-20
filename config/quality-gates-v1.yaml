@@ -1,0 +1,44 @@
+version: v1
+
+gates:
+  schemaValidation: true
+  syntaxValidation: true
+  lintPass: true
+  instructionQuality: true
+  duplicateCheck: true
+  heldOutLeak: true
+  llmJudge:
+    enabled: false
+    minScore: 0.7
+
+thresholds:
+  duplicateSimilarity: 0.95
+  instructionMinLength: 20
+  minImperativeVerbs: 1
+
+vaguePhrases:
+  - help me
+  - fix this
+  - make it better
+  - something that
+  - your code here
+  - todo
+
+imperativeVerbs:
+  - write
+  - create
+  - build
+  - implement
+  - define
+  - export
+  - render
+  - add
+  - develop
+  - construct
+  - design
+  - produce
+  - generate
+
+publishDefaults:
+  minAcceptedPerLanguage: 1500
+  minSyntaxPassRate: 0.90

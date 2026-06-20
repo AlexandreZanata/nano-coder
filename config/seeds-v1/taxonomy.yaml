@@ -44,6 +44,7 @@ metadata:
 idPatterns:
   seed: "^seed-(js|html|fmt)-[0-9]{3}$"
   reference: "^REF-(js|html|fmt)-[0-9]{3}$"
+  synthetic: "^syn-(js|html|fmt)-[0-9]{4}$"
 
 limits:
   instructionMinLength: 20
