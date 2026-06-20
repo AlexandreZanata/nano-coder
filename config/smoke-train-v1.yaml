@@ -1,0 +1,20 @@
+version: v1
+profile: smoke
+
+defaults:
+  studentModel: Qwen2.5-Coder-0.5B
+  compressionMethod: LoRA
+  loraRank: 16
+  maxTrainExamples: 200
+  epochs: 1
+  batchSize: 4
+  learningRate: 0.0002
+  smokeEvalTasks: 20
+  minPassAt1: 0.60
+  randomSeed: 42
+
+iterationHints:
+  - Review synthetic dataset quality gates and regenerate weak batches
+  - Increase gold seed diversity before the next expansion run
+  - Escalate student model to Qwen2.5-Coder-1.5B (ADR-002)
+  - Inspect failed smoke tasks in smoke-eval.jsonl for systematic gaps
