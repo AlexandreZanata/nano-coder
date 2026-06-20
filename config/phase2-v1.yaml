@@ -1,0 +1,18 @@
+version: v1
+experimentId: exp_001_lora_baseline
+compressionMethod: LoRA
+evidenceLevel: Established
+wave: 1
+
+defaults:
+  datasetVersion: ds-2026-06-20-mixed-v1
+  smokeDatasetVersion: ds-2026-06-20-js-v1
+  studentModel: Qwen2.5-Coder-0.5B
+  dataSchedule: MixedLanguages
+  loraRank: 16
+  heldOutTestSetVersion: held-out-v1
+
+runIdTemplates:
+  smokeTrain: "smoke-lora-{profile}-001"
+  train: "train-lora-{profile}-001"
+  benchmark: "bench-lora-{profile}-001"

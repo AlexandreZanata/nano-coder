@@ -1,0 +1,25 @@
+version: v1
+defaultProfile: smoke
+
+defaults:
+  studentModel: Qwen2.5-Coder-0.5B
+  dataSchedule: MixedLanguages
+  compressionMethod: LoRA
+  loraRank: 16
+  batchSize: 4
+  learningRate: 0.0002
+  epochs: 1
+
+profiles:
+  ci:
+    maxSteps: 20
+    maxTrainExamples: 50
+    seeds: [42]
+  smoke:
+    maxSteps: 100
+    maxTrainExamples: 200
+    seeds: [42]
+  publication:
+    maxSteps: 500
+    maxTrainExamples: 1500
+    seeds: [42, 123, 456, 789, 1024]

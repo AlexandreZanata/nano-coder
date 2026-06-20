@@ -1,0 +1,7 @@
+version: v1
+
+defaults:
+  heldOutTestSetVersion: held-out-v1
+  passAtK: [1, 5]
+  samplesPerTask: 5
+  mockPassRatio: 0.72
