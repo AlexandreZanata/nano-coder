@@ -18,11 +18,13 @@ from nano_coder.domain.benchmark_eval import (
     validate_test_set_version,
 )
 from nano_coder.domain.benchmark_run import BenchmarkRun, BenchmarkRunState
+from nano_coder.domain.compression_method import CompressionMethod
 from nano_coder.domain.smoke_eval import evaluate_smoke_task
 from nano_coder.domain.target_language import TargetLanguage
 from nano_coder.infrastructure.mock_trainer import (
     load_checkpoint_manifest,
     mock_generate_response,
+    mock_pass_ratio,
 )
 
 
@@ -56,6 +58,8 @@ def run_benchmark(
     validate_test_set_version(held_out_root, expected_version=expected_version)
     checkpoint_manifest = load_checkpoint_manifest(checkpoint_dir)
     checkpoint_run_id = str(checkpoint_manifest["runId"])
+    method = CompressionMethod(checkpoint_manifest.get("compressionMethod", "LoRA"))
+    pass_ratio = mock_pass_ratio(method)
 
     run = BenchmarkRun(run_id, checkpoint_run_id)
     run.transition(BenchmarkRunState.RUNNING)
@@ -83,7 +87,7 @@ def run_benchmark(
                     task,
                     language=language,
                     task_index=task_index,
-                    pass_ratio=config.mock_pass_ratio,
+                    pass_ratio=pass_ratio,
                     sample_index=sample_index,
                 )
                 for sample_index in range(config.samples_per_task)

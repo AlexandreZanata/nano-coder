@@ -1,0 +1,48 @@
+version: v1
+wave: 1
+
+defaults:
+  datasetVersion: ds-2026-06-20-mixed-v1
+  smokeDatasetVersion: ds-2026-06-20-js-v1
+  studentModel: Qwen2.5-Coder-0.5B
+  dataSchedule: MixedLanguages
+  loraRank: 16
+  heldOutTestSetVersion: held-out-v1
+
+experiments:
+  exp_001_lora_baseline:
+    compressionMethod: LoRA
+    evidenceLevel: Established
+    methodSlug: lora
+    runIdTemplates:
+      train: "train-lora-{profile}-001"
+      benchmark: "bench-lora-{profile}-001"
+
+  exp_002_qlora_baseline:
+    compressionMethod: QLoRA
+    evidenceLevel: Established
+    methodSlug: qlora
+    runIdTemplates:
+      train: "train-qlora-{profile}-001"
+      benchmark: "bench-qlora-{profile}-001"
+
+  exp_003_dora_baseline:
+    compressionMethod: DoRA
+    evidenceLevel: Established
+    methodSlug: dora
+    runIdTemplates:
+      train: "train-dora-{profile}-001"
+      benchmark: "bench-dora-{profile}-001"
+
+  fewshot_baseline:
+    compressionMethod: FewShot
+    evidenceLevel: Established
+    methodSlug: fewshot
+    skipTrain: true
+    runIdTemplates:
+      train: "baseline-fewshot-{profile}"
+      benchmark: "bench-fewshot-{profile}-001"
+
+ranking:
+  primaryMetric: passAt1
+  tieBreakers: [peakVramGb, durationSeconds, trainableParamCount]

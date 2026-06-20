@@ -119,9 +119,9 @@ def _write_mock_checkpoint(
     checkpoint_dir = checkpoint_root / run_id
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
-    trainable_param_count = lora_rank * lora_rank * 4096
-    peak_vram_gb = 3.2 if profile == "smoke" else 4.8
-    duration_seconds = 0.05 + steps * 0.001
+    trainable_param_count = _trainable_param_count(compression_method, lora_rank)
+    peak_vram_gb = _peak_vram_gb(compression_method, profile)
+    duration_seconds = _duration_seconds(compression_method, steps)
 
     manifest: dict[str, Any] = {
         "runId": run_id,
@@ -211,4 +211,42 @@ def mock_generate_response(
     lines = "\n".join(f"  <#-- {keyword} -->" for keyword in keywords)
     forbidden = "<#-- TODO -->\n" if not should_pass else ""
     return f"{forbidden}<#macro solution>\n{lines}\n</#macro>\n"
+
+
+def mock_pass_ratio(compression_method: CompressionMethod) -> float:
+    ratios = {
+        CompressionMethod.FEW_SHOT: 0.42,
+        CompressionMethod.LORA: 0.72,
+        CompressionMethod.QLORA: 0.68,
+        CompressionMethod.DORA: 0.74,
+    }
+    return ratios.get(compression_method, 0.70)
+
+
+def _trainable_param_count(compression_method: CompressionMethod, lora_rank: int) -> int:
+    base = lora_rank * lora_rank * 4096
+    if compression_method is CompressionMethod.DORA:
+        return int(base * 1.05)
+    if compression_method is CompressionMethod.QLORA:
+        return base
+    return base
+
+
+def _peak_vram_gb(compression_method: CompressionMethod, profile: str) -> float:
+    if compression_method is CompressionMethod.FEW_SHOT:
+        return 0.0
+    if compression_method is CompressionMethod.QLORA:
+        return 2.4 if profile == "smoke" else 3.1
+    if compression_method is CompressionMethod.DORA:
+        return 3.4 if profile == "smoke" else 5.0
+    return 3.2 if profile == "smoke" else 4.8
+
+
+def _duration_seconds(compression_method: CompressionMethod, steps: int) -> float:
+    base = 0.05 + steps * 0.001
+    if compression_method is CompressionMethod.QLORA:
+        return base * 1.15
+    if compression_method is CompressionMethod.DORA:
+        return base * 1.08
+    return base
 

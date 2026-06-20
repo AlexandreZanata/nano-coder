@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 from nano_coder.application.benchmark import run_benchmark
+from nano_coder.application.report_export import export_benchmark_report
 from nano_coder.application.train import run_train
 from nano_coder.domain.benchmark_config import load_benchmark_config
 from nano_coder.domain.compression_method import CompressionMethod
@@ -36,11 +37,18 @@ def main(argv: list[str] | None = None) -> int:
     bench_parser = subparsers.add_parser("benchmark", help="Start a BenchmarkRun (UC-004)")
     _add_benchmark_args(bench_parser)
 
+    report_parser = subparsers.add_parser("report", help="Export experiment reports (UC-005)")
+    report_sub = report_parser.add_subparsers(dest="report_command", required=True)
+    export_parser = report_sub.add_parser("export", help="Export comparative ranking report")
+    _add_report_export_args(export_parser)
+
     args = parser.parse_args(argv)
     if args.command == "train":
         return _run_train_command(args)
     if args.command == "benchmark":
         return _run_benchmark_command(args)
+    if args.command == "report" and args.report_command == "export":
+        return _run_report_export_command(args)
     return 1
 
 
@@ -134,6 +142,36 @@ def _run_benchmark_command(args: argparse.Namespace) -> int:
         f"OK: benchmark Pass@1 {result.summary.pass_at_1:.1%} "
         f"Pass@5 {result.summary.pass_at_5:.1%} → {result.results_path}"
     )
+    return 0
+
+
+def _add_report_export_args(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--run-ids", required=True, help="Comma-separated benchmark run ids")
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--benchmark-root", type=Path, default=DEFAULT_BENCHMARK_OUTPUT)
+    parser.add_argument("--events-log", type=Path, default=DEFAULT_EVENTS)
+    parser.add_argument(
+        "--allow-mixed",
+        action="store_true",
+        help="Allow ranking runs with different DatasetVersion values",
+    )
+
+
+def _run_report_export_command(args: argparse.Namespace) -> int:
+    run_ids = [item.strip() for item in args.run_ids.split(",") if item.strip()]
+    try:
+        result = export_benchmark_report(
+            run_ids=run_ids,
+            benchmark_root=args.benchmark_root,
+            output_path=args.output,
+            allow_mixed=args.allow_mixed,
+            events_log=args.events_log,
+        )
+    except Exception as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
+
+    print(f"OK: exported ranking for {result.record_count} run(s) → {result.output_path}")
     return 0
 
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""EXP 002 — QLoRA Baseline. Thin orchestrator; training logic goes in src/."""
+"""EXP 002 — QLoRA Baseline (Phase 3 Wave 1)."""
 
 from __future__ import annotations
 
@@ -7,20 +7,20 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _stub_runner import run_stub
+from _method_runner import run_experiment
 
 
 def main(argv: list[str] | None = None) -> int:
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--profile", default="ci", choices=["ci", "smoke", "publication"])
+    parser.add_argument("--profile", default="smoke", choices=["ci", "smoke", "publication"])
+    parser.add_argument("--run-smoke", action="store_true")
     args, _ = parser.parse_known_args(argv)
-    return run_stub(
+    return run_experiment(
         "exp_002_qlora_baseline",
-        "QLoRA",
-        "Established",
-        args.profile,
+        profile=args.profile,
+        run_smoke=args.run_smoke,
     )
 
 

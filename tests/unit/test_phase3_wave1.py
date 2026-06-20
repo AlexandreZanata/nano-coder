@@ -1,4 +1,4 @@
-"""Unit tests for Phase 2 LoRA pipeline."""
+"""Unit tests for Phase 3 Wave 1 orchestrator."""
 
 from __future__ import annotations
 
@@ -6,8 +6,8 @@ import json
 from pathlib import Path
 from unittest.mock import patch
 
-from nano_coder.application.phase2_pipeline import run_phase2_lora_pipeline
-from nano_coder.domain.phase2_config import load_phase2_config
+from nano_coder.application.phase3_wave1 import run_phase3_wave1
+from nano_coder.domain.experiment_config import load_phase3_config
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -42,9 +42,9 @@ def _write_mixed_dataset(published_root: Path, version: str, count: int) -> None
     )
 
 
-def test_run_phase2_lora_pipeline_smoke_profile(tmp_path):
-    published_root = tmp_path / "datasets"
+def test_run_phase3_wave1_smoke_profile(tmp_path):
     version = "ds-2026-06-20-mixed-v1"
+    published_root = tmp_path / "datasets"
     _write_mixed_dataset(published_root, version, count=10)
 
     paths = {
@@ -60,21 +60,20 @@ def test_run_phase2_lora_pipeline_smoke_profile(tmp_path):
         "review": tmp_path / "review",
     }
 
-    config = load_phase2_config(ROOT / "config" / "phase2-v1.yaml")
+    config = load_phase3_config(ROOT / "config" / "phase3-v1.yaml")
     with patch(
         "nano_coder.application.method_experiment_pipeline.resolve_experiment_paths",
         return_value=paths,
     ):
-        result = run_phase2_lora_pipeline(
+        result = run_phase3_wave1(
             config=config,
             project_root=ROOT,
             profile="smoke",
             dataset_version=version,
-            train_run_id="train-lora-smoke-test",
-            benchmark_run_id="bench-lora-smoke-test",
+            experiment_ids=["exp_002_qlora_baseline", "fewshot_baseline"],
         )
 
     assert result.failed is False
-    assert len(result.steps) == 2
-    assert result.steps[0].step.value == "train"
-    assert result.steps[1].step.value == "benchmark"
+    assert len(result.experiments) == 2
+    methods = {experiment.compression_method for experiment in result.experiments}
+    assert methods == {"QLoRA", "FewShot"}

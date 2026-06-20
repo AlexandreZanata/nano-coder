@@ -49,6 +49,7 @@ def run_train(
     seed: int | None = None,
     events_log: Path | None = None,
     dry_run: bool = True,
+    evidence_level: str = "Established",
 ) -> TrainResult:
     if not dry_run:
         raise NotImplementedError(
@@ -103,7 +104,7 @@ def run_train(
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["trainingState"] = run.state.value
     manifest["dryRun"] = dry_run
-    manifest["evidenceLevel"] = "Established"
+    manifest["evidenceLevel"] = evidence_level
     manifest["heldOutTestSetVersion"] = "held-out-v1"
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 
