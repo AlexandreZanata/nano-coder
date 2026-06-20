@@ -1,0 +1,13 @@
+{
+  "id": "REF-fmt-001",
+  "targetLanguage": "FreeMarker",
+  "instruction": "Write a FreeMarker template that defines a reusable macro `renderProductList` accepting a sequence of product maps (fields: name, price, inStock). The macro renders an unordered list; out-of-stock items show a strikethrough name and \"(unavailable)\" suffix. Escape all user-facing text. Include a short comment documenting the expected model shape.",
+  "code": "<#--\n  Model:\n    products: sequence of maps { name: string, price: number, inStock: boolean }\n-->\n<#macro renderProductList products>\n  <#if !products?has_content>\n    <p>No products available.</p>\n  <#else>\n    <ul class=\"product-list\">\n      <#list products as product>\n        <li>\n          <#if product.inStock!false>\n            <span>${product.name?html}</span>\n            <span>${product.price?string.currency}</span>\n          <#else>\n            <span class=\"unavailable\">\n              <s>${product.name?html}</s> (unavailable)\n            </span>\n            <span>${product.price?string.currency}</span>\n          </#if>\n        </li>\n      </#list>\n    </ul>\n  </#if>\n</#macro>\n",
+  "tags": ["macro", "list", "formatting", "L2-standard"],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "reference",
+    "notes": "Quality anchor — do not delete; use as few-shot template"
+  }
+}

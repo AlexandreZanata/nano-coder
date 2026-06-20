@@ -1,0 +1,13 @@
+{
+  "id": "REF-html-001",
+  "targetLanguage": "HTML",
+  "instruction": "Write a semantic HTML5 contact form with fields for name (required), email (required, type email), and message (required textarea). Include accessible labels linked to inputs, a submit button, and basic client-side validation attributes. Use a fieldset and legend.",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>Contact</title>\n  </head>\n  <body>\n    <main>\n      <h1>Contact us</h1>\n      <form action=\"/contact\" method=\"post\" novalidate>\n        <fieldset>\n          <legend>Your details</legend>\n\n          <p>\n            <label for=\"contact-name\">Name</label>\n            <input\n              id=\"contact-name\"\n              name=\"name\"\n              type=\"text\"\n              required\n              autocomplete=\"name\"\n            />\n          </p>\n\n          <p>\n            <label for=\"contact-email\">Email</label>\n            <input\n              id=\"contact-email\"\n              name=\"email\"\n              type=\"email\"\n              required\n              autocomplete=\"email\"\n            />\n          </p>\n\n          <p>\n            <label for=\"contact-message\">Message</label>\n            <textarea\n              id=\"contact-message\"\n              name=\"message\"\n              rows=\"5\"\n              required\n            ></textarea>\n          </p>\n        </fieldset>\n\n        <p>\n          <button type=\"submit\">Send message</button>\n        </p>\n      </form>\n    </main>\n  </body>\n</html>\n",
+  "tags": ["forms", "accessibility", "semantic", "L2-standard"],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "reference",
+    "notes": "Quality anchor — do not delete; use as few-shot template"
+  }
+}

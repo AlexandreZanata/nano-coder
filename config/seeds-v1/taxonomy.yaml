@@ -1,0 +1,51 @@
+# Seed taxonomy — GoldSeedExample tags (Stage 1)
+# Operator mirror: .local/CODE-QUALITY-STANDARD.md §7–§8
+
+version: v1
+
+difficultyTags:
+  - L1-trivial
+  - L2-standard
+  - L3-composite
+  - L4-edge-case
+
+domainTags:
+  JavaScript:
+    - array
+    - object
+    - async
+    - dom
+    - validation
+    - module
+    - class
+    - functional
+    - error-handling
+  HTML:
+    - forms
+    - semantic
+    - accessibility
+    - layout
+    - metadata
+    - tables
+    - media
+  FreeMarker:
+    - macro
+    - include
+    - list
+    - condition
+    - formatting
+    - nested
+    - custom-directive
+
+metadata:
+  requiredFields: [author, created, source]
+  allowedSources: [manual, reference, synthetic]
+
+idPatterns:
+  seed: "^seed-(js|html|fmt)-[0-9]{3}$"
+  reference: "^REF-(js|html|fmt)-[0-9]{3}$"
+
+limits:
+  instructionMinLength: 20
+  codeMinLength: 10
+  tagsMinCount: 2

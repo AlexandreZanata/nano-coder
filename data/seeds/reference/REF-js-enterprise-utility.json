@@ -1,0 +1,13 @@
+{
+  "id": "REF-js-001",
+  "targetLanguage": "JavaScript",
+  "instruction": "Write an ES module that exports a function `uniqueBy` which takes an array of objects and a key name, and returns a new array keeping only the first occurrence of each distinct key value. Throw a TypeError if the first argument is not an array.",
+  "code": "/**\n * Returns the first object per distinct key value.\n * @param {Array<Record<string, unknown>>} items\n * @param {string} key\n * @returns {Array<Record<string, unknown>>}\n * @throws {TypeError} When items is not an array\n */\nexport function uniqueBy(items, key) {\n  if (!Array.isArray(items)) {\n    throw new TypeError('items must be an array');\n  }\n\n  const seen = new Set();\n  const result = [];\n\n  for (const item of items) {\n    const value = item?.[key];\n    if (seen.has(value)) {\n      continue;\n    }\n    seen.add(value);\n    result.push(item);\n  }\n\n  return result;\n}\n",
+  "tags": ["array", "functional", "module", "error-handling", "L2-standard"],
+  "metadata": {
+    "author": "pipeline-operator",
+    "created": "2026-06-20",
+    "source": "reference",
+    "notes": "Quality anchor — do not delete; use as few-shot template"
+  }
+}

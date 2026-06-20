@@ -32,6 +32,7 @@ paper/main.pdf
 
 # Python tooling (agent-harness scripts)
 __pycache__/
+*.egg-info/
 .venv/
 venv/
 
