@@ -8,7 +8,7 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from nano_coder.application.method_experiment_pipeline import run_method_experiment  # noqa: E402
@@ -23,7 +23,9 @@ def run_experiment(
     *,
     profile: str = "smoke",
     config_path: Path = DEFAULT_CONFIG,
+    dataset_version: str | None = None,
     run_smoke: bool = False,
+    dry_run: bool = True,
 ) -> int:
     config = load_phase3_config(config_path)
     if experiment_id not in config.experiments:
@@ -35,7 +37,9 @@ def run_experiment(
         spec=spec,
         project_root=ROOT,
         profile=profile,
+        dataset_version=dataset_version,
         run_smoke=run_smoke,
+        dry_run=dry_run,
     )
 
     record = {

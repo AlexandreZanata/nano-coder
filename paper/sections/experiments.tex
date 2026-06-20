@@ -24,4 +24,5 @@ exp\_010 & Decoherence reg. & Speculative & 4 \\
 \end{tabular}
 \end{table}
 
-Hardware: NVIDIA RTX 4060 (8\,GB). CI uses CPU stubs until training stack ships.
+Hardware: NVIDIA RTX 4060 Laptop GPU (8\,GB).
+Unit tests use CPU mock trainers; \texttt{--real} enables HF+PEFT on GPU (\texttt{make check-real}).

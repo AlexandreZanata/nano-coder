@@ -16,7 +16,7 @@ cd paper && pdflatex main.tex && pdflatex main.tex
 |------|---------|
 | `main.tex` | Document entry |
 | `sections/` | Introduction, methods, experiments, results, limitations |
-| `tables/` | Auto-generated LaTeX (future: `make latex-tables`) |
+| `tables/` | LaTeX tables (`wave1-ci-results.tex`, updated after GPU runs) |
 | `figures/` | Pass@k and χ heatmaps (future: `make figures`) |
 | `references.bib` | Bibliography |
 | `arxiv_metadata.yaml` | arXiv upload metadata |

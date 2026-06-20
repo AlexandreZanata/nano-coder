@@ -1,0 +1,49 @@
+% Wave 1 GPU validation runs (ci profile) — RTX 4060 Laptop 8 GB
+% Source: data/checkpoints/*/checkpoint-manifest.json, data/benchmarks/*/results.json
+% Update after each Wave 1 anchor completes with --real.
+
+\begin{table}[h]
+\centering
+\caption{Wave~1 GPU validation (ci profile, \texttt{ds-2026-06-20-js-v1}, 10 train examples).
+Held-out eval: 5 tasks per language (15 total). Real inference via HF+PEFT.}
+\label{tab:wave1-ci}
+\small
+\begin{tabular}{llrrrrrr}
+\toprule
+Exp & Method & Steps & Loss & Pass@1 & Pass@5 & VRAM (GB) & Train (s) \\
+\midrule
+exp\_001 & LoRA & 5 & 1.99 & 0.0\% & 33.3\% & 1.50 & 39.7 \\
+exp\_002 & QLoRA & 5 & 2.09 & 6.7\% & 26.7\% & 1.25 & 10.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Per-language Pass@5 (ci profile, 5 held-out tasks each).}
+\label{tab:wave1-ci-by-lang}
+\small
+\begin{tabular}{lccc}
+\toprule
+Method & JavaScript & HTML & FreeMarker \\
+\midrule
+LoRA (exp\_001) & 40.0\% & 40.0\% & 20.0\% \\
+QLoRA (exp\_002) & 40.0\% & 20.0\% & 20.0\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Per-language Pass@1 (ci profile, 5 held-out tasks each).}
+\label{tab:wave1-ci-pass1-by-lang}
+\small
+\begin{tabular}{lccc}
+\toprule
+Method & JavaScript & HTML & FreeMarker \\
+\midrule
+LoRA (exp\_001) & 0.0\% & 0.0\% & 0.0\% \\
+QLoRA (exp\_002) & 0.0\% & 0.0\% & 20.0\% \\
+\bottomrule
+\end{tabular}
+\end{table}

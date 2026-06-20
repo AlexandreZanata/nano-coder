@@ -40,7 +40,7 @@ def run_hf_lora_train(
     require_gpu_stack()
     import torch
     from datasets import Dataset
-    from peft import LoraConfig, get_peft_model
+    from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
     from transformers import AutoModelForCausalLM, AutoTokenizer, set_seed
     from trl import SFTConfig, SFTTrainer
 
@@ -86,7 +86,9 @@ def run_hf_lora_train(
         model_kwargs["dtype"] = torch.float16
 
     model = AutoModelForCausalLM.from_pretrained(hf_model_id, **model_kwargs)
-    if not use_qlora:
+    if use_qlora:
+        model = prepare_model_for_kbit_training(model)
+    elif not use_qlora:
         model = model.to("cuda")
 
     lora_config = LoraConfig(
@@ -114,7 +116,8 @@ def run_hf_lora_train(
         save_strategy="no",
         report_to=[],
         seed=seed,
-        fp16=True,
+        fp16=not use_qlora,
+        bf16=False,
         max_length=max_seq_length,
         dataset_text_field="text",
         packing=False,

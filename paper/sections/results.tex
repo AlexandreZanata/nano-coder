@@ -1,9 +1,50 @@
 \section{Results}
 
-% Auto-generated tables: make latex-tables (future)
-% Figures: Pass@1 vs chi, method x language heatmap
+\subsection{GPU stack validation (Wave~1, ci profile)}
 
-Results pending publication-profile runs on RTX 4060.
-Placeholder structure follows quantun-ia: holdout-fair comparison with matched parameter budgets where possible.
+The training stack (HuggingFace + PEFT + TRL SFT) runs end-to-end on an RTX~4060 Laptop GPU (8\,GB).
+Table~\ref{tab:wave1-ci} reports the first real anchor runs.
+These use the smoke published dataset (\texttt{ds-2026-06-20-js-v1}, 10 JavaScript examples) and a
+subset of the held-out test set (5 tasks per \texttt{TargetLanguage}, 15 total) to validate the
+pipeline before publication-profile training ($\geq$1{,}500 examples per language, BR-005).
 
-Negative results (sub-1B collapse, L4 null effect) are reported as primary findings.
+\input{tables/wave1-ci-results}
+
+\paragraph{EXP~001 (LoRA).}
+LoRA rank~16 on \texttt{Qwen2.5-Coder-0.5B} trained in 5 steps (final loss 1.99) with peak VRAM
+1.50\,GB.
+Pass@1 is 0\% aggregate; Pass@5 is 33.3\%.
+This \emph{does not} falsify the LoRA anchor at publication scale---it confirms the GPU path and
+establishes a baseline for matched comparisons (QLoRA, DoRA).
+
+\paragraph{EXP~002 (QLoRA).}
+QLoRA (4-bit NF4 base, LoRA rank~16) trained in 5 steps (final loss 2.09) with peak VRAM
+1.25\,GB ($-$17\% vs LoRA).
+Pass@1 is 6.7\% aggregate (one FreeMarker task); Pass@5 is 26.7\%.
+Training wall-clock was 10.9\,s vs 39.7\,s for LoRA on the same hardware.
+VRAM savings are below the preregistered 20\% threshold but confirm QLoRA as the memory-efficient
+anchor for solo-GPU runs.
+
+\subsection{Parallel smoke batch (3 concurrent jobs)}
+
+With peak VRAM $\approx$1.25--1.50\,GB per job, three Wave~1 anchors (LoRA, QLoRA, DoRA) run
+concurrently on the 8\,GB RTX~4060 Laptop via \texttt{run\_wave1\_gpu\_parallel.py}.
+Table~\ref{tab:wave1-smoke} reports the smoke-profile batch; wall-clock $\approx$17\,min for all three
+(vs.\ $\approx$7\,min each when run sequentially on ci).
+
+\input{tables/wave1-smoke-results}
+
+\paragraph{EXP~003 (DoRA).}
+DoRA rank~16 (2.21M trainable params, +2.3\% vs LoRA) achieved the highest smoke Pass@1
+(20.0\% aggregate; 20\% per language on the 5-task subset).
+Syntax validity reached 60\% aggregate and 100\% on FreeMarker.
+Early signal supports the preregistered hypothesis at smoke scale; publication-profile confirmation
+remains pending.
+
+\subsection{Publication-profile results}
+
+Full held-out evaluation (150 tasks) and comparative ranking (UC-005) remain pending until
+publication-profile datasets and runs complete on RTX~4060.
+
+Negative results (sub-1B collapse, L4 null effect) are reported as primary findings when observed
+at publication scale.

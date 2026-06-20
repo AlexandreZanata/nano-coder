@@ -24,7 +24,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--profile", default="smoke", choices=["ci", "smoke", "publication"])
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
-    parser.add_argument("--dataset-version")
+    parser.add_argument("--dataset-version", help="DatasetVersion override")
     parser.add_argument("--run-smoke", action="store_true")
     parser.add_argument(
         "--real",

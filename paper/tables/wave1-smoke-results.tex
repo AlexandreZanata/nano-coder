@@ -1,0 +1,35 @@
+% Wave 1 GPU smoke runs — 3 parallel jobs on RTX 4060 Laptop 8 GB
+% Source: parallel batch 2026-06-20 (run_wave1_gpu_parallel.py)
+
+\begin{table}[h]
+\centering
+\caption{Wave~1 parallel smoke validation (\texttt{ds-2026-06-20-js-v1}, 10 train examples,
+5 held-out tasks per language). Three jobs launched concurrently; peak VRAM $\approx$1.25--1.50\,GB each.}
+\label{tab:wave1-smoke}
+\small
+\begin{tabular}{llrrrrrr}
+\toprule
+Exp & Method & Steps & Loss & Pass@1 & Pass@5 & VRAM (GB) & Train (s) \\
+\midrule
+exp\_001 & LoRA & 5 & 1.99 & 0.0\% & 33.3\% & 1.50 & 9.5 \\
+exp\_002 & QLoRA & 5 & 2.09 & 6.7\% & 26.7\% & 1.25 & 10.6 \\
+exp\_003 & DoRA & 5 & 1.98 & 20.0\% & 33.3\% & 1.50 & 10.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Per-language Pass@1 (smoke parallel batch, 5 tasks each).}
+\label{tab:wave1-smoke-pass1}
+\small
+\begin{tabular}{lccc}
+\toprule
+Method & JavaScript & HTML & FreeMarker \\
+\midrule
+LoRA & 0.0\% & 0.0\% & 0.0\% \\
+QLoRA & 0.0\% & 0.0\% & 20.0\% \\
+DoRA & 20.0\% & 20.0\% & 20.0\% \\
+\bottomrule
+\end{tabular}
+\end{table}

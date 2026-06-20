@@ -9,6 +9,10 @@ install:
 install-gpu: install
 	$(PYTHON) -m pip install -r requirements-gpu.txt
 
+wave1-gpu-parallel:
+	chmod +x scripts/run_wave1_gpu_parallel.py
+	MLFLOW_DISABLE=1 $(PYTHON) scripts/run_wave1_gpu_parallel.py --profile smoke --real --max-parallel 3
+
 lint:
 	$(PYTHON) -m ruff check scripts/ tests/ experiments/ src/ 2>/dev/null || \
 	$(PYTHON) -m ruff check scripts/ tests/ experiments/

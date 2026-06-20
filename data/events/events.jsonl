@@ -3,3 +3,20 @@
 {"event": "TrainingRunCompleted", "runId": "train-lora-ci-001", "datasetVersion": "ds-2026-06-20-js-v1", "durationSeconds": 39.692405561996566, "peakVramGb": 1.5039572715759277, "trainableParamCount": 2162688, "timestamp": "2026-06-20T22:35:43.820113+00:00"}
 {"event": "BenchmarkRunStarted", "runId": "bench-lora-ci-001", "checkpointRunId": "train-lora-ci-001", "heldOutTestSetVersion": "held-out-v1", "timestamp": "2026-06-20T22:35:43.820711+00:00"}
 {"event": "BenchmarkRunCompleted", "runId": "bench-lora-ci-001", "passAt1": 0.0, "passAt5": 0.3333, "timestamp": "2026-06-20T22:42:10.912995+00:00"}
+{"event": "TrainingRunStarted", "runId": "train-qlora-ci-001", "datasetVersion": "ds-2026-06-20-js-v1", "compressionMethod": "QLoRA", "profile": "ci", "seed": 42, "timestamp": "2026-06-20T22:44:57.951870+00:00"}
+{"event": "TrainingRunStarted", "runId": "train-qlora-ci-001", "datasetVersion": "ds-2026-06-20-js-v1", "compressionMethod": "QLoRA", "profile": "ci", "seed": 42, "timestamp": "2026-06-20T22:45:22.315293+00:00"}
+{"event": "TrainingRunCompleted", "runId": "train-qlora-ci-001", "datasetVersion": "ds-2026-06-20-js-v1", "durationSeconds": 10.928237729000102, "peakVramGb": 1.2466888427734375, "trainableParamCount": 2162688, "timestamp": "2026-06-20T22:45:37.324804+00:00"}
+{"event": "BenchmarkRunStarted", "runId": "bench-qlora-ci-001", "checkpointRunId": "train-qlora-ci-001", "heldOutTestSetVersion": "held-out-v1", "timestamp": "2026-06-20T22:45:37.325069+00:00"}
+{"event": "BenchmarkRunCompleted", "runId": "bench-qlora-ci-001", "passAt1": 0.0667, "passAt5": 0.2667, "timestamp": "2026-06-20T22:52:43.279868+00:00"}
+{"event": "TrainingRunStarted", "runId": "train-lora-smoke-001", "datasetVersion": "ds-2026-06-20-js-v1", "compressionMethod": "LoRA", "profile": "smoke", "seed": 42, "timestamp": "2026-06-20T22:55:33.580532+00:00"}
+{"event": "TrainingRunStarted", "runId": "train-dora-smoke-001", "datasetVersion": "ds-2026-06-20-js-v1", "compressionMethod": "DoRA", "profile": "smoke", "seed": 42, "timestamp": "2026-06-20T22:55:33.582561+00:00"}
+{"event": "TrainingRunStarted", "runId": "train-qlora-smoke-001", "datasetVersion": "ds-2026-06-20-js-v1", "compressionMethod": "QLoRA", "profile": "smoke", "seed": 42, "timestamp": "2026-06-20T22:55:33.587063+00:00"}
+{"event": "TrainingRunCompleted", "runId": "train-lora-smoke-001", "datasetVersion": "ds-2026-06-20-js-v1", "durationSeconds": 9.521084532003442, "peakVramGb": 1.4946703910827637, "trainableParamCount": 2162688, "timestamp": "2026-06-20T22:55:47.398564+00:00"}
+{"event": "BenchmarkRunStarted", "runId": "bench-lora-smoke-001", "checkpointRunId": "train-lora-smoke-001", "heldOutTestSetVersion": "held-out-v1", "timestamp": "2026-06-20T22:55:47.398751+00:00"}
+{"event": "TrainingRunCompleted", "runId": "train-dora-smoke-001", "datasetVersion": "ds-2026-06-20-js-v1", "durationSeconds": 10.494109738996485, "peakVramGb": 1.4954485893249512, "trainableParamCount": 2211840, "timestamp": "2026-06-20T22:55:48.388605+00:00"}
+{"event": "BenchmarkRunStarted", "runId": "bench-dora-smoke-001", "checkpointRunId": "train-dora-smoke-001", "heldOutTestSetVersion": "held-out-v1", "timestamp": "2026-06-20T22:55:48.388940+00:00"}
+{"event": "TrainingRunCompleted", "runId": "train-qlora-smoke-001", "datasetVersion": "ds-2026-06-20-js-v1", "durationSeconds": 10.631893814999785, "peakVramGb": 1.245203971862793, "trainableParamCount": 2162688, "timestamp": "2026-06-20T22:55:48.526331+00:00"}
+{"event": "BenchmarkRunStarted", "runId": "bench-qlora-smoke-001", "checkpointRunId": "train-qlora-smoke-001", "heldOutTestSetVersion": "held-out-v1", "timestamp": "2026-06-20T22:55:48.526547+00:00"}
+{"event": "BenchmarkRunCompleted", "runId": "bench-lora-smoke-001", "passAt1": 0.0, "passAt5": 0.3333, "timestamp": "2026-06-20T23:04:32.943958+00:00"}
+{"event": "BenchmarkRunCompleted", "runId": "bench-qlora-smoke-001", "passAt1": 0.0667, "passAt5": 0.2667, "timestamp": "2026-06-20T23:07:24.509439+00:00"}
+{"event": "BenchmarkRunCompleted", "runId": "bench-dora-smoke-001", "passAt1": 0.2, "passAt5": 0.3333, "timestamp": "2026-06-20T23:12:05.891847+00:00"}
