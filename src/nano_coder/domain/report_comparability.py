@@ -2,12 +2,29 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 
 class IncomparableRunsError(Exception):
     """Benchmark runs cannot be ranked without explicit footnote (BR-012)."""
+
+
+_EVIDENCE_LABELS = {
+    "Established": "L1",
+    "NovelApplication": "L3",
+    "QuantumInspired": "L2",
+    "Speculative": "L4",
+}
+
+
+@dataclass(frozen=True)
+class ReportFootnote:
+    run_id: str
+    compression_method: str
+    reason: str
 
 
 @dataclass(frozen=True)
@@ -25,10 +42,23 @@ class BenchmarkRecord:
     trainable_param_count: int | None
     lora_rank: int | None
     by_language: dict[str, dict[str, float]]
+    param_match_footnote_required: bool
+    tag_buckets: tuple[dict[str, Any], ...]
     raw: dict[str, Any]
 
 
+def evidence_short_label(evidence_level: str) -> str:
+    return _EVIDENCE_LABELS.get(evidence_level, evidence_level)
+
+
+def rank_parameter_label(record: BenchmarkRecord) -> str:
+    if record.lora_rank is not None:
+        return f"r={record.lora_rank}"
+    return "—"
+
+
 def load_benchmark_record(payload: dict[str, Any]) -> BenchmarkRecord:
+    param_match = payload.get("paramMatch") or {}
     return BenchmarkRecord(
         run_id=str(payload["runId"]),
         compression_method=str(payload.get("compressionMethod", "Unknown")),
@@ -43,8 +73,47 @@ def load_benchmark_record(payload: dict[str, Any]) -> BenchmarkRecord:
         trainable_param_count=_optional_int(payload.get("trainableParamCount")),
         lora_rank=_optional_int(payload.get("loraRank")),
         by_language=dict(payload.get("byLanguage", {})),
+        param_match_footnote_required=bool(param_match.get("footnoteRequired", False)),
+        tag_buckets=tuple(payload.get("tagBuckets", [])),
         raw=payload,
     )
+
+
+def load_benchmark_record_from_dir(benchmark_root: Path, run_id: str) -> BenchmarkRecord:
+    for name in ("evaluation.json", "results.json"):
+        path = benchmark_root / run_id / name
+        if path.is_file():
+            return load_benchmark_record(json.loads(path.read_text(encoding="utf-8")))
+    raise FileNotFoundError(f"benchmark artifacts not found for run: {run_id}")
+
+
+def collect_report_footnotes(records: list[BenchmarkRecord]) -> tuple[ReportFootnote, ...]:
+    footnotes: list[ReportFootnote] = []
+    for record in records:
+        if record.param_match_footnote_required:
+            footnotes.append(
+                ReportFootnote(
+                    run_id=record.run_id,
+                    compression_method=record.compression_method,
+                    reason="BR-014 trainable params differ from anchor by > tolerance",
+                )
+            )
+        if record.evidence_level == "Speculative":
+            footnotes.append(
+                ReportFootnote(
+                    run_id=record.run_id,
+                    compression_method=record.compression_method,
+                    reason="L4 Speculative — not ranked as best without explicit label",
+                )
+            )
+    return tuple(footnotes)
+
+
+def pass_at_1_for_language(record: BenchmarkRecord, language: str) -> float | None:
+    metrics = record.by_language.get(language)
+    if metrics is None:
+        return None
+    return float(metrics.get("passAt1", 0.0))
 
 
 def validate_comparability(

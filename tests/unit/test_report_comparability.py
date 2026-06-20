@@ -7,6 +7,8 @@ import pytest
 from nano_coder.domain.report_comparability import (
     BenchmarkRecord,
     IncomparableRunsError,
+    collect_report_footnotes,
+    evidence_short_label,
     load_benchmark_record,
     rank_benchmark_records,
     validate_comparability,
@@ -67,3 +69,19 @@ def test_validate_comparability_rejects_mixed_datasets():
     ]
     with pytest.raises(IncomparableRunsError):
         validate_comparability(records)
+
+
+def test_collect_report_footnotes_flags_speculative():
+    record = load_benchmark_record(
+        {
+            "runId": "bench-spec-001",
+            "compressionMethod": "DecoherenceRegularization",
+            "evidenceLevel": "Speculative",
+            "passAt1": 0.5,
+            "passAt5": 0.5,
+            "byLanguage": {},
+        }
+    )
+    footnotes = collect_report_footnotes([record])
+    assert len(footnotes) == 1
+    assert evidence_short_label("Speculative") == "L4"

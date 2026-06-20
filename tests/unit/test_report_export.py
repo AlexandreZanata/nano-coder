@@ -26,6 +26,8 @@ def _write_benchmark_result(root: Path, run_id: str, method: str, pass_at_1: flo
         "trainableParamCount": 1000,
         "byLanguage": {
             "JavaScript": {"passAt1": pass_at_1, "passAt5": pass_at_1},
+            "HTML": {"passAt1": pass_at_1, "passAt5": pass_at_1},
+            "FreeMarker": {"passAt1": pass_at_1, "passAt5": pass_at_1},
         },
     }
     (output_dir / "results.json").write_text(json.dumps(payload) + "\n", encoding="utf-8")
@@ -48,4 +50,5 @@ def test_export_benchmark_report_writes_markdown_and_json(tmp_path):
     assert result.summary_path.is_file()
     markdown = output_path.read_text(encoding="utf-8")
     assert "QLoRA" in markdown
-    assert "Rank" in markdown
+    assert "JS Pass@1" in markdown
+    assert "Comparative table" in markdown

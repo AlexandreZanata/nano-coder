@@ -1,0 +1,20 @@
+version: v1
+wave: 1
+
+defaults:
+  profile: smoke
+  outputMarkdown: reports/wave1-ranking.md
+  outputJson: reports/wave1-ranking.json
+
+ranking:
+  primaryMetric: passAt1
+  tieBreakers: [peakVramGb, durationSeconds, trainableParamCount]
+  languages: [JavaScript, HTML, FreeMarker]
+
+sources:
+  phase4Report: .local/review/phase4-evaluation-report.json
+  phase3Report: .local/review/phase3-wave1-report.json
+
+footnotes:
+  paramMatchTolerancePercent: 10
+  labelSpeculativeAsNonComparable: true

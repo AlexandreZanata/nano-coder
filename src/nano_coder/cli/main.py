@@ -155,15 +155,22 @@ def _add_report_export_args(parser: argparse.ArgumentParser) -> None:
         action="store_true",
         help="Allow ranking runs with different DatasetVersion values",
     )
+    parser.add_argument(
+        "--languages",
+        default="JavaScript,HTML,FreeMarker",
+        help="Comma-separated languages for Pass@1 columns",
+    )
 
 
 def _run_report_export_command(args: argparse.Namespace) -> int:
     run_ids = [item.strip() for item in args.run_ids.split(",") if item.strip()]
+    languages = tuple(item.strip() for item in args.languages.split(",") if item.strip())
     try:
         result = export_benchmark_report(
             run_ids=run_ids,
             benchmark_root=args.benchmark_root,
             output_path=args.output,
+            languages=languages,
             allow_mixed=args.allow_mixed,
             events_log=args.events_log,
         )
