@@ -1,0 +1,13 @@
+version: v1
+
+datasetVersionPattern: "^ds-[0-9]{4}-[0-9]{2}-[0-9]{2}-(js|html|fmt|mixed)-v[0-9]+$"
+
+thresholds:
+  minAcceptedPerLanguage: 1500
+  minSyntaxPassRate: 0.90
+  requireManualReview: true
+  requireRunCompleted: true
+
+artifacts:
+  examplesFile: examples.jsonl
+  manifestFile: manifest.json

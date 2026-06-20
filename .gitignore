@@ -1,6 +1,7 @@
 # Research artifacts (append-only / large)
 logs/
-data/datasets/
+data/datasets/*
+!data/datasets/published-index.json
 data/checkpoints/
 data/benchmarks/*
 !data/benchmarks/held-out-v1/

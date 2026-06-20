@@ -1,0 +1,11 @@
+[
+  {
+    "datasetVersion": "ds-2026-06-20-js-v1",
+    "draftId": "gen-js-smoke",
+    "targetLanguage": "JavaScript",
+    "exampleCount": 10,
+    "state": "Published",
+    "publishedAt": "2026-06-20T21:57:26.483331+00:00",
+    "publishedBy": "operator"
+  }
+]
