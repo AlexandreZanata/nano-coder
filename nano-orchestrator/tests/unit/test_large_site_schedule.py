@@ -332,6 +332,19 @@ def test_pro_r_schedule_after_s17_revert() -> None:
     assert data["speed"]["approach"] == "S13_after_S17_revert"
 
 
+def test_pro_s_schedule_after_s18_revert() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_s.json")
+    assert_schedule_valid(data)
+    assert data["benchmark_id"] == "pro-site-S-northwind-kayak"
+    assert data["speed"].get("stop_extra") is None
+    assert "<<<END>>>" not in data["slots"][0]["prompt"]
+    assert data["speed"]["parallel_all_slots"] is True
+    assert data["speed"]["n_parallel"] == 5
+    assert data["speed"]["ctx_size"] == 10240
+    assert data["slots"][0]["max_tokens"] == 780
+    assert data["speed"]["approach"] == "S13_after_S18_revert"
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 
