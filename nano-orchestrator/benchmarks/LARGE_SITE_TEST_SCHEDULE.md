@@ -136,7 +136,8 @@ Canonical backlog: [`PRO_SITE_BACKLOG.md`](PRO_SITE_BACKLOG.md).
 | M | Bright Harbor Marina | `make nano-large-site-pro-m` | 5.96 s | S12 parallel HTML (−39% vs I); archived |
 | N | Northline Bike Co-op | `make nano-large-site-pro-n` | **4.83 s** | S13 all-slots parallel (−19% vs M); archived |
 | O | Marble & Rye Deli | `make nano-large-site-pro-o` | 4.98 s | S14 REVERT (CSS truncate); final under S13; archived |
-| P | Pinecrest Animal Clinic | `make nano-large-site-pro-p` | **4.79 s** | S15 REVERT (FA+KVU tie); final under S13 |
+| P | Pinecrest Animal Clinic | `make nano-large-site-pro-p` | **4.79 s** | S15 REVERT (FA+KVU tie); final under S13; archived |
+| Q | Tidepool Surf School | `make nano-large-site-pro-q` | 4.89 s | S16 REVERT (batch noise); final under S13 |
 
 Speed: S2–S8 + S12/S13 parallel kept · S4/S9/S10/S11/S14 REVERT. Best wall Site N **4.83 s**. CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
 

@@ -207,6 +207,11 @@ pro_site_benchmarks:
       baseline_wall_s: 4.83
       measured_wall_s: 4.83
       reason: green_but_not_faster_tie
+    S16_batch4096_ubatch1024:
+      status: reverted
+      baseline_wall_s: 4.83
+      measured_wall_s: 4.80
+      reason: green_but_within_noise_not_kept
   A_harbor_coffee:
     status: archived
   B_summit_trail:
@@ -249,11 +254,14 @@ pro_site_benchmarks:
     status: archived
     wall_clock_s: 4.98
   P_pinecrest_vet:
-    status: done
-    schedule: benchmarks/large_site_schedule_pro_p.json
+    status: archived
     wall_clock_s: 4.79
+  Q_tidepool_surf:
+    status: done
+    schedule: benchmarks/large_site_schedule_pro_q.json
+    wall_clock_s: 4.89
     orch: skipped_S5
-    speed: S13_after_S15_revert
+    speed: S13_after_S16_revert
     workers_passed: "5/5"
     openable_pages: 4
-    report: benchmarks/runs/large_site_schedule_pro_p.json
+    report: benchmarks/runs/large_site_schedule_pro_q.json

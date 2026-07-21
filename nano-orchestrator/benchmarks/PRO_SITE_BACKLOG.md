@@ -33,6 +33,7 @@
 | S13 | All 5 slots parallel + `CTX=10240` + `-np 5` | 5.96 s | Site N **4.83 s** | **−1.13 s (−19%)** | **KEEP** |
 | S14 | S13 + tokens 700/440 + `skip_final_stop` | 4.83 s | **5.00 s** red quality | slower / red | **REVERT** |
 | S15 | S13 + `-fa on` + `-kvu` (unified KV) | 4.83 s | **4.83 s** green (tie) | 0.00 s | **REVERT** |
+| S16 | S13 + `-b 4096` + `-ub 1024` (larger prefill batch) | 4.83 s | **4.80 s** green (noise) | −0.03 s | **REVERT** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
@@ -48,8 +49,50 @@ S12: same parallel path with `CTX=8192` so each `-np` slot has enough context; s
 S13: cold-start once then run **all** slots (CSS+HTML) concurrently with `CTX=10240` / `-np 5`. **Best kept wall.**  
 S14: tighter CSS/HTML tokens + skip final stop. Truncated CSS (`styles_has_footer/form=false`) and slower wall → REVERT to S13.
 S15: force Flash Attention on + unified KV (`-kvu`) with `-np 5`. Green but wall tied N **4.83 s** (no speedup) → REVERT harness; Site P final under S13.
+S16: larger `-b 4096` / `-ub 1024` for multi-slot prefill. Green **4.80 s** but within noise of S13 (~4.8 s) → REVERT; Site Q final under S13.
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## Q — Tidepool Surf School (`pro-site-Q-tidepool-surf`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-pinecrest-vet-pro-archived/` @ 2026-07-21T16:09:19Z |
+| Site | Tidepool Surf School (lessons / rental fee board) |
+| Schedule | [`large_site_schedule_pro_q.json`](large_site_schedule_pro_q.json) |
+| Why this task | New surf-school domain; measure **S16** (`-b 4096` / `-ub 1024`) vs N **4.83 s** |
+| Speed | S16 **REVERT** (noise); Site Q final timed under **S13** |
+| Command | `make nano-large-site-pro-q` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| S16 attempt (green noise) | **4.80 s** — archived `out/archive/2026-07-21-tidepool-s16-tie/` |
+| Final make (S13) | **4.89 s** |
+| Orch O0 | skipped |
+
+| Slot (final S13) | elapsed_s | reused |
+|------------------|-----------|--------|
+| styles | 3.61 | yes |
+| home | 2.94 | yes |
+| menu | 2.94 | yes |
+| about | 2.95 | yes |
+| contact | 2.91 | yes |
+
+### Quality
+
+- Pass bar: **5/5** · quality_ok · openable **4/4**
+- Peak VRAM: ~1599 MB
+- Report: [`runs/large_site_schedule_pro_q.json`](runs/large_site_schedule_pro_q.json)
+
+### Notes
+
+- No hand edits to `out/proposal/`
+- S16 batch knobs did not beat styles decode bottleneck
 
 ---
 
