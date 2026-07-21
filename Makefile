@@ -1,6 +1,16 @@
-.PHONY: check lint lint-fix test coverage docs-check hypothesis-check harness-smoke paper-build paper-sync clean install health health-gpu check-real reviewer-repro
+.PHONY: check lint lint-fix test coverage docs-check hypothesis-check harness-smoke paper-build paper-sync clean install health health-gpu check-real reviewer-repro nano-test nano-smoke nano-bakeoff nano-gates nano-validate-schema
 
 PYTHON ?= $(shell test -x .venv/bin/python && echo .venv/bin/python || echo python3)
+# Absolute path: targets `cd` into NANO_DIR before invoking Python.
+NANO_PYTHON ?= $(shell \
+	if test -x nano-orchestrator/.venv/bin/python; then \
+		echo "$(CURDIR)/nano-orchestrator/.venv/bin/python"; \
+	elif test -x .venv/bin/python; then \
+		echo "$(CURDIR)/.venv/bin/python"; \
+	else \
+		echo python3; \
+	fi)
+NANO_DIR := nano-orchestrator
 
 install:
 	$(PYTHON) -m pip install -r requirements-dev.txt
@@ -12,6 +22,23 @@ install-gpu: install
 wave1-gpu-parallel:
 	chmod +x scripts/run_wave1_gpu_parallel.py
 	MLFLOW_DISABLE=1 $(PYTHON) scripts/run_wave1_gpu_parallel.py --profile smoke --real --max-parallel 3
+
+m1-phase0:
+	$(PYTHON) scripts/run_milestone_m1_2000.py --phase 0
+
+m1-generate-js:
+	$(PYTHON) scripts/run_milestone_m1_2000.py --phase 1 --language JavaScript --real
+
+m1-train-exp1-exp2:
+	$(PYTHON) scripts/run_milestone_m1_2000.py --phase 5 --real --profile publication
+
+m1-build-local:
+	chmod +x scripts/build_m1_dataset_local.py
+	$(PYTHON) scripts/build_m1_dataset_local.py
+
+import-tier-a:
+	chmod +x scripts/import_tier_a_datasets.py
+	$(PYTHON) scripts/import_tier_a_datasets.py
 
 lint:
 	$(PYTHON) -m ruff check scripts/ tests/ experiments/ src/ 2>/dev/null || \
@@ -67,3 +94,20 @@ clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 	rm -rf .pytest_cache htmlcov .coverage coverage.xml
 	rm -f paper/main.aux paper/main.log paper/main.out paper/main.pdf
+
+# --- nano-orchestrator (subproject) ---
+
+nano-validate-schema:
+	cd $(NANO_DIR) && $(NANO_PYTHON) scripts/validate_schema.py
+
+nano-test:
+	cd $(NANO_DIR) && $(NANO_PYTHON) -m pytest tests/unit -q
+
+nano-smoke:
+	cd $(NANO_DIR) && $(NANO_PYTHON) -m nano_orchestrator smoke --request "$(or $(REQUEST),Create a JS clamp helper and an HTML checkout form)" --fixed-tasks
+
+nano-bakeoff:
+	cd $(NANO_DIR) && $(NANO_PYTHON) -m nano_orchestrator bakeoff --mode worker --model-id $(or $(MODEL_ID),qwen25-coder-0.5b) --base-url $(or $(BASE_URL),http://127.0.0.1:8081)
+
+nano-gates:
+	cd $(NANO_DIR) && $(NANO_PYTHON) -m nano_orchestrator gates

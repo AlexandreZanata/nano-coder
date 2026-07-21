@@ -127,6 +127,39 @@ jobs:
       - name: Run contract tests
         run: pytest tests/contracts/ -v
 
+  nano-orchestrator:
+    name: Nano-Orchestrator (CPU)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: nano-orchestrator
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: nano-orchestrator/pyproject.toml
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install package
+        run: pip install -e ".[dev]"
+
+      - name: Validate gold schemas
+        run: python scripts/validate_schema.py
+
+      - name: Unit tests
+        run: python -m pytest tests/unit -q
+
+      - name: CLI smoke (version + help)
+        run: |
+          nano-orchestrator version
+          nano-orchestrator --help
+
   paper-build:
     name: Paper Build (LaTeX)
     runs-on: ubuntu-latest

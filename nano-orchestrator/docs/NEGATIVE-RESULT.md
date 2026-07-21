@@ -36,7 +36,7 @@ VRAM and latency gates do **not** override the Pass@1 kill criterion.
 
 ## Decision (GATE-NEG)
 
-Per README §0 and ADR draft:
+Per README §0 and [ADR-007](../../docs/adr/ADR-007-multi-nano-orchestration.md):
 
 > If orchestration fails this bar → **keep solo 0.5B**. Do not add complexity.
 

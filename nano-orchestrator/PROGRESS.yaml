@@ -1,11 +1,11 @@
 # Live progress — Nano-Orchestrator
 # Canonical backlog: TASKS.md  |  Spec: README.md
-# Status values: pending | in_progress | done | blocked | skipped
+# Status values: pending | in_progress | done | blocked | skipped | failed
 
 updated: "2026-07-21"
-current_phase: 5
+current_phase: "closed"
 mvp_day: 14
-next_task: "T-070"
+next_task: null
 train_n_min: 50
 p50_latency_target_ms: 2000
 
@@ -36,31 +36,31 @@ phase_1_bakeoff:
     orchestrator: smollm3-3b
 
 phase_2_runner:
-  llamacpp_adapter: done     # T-030
-  decompose_json: done       # T-031
-  worker_dispatch: done      # T-032
-  judge_wired: done          # T-033
-  retry_policy: done         # T-034
-  merge_human_gate: done     # T-035
-  keep_alive_vram_policy: done  # T-036
-  smoke_e2e: done            # T-037
+  llamacpp_adapter: done
+  decompose_json: done
+  worker_dispatch: done
+  judge_wired: done
+  retry_policy: done
+  merge_human_gate: done
+  keep_alive_vram_policy: done
+  smoke_e2e: done
 
 phase_4_judge:
-  js_sandbox: done           # T-040
-  html_validate: done        # T-041
-  ftl_jvm_spike: done        # T-042
-  ftl_wired: done            # T-043
-  llm_secondary_only: done   # T-044
-  llm_call_log: done         # T-045
+  js_sandbox: done
+  html_validate: done
+  ftl_jvm_spike: done
+  ftl_wired: done
+  llm_secondary_only: done
+  llm_call_log: done
 
 phase_3_finetune:
-  train_jsonl: done          # T-050 — N=50 min; actual ≥128/lang
-  teacher_distill: done      # T-051
-  unsloth_smoke: done        # T-052 — HF PEFT QLoRA (Unsloth optional)
-  gguf_export: done          # T-053
-  held_out_pass_not_worse: done  # T-054
-  worker_html_ft: done       # T-055
-  worker_ftl_ft: done        # T-056
+  train_jsonl: done
+  teacher_distill: done
+  unsloth_smoke: done
+  gguf_export: done
+  held_out_pass_not_worse: done
+  worker_html_ft: done
+  worker_ftl_ft: done
   peak_vram_mb_js: 1347.6
   peak_vram_mb_html: 1340.1
   peak_vram_mb_ftl: 1061.7
@@ -70,16 +70,16 @@ phase_3_finetune:
     freemarker: qwen25-coder-0.5b-freemarker-ft
 
 phase_5_dynamic:
-  status: done               # unlocked T-060 → implemented T-061…T-063
-  routing_config: done       # T-061 config/worker_routing.json
-  adaptive_retry: done       # T-062
-  debate_default_off: done   # T-063
+  status: done
+  routing_config: done
+  adaptive_retry: done
+  debate_default_off: done
 
 mvp_gates:
-  orchestration_beats_solo_0_5b: failed   # GATE-001 — orch 0.7333 < solo 0.8667
-  vram_peak_mb_le_6000: done              # GATE-002 — 1577 MB
-  p50_latency_ms_le_target: done          # GATE-003 — 323 ms ≤ 2000
-  negative_result_documented: done        # GATE-NEG
+  orchestration_beats_solo_0_5b: failed
+  vram_peak_mb_le_6000: done
+  p50_latency_ms_le_target: done
+  negative_result_documented: done
   solo_pass_at_1: 0.8667
   orch_pass_at_1: 0.7333
   gate_peak_vram_mb: 1577
@@ -87,15 +87,14 @@ mvp_gates:
   decision: keep_solo_qwen25_coder_0_5b
 
 polish:
-  adr_promoted: pending
-  cli_entrypoint: pending
-  makefile_targets: pending
-  ci_cpu_job: pending
-  security_pass: pending
-  readme_final: pending
+  adr_promoted: done          # T-070 ADR-007
+  cli_entrypoint: done        # T-071
+  makefile_targets: done      # T-072
+  ci_cpu_job: done            # T-073
+  security_pass: done         # T-074
+  readme_final: done          # T-075
 
 notes: |
-  2026-07-21: EG gates measured via benchmarks/run_success_gates.py.
-  GATE-001 FAIL (orch 22/30 < solo 26/30) — JS FT regression dominant.
-  GATE-002/003 PASS. GATE-NEG: docs/NEGATIVE-RESULT.md — keep solo 0.5B.
-  Next: optional polish T-070+; do not stack orchestration features for quality.
+  2026-07-21: EX polish complete (T-070…T-075). ADR-007 promoted; CLI + Makefile + CI;
+  security tests for ASI08 / auto_persist / log redaction; README stopped (negative).
+  Backlog closed — keep solo Qwen2.5-Coder-0.5B.

@@ -257,23 +257,29 @@ grep -n '^\- \[ \]' TASKS.md | head -20   # next open tasks
 
 ## EX — Polish / repo hygiene (100% productization)
 
-- [ ] **T-070** Promote ADR draft → `docs/adr/ADR-00N-multi-nano-orchestration.md` + link in `docs/README.md`  
-  - **Deps:** GATE-001 or GATE-NEG · **Effort:** 1 h
+- [x] **T-070** Promote ADR draft → `docs/adr/ADR-007-multi-nano-orchestration.md` + link in `docs/README.md`  
+  - **Deps:** GATE-001 or GATE-NEG · **Effort:** 1 h  
+  - **Done:** 2026-07-21
 
-- [ ] **T-071** CLI entrypoint `nano-orchestrator` (pyproject scripts) — decompose/judge/bakeoff  
-  - **Deps:** T-037 · **Effort:** 0.5 day
+- [x] **T-071** CLI entrypoint `nano-orchestrator` (pyproject scripts) — decompose/judge/bakeoff  
+  - **Deps:** T-037 · **Effort:** 0.5 day  
+  - **Done:** 2026-07-21 — `nano_orchestrator.cli` + console script
 
-- [ ] **T-072** Makefile targets: `make nano-test`, `make nano-smoke`, `make nano-bakeoff`  
-  - **Deps:** T-071 · **Effort:** 0.5 day
+- [x] **T-072** Makefile targets: `make nano-test`, `make nano-smoke`, `make nano-bakeoff`  
+  - **Deps:** T-071 · **Effort:** 0.5 day  
+  - **Done:** 2026-07-21
 
-- [ ] **T-073** CI job (CPU-only): unit tests + `validate_schema.py` (no GPU)  
-  - **Deps:** T-005, T-014 · **Effort:** 0.5 day
+- [x] **T-073** CI job (CPU-only): unit tests + `validate_schema.py` (no GPU)  
+  - **Deps:** T-005, T-014 · **Effort:** 0.5 day  
+  - **Done:** 2026-07-21 — `.github/workflows/ci.yml` job `nano-orchestrator`
 
-- [ ] **T-074** Security pass: no auto-persist; log redaction; ASI08 caps asserted in tests  
-  - **Deps:** T-034, T-045 · **Effort:** 0.5 day
+- [x] **T-074** Security pass: no auto-persist; log redaction; ASI08 caps asserted in tests  
+  - **Deps:** T-034, T-045 · **Effort:** 0.5 day  
+  - **Done:** 2026-07-21 — `tests/unit/test_security_pass.py`
 
-- [ ] **T-075** Final README pass: mark Status **complete** or **stopped (negative)**; fill all RESULTS blanks  
-  - **Deps:** GATE-001 or GATE-NEG · **Effort:** 1 h
+- [x] **T-075** Final README pass: mark Status **complete** or **stopped (negative)**; fill all RESULTS blanks  
+  - **Deps:** GATE-001 or GATE-NEG · **Effort:** 1 h  
+  - **Done:** 2026-07-21 — Status stopped (negative); RESULTS blanks filled
 
 ---
 
@@ -290,7 +296,7 @@ T-050 → T-052 → T-053 → T-054 → T-055 → T-056
 T-060… (optional) → T-070…T-075
 ```
 
-**Next action right now:** Polish **T-070+** (ADR / CLI / security) or stop — MVP quality gate closed via GATE-NEG.
+**Next action right now:** None — backlog complete. Research outcome closed via GATE-NEG (keep solo 0.5B).
 
 ---
 
@@ -306,4 +312,5 @@ T-060… (optional) → T-070…T-075
 | 2026-07-21 | T-050…T-056 | Phase 3 specialize: train JSONL N≥50, QLoRA→GGUF, held_out ≥ base |
 | 2026-07-21 | T-060…T-063 | Phase 5 dynamic routing + adaptive retry + debate OFF |
 | 2026-07-21 | GATE-001…003 + GATE-NEG | Orch Pass@1 FAIL vs solo; VRAM/p50 PASS; keep solo 0.5B |
+| 2026-07-21 | T-070…T-075 | Polish: ADR-007, CLI, Makefile, CI, security tests, README final |
 | | | |

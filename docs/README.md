@@ -77,6 +77,7 @@ Template: [USE-CASE-EXAMPLE.md](USE-CASE-EXAMPLE.md)
 | [ADR-004](adr/ADR-004-training-methods-benchmark.md) | Baseline training methods matrix |
 | [ADR-005](adr/ADR-005-advanced-peft-benchmark.md) | Advanced PEFT + tensor networks |
 | [ADR-006](adr/ADR-006-quantun-ia-proven-transfers.md) | quantun-ia top-3 transfer methods |
+| [ADR-007](adr/ADR-007-multi-nano-orchestration.md) | Multi-nano orchestration (Accepted — negative GATE-001) |
 
 ---
 

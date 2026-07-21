@@ -10,7 +10,7 @@
 This README is the **normative spec** for the subproject. Code that contradicts this file is wrong until the README is updated first.
 
 **Live tracker:** [PROGRESS.yaml](PROGRESS.yaml) — update after every work session.  
-**Task backlog (100%):** [TASKS.md](TASKS.md) — work the next open checkbox (start at **T-010**).
+**Task backlog (100%):** [TASKS.md](TASKS.md) — all P0–P4 + GATE + EX done; research closed via GATE-NEG.
 
 **Index:** [TASKS](TASKS.md) · 0 TL;DR · 1 Context · 2 Architecture · 3 Contracts · 4 Stack · 5 Layout · 6 Phases · 7 14-day MVP · 8 Anti-patterns · 9 Metrics · 10 Risks · 11 Immediate next steps · 12 How to run · 13 References
 
@@ -356,18 +356,9 @@ Update [PROGRESS.yaml](PROGRESS.yaml) as you go.
 
 ---
 
-## 9. Metrics template (Phase 1)
+## 9. Metrics (Phase 1) — filled in RESULTS.md
 
-Copy into [benchmarks/RESULTS.md](benchmarks/RESULTS.md) — **numbers only after measurement**.
-
-| Model | Role | Pass@1 JS | Pass@1 HTML | Pass@1 FTL | p50 ms | VRAM MB | tok/s |
-|-------|------|-----------|-------------|------------|--------|---------|-------|
-| Qwen2.5-Coder-0.5B | baseline | | | | | | |
-| Qwen3-0.6B | worker | | | | | | |
-| Gemma3-270M | worker | | | | | | |
-| SmolLM2-360M | worker | | | | | | |
-| SmolLM3-3B | orchestrator | | | | | | |
-| Nanbeige4.1-3B | orchestrator | | | | | | |
+Canonical measured table: [`benchmarks/RESULTS.md`](benchmarks/RESULTS.md) (no blank cells for bake-off rows).
 
 Pass@1 definition for a micro-task: `JudgeVerdict.passed == true` after sandbox (retries counted separately as Pass@k).
 
@@ -407,9 +398,9 @@ Measured EG (2026-07-21): orch Pass@1 **0.733** &lt; solo **0.867**; VRAM **1577
 cd scripts/ftl_parser_spike && ./build.sh
 ```
 
-### Explicit choice deferred
+### Closed
 
-ADR formalization vs coding: skeleton + this README are enough to start Phase 0–2. Formal ADR draft lives at [docs/ADR-DRAFT-multi-nano-orchestration.md](docs/ADR-DRAFT-multi-nano-orchestration.md) — promote into repo `docs/adr/` when ready.
+Backlog **T-070…T-075** done. Canonical ADR: [`docs/adr/ADR-007-multi-nano-orchestration.md`](../docs/adr/ADR-007-multi-nano-orchestration.md) (draft superseded). Research outcome: **keep solo 0.5B**.
 
 ---
 
@@ -419,26 +410,30 @@ ADR formalization vs coding: skeleton + this README are enough to start Phase 0�
 # From repo root
 cd nano-orchestrator
 
-# Install (editable)
+# Install (editable) + CLI
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
-npm install   # html-validate for Judge (NANO_ORCH_HTML_VALIDATE=1)
+nano-orchestrator version
+nano-orchestrator validate-schema
+nano-orchestrator test
 
-# Phase 0 + Phase 4 sandboxes
-pytest tests/unit -q
-python scripts/validate_schema.py
+# Or from repo root Makefile
+make nano-test
+make nano-validate-schema
+# make nano-smoke REQUEST="..."   # needs llama-server
+# make nano-bakeoff MODEL_ID=qwen25-coder-0.5b
+
+npm install   # html-validate for Judge (NANO_ORCH_HTML_VALIDATE=1)
 cd scripts/ftl_parser_spike && ./build.sh && cd ../..
 NANO_ORCH_HTML_VALIDATE=1 python scripts/validate_gold_code.py
 
-# Start baseline worker (reuse existing GGUF — example)
-# ../.local/llama-prism-cuda/llama-server -m ../.local/models/qwen25-coder-0.5b/*.gguf -ngl 99 -c 8192 --port 8081
-
-# Smoke (Phase 2)
-python scripts/smoke_runner.py --request "Create a FreeMarker list item and a JS filter helper"
-# Structured LLM log: logs/llm_calls.jsonl (prompt_hash, latency_ms, model_id)
+# Smoke (Phase 2) — human gate on out/proposal/
+python -m nano_orchestrator smoke --request "Create a FreeMarker list item and a JS filter helper" --fixed-tasks
 ```
 
-Human gate: smoke_runner prints proposed files to stdout / `out/proposal/` — **operator copies manually**. Never auto-commit generated code.
+Human gate: smoke prints proposed files to `out/proposal/` — **operator copies manually**. Never auto-commit generated code (`auto_persist: false`).
+
+**Research close:** GATE-001 failed — see [docs/NEGATIVE-RESULT.md](docs/NEGATIVE-RESULT.md) and [ADR-007](../docs/adr/ADR-007-multi-nano-orchestration.md).
 
 ---
 
