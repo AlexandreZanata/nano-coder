@@ -1,0 +1,200 @@
+{
+  "ts": "2026-07-21T16:41:41.622851+00:00",
+  "schedule": "benchmarks/large_site_schedule_pro_u.json",
+  "kind": "pro_site",
+  "request": "Build Brightfolio SaaS landing: styles.css + index/menu/about/contact HTML. Task ids styles,home,menu,about,contact.",
+  "orchestrator": {
+    "ok": null,
+    "skipped": true,
+    "reason": "speed.skip_orchestrator"
+  },
+  "orch_bind": {
+    "bound": 0,
+    "mode": "skipped"
+  },
+  "models_monitored": {
+    "orchestrator": null,
+    "workers": [
+      "qwen25-coder-0.5b-html-ft"
+    ],
+    "unique_worker_count": 1
+  },
+  "slots": [
+    {
+      "slot_id": "styles",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "css",
+      "ok": true,
+      "latency_ms": 3519,
+      "tokens_used": 780,
+      "vram_mb": 1599,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 3.572276423998119,
+      "attempts": 1,
+      "quality_ok": true,
+      "server_reused": true,
+      "server_kept_alive": true
+    },
+    {
+      "slot_id": "home",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 2638,
+      "tokens_used": 480,
+      "vram_mb": 1599,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 2.896403459002613,
+      "attempts": 1,
+      "quality_ok": true,
+      "server_reused": true,
+      "server_kept_alive": true
+    },
+    {
+      "slot_id": "menu",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 2638,
+      "tokens_used": 480,
+      "vram_mb": 1599,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 2.9154276119988936,
+      "attempts": 1,
+      "quality_ok": true,
+      "server_reused": true,
+      "server_kept_alive": true
+    },
+    {
+      "slot_id": "about",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 2642,
+      "tokens_used": 480,
+      "vram_mb": 1599,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 2.8863340280004195,
+      "attempts": 1,
+      "quality_ok": true,
+      "server_reused": true,
+      "server_kept_alive": true
+    },
+    {
+      "slot_id": "contact",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 2641,
+      "tokens_used": 480,
+      "vram_mb": 1599,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 2.8973837009980343,
+      "attempts": 1,
+      "quality_ok": true,
+      "server_reused": true,
+      "server_kept_alive": true
+    }
+  ],
+  "passed_count": 5,
+  "slot_count": 5,
+  "peak_vram_mb": 1599,
+  "vram_ok": true,
+  "package": "/data/dev/projects/webstorm/nano-coder/nano-orchestrator/out/proposal/package.json",
+  "openable": {
+    "pages": {
+      "about.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      },
+      "contact.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      },
+      "index.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      },
+      "menu.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      }
+    },
+    "openable": [
+      "about.html",
+      "contact.html",
+      "index.html",
+      "menu.html"
+    ],
+    "archive_candidates": [],
+    "has_styles": true
+  },
+  "archive": {
+    "ok": true,
+    "archive": "2026-07-21-pro-site-non-openable",
+    "kept": [
+      "about.html",
+      "contact.html",
+      "index.html",
+      "menu.html",
+      "styles.css"
+    ],
+    "moved": []
+  },
+  "quality": {
+    "styles_complete": true,
+    "styles_has_root": true,
+    "styles_has_nav": true,
+    "styles_has_hero": true,
+    "styles_has_footer": true,
+    "styles_has_form": true,
+    "index_complete_html": true,
+    "index_links_css": true,
+    "index_has_nav": true,
+    "menu_complete_html": true,
+    "menu_links_css": true,
+    "menu_has_nav": true,
+    "about_complete_html": true,
+    "about_links_css": true,
+    "about_has_nav": true,
+    "contact_complete_html": true,
+    "contact_links_css": true,
+    "contact_has_nav": true,
+    "menu_has_prices": true,
+    "contact_has_form": true
+  },
+  "quality_ok": true,
+  "speed": {
+    "keep_alive_same_model": true,
+    "settle_s": 0.0,
+    "stop_grace_s": 0.0,
+    "skip_redundant_stop": true,
+    "skip_orchestrator": true,
+    "ctx_size": 10240,
+    "trust_start_health": true,
+    "temperature": 0.0,
+    "parallel_same_model_slots": false,
+    "parallel_all_slots": true,
+    "n_parallel": 5,
+    "slots_reused": 5,
+    "slots_kept_alive": 5
+  },
+  "pass_bar": {
+    "min_passed": 5,
+    "met": true
+  }
+}

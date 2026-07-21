@@ -37,6 +37,7 @@
 | S17 | styles `max_tokens=750` + `health_sleep=0.1` + `skip_final_stop` | 4.83 s | **4.57 s** red (`styles_has_form`) | faster / red | **REVERT** |
 | S18 | Early-stop `<<<END>>>` stop marker (avoid padding to max_tokens) | 4.83 s | **2.00 s** red (0/5 echo/stop) | faster / red | **REVERT** |
 | S19 | S13 + `CTX=9216` (smaller KV vs 10240, keep `-np 5`) | 4.83 s | **4.81 s** green (noise) | −0.02 s | **REVERT** |
+| S20 | Compact CSS (form early) + styles `max_tokens=720` | 4.83 s | **4.56 s** red (`styles_has_footer`) | faster / red | **REVERT** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
@@ -56,8 +57,64 @@ S16: larger `-b 4096` / `-ub 1024` for multi-slot prefill. Green **4.80 s** but 
 S17: styles `max_tokens=750` + `health_sleep=0.1` + `skip_final_stop`. Faster wall but CSS truncated before form rules → REVERT; Site R final under S13.
 S18: `stop_extra=["<<<END>>>"]` in prompts. Model echoed meta-instructions and stopped at ~30 tokens (0/5) → REVERT; Site S final under S13.
 S19: `CTX=9216` with `-np 5`. Green **4.81 s** but within noise of S13 (~4.8 s) → REVERT to CTX 10240; Site T final under S13.
+S20: compact CSS + styles `max_tokens=720`. Faster but truncated before `.site-footer` → REVERT; Site U final under S13 (780).
+
+### Lovable direction (project-type expansion)
+
+Goal: nano-orchestrator as a **fast Lovable-style builder** — beautiful professional sites in seconds.
+
+| Track | Site kinds to cover next | Notes |
+|-------|--------------------------|-------|
+| Retail / local biz | A–T series | menu/prices + contact form (current bar) |
+| SaaS landing | **U Brightfolio** (done) | pricing tiers as `$` board |
+| Portfolio / agency | planned | case-study grid, still 5 MicroTasks |
+| Booking / services | planned | keep openable HTML+CSS only for now |
+
+Invariant: **result HTML/CSS only from workers** — no hand edits to `out/proposal/`.  
+Speed ceiling today: **S13 ~4.8 s**; styles decode (~780 tokens / ~3.6 s) is the remaining wall.
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## U — Brightfolio SaaS (`pro-site-U-brightfolio-saas`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-quill-copper-pro-archived/` @ 2026-07-21T16:39:57Z |
+| Site | Brightfolio (SaaS portfolio-builder landing + pricing) |
+| Schedule | [`large_site_schedule_pro_u.json`](large_site_schedule_pro_u.json) |
+| Why this task | Shift from retail boards to **SaaS Lovable-style** landing; measure **S20** compact CSS |
+| Speed | S20 **REVERT** (footer truncated); Site U final timed under **S13** |
+| Command | `make nano-large-site-pro-u` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| S20 attempt (red) | **4.56 s** — `styles_has_footer=false`; archived `out/archive/2026-07-21-brightfolio-s20-failed/` |
+| Final make (S13) | **4.83 s** |
+| Orch O0 | skipped |
+
+| Slot (final S13) | elapsed_s | reused |
+|------------------|-----------|--------|
+| styles | 3.57 | yes |
+| home | 2.90 | yes |
+| menu | 2.92 | yes |
+| about | 2.89 | yes |
+| contact | 2.90 | yes |
+
+### Quality
+
+- Pass bar: **5/5** · quality_ok · openable **4/4**
+- Peak VRAM: ~1599 MB
+- Report: [`runs/large_site_schedule_pro_u.json`](runs/large_site_schedule_pro_u.json)
+
+### Notes
+
+- No hand edits to `out/proposal/`
+- First SaaS-track pro-site in the Lovable expansion table
 
 ---
 
