@@ -35,6 +35,7 @@ paper/main.pdf
 __pycache__/
 *.egg-info/
 .venv/
+.venv-gpu/
 venv/
 
 # Node / build artifacts (add as stack is chosen)
