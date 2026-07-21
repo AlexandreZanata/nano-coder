@@ -147,6 +147,7 @@ def run_worker_slot(
     stop_grace_s: float = 1.0,
     ctx_size: int | None = None,
     trust_start_health: bool = False,
+    temperature: float = 0.2,
 ) -> tuple[SlotResult, WorkerResponse | None, JudgeVerdict | None]:
     t0 = time.perf_counter()
     peak = vram_used_mb()
@@ -191,7 +192,7 @@ def run_worker_slot(
         if settle_s > 0:
             time.sleep(settle_s)
 
-    adapter = LlamaCppAdapter(base_url, model_id=model_id, temperature=0.2)
+    adapter = LlamaCppAdapter(base_url, model_id=model_id, temperature=temperature)
     dispatch = WorkerDispatchUseCase(adapter)
 
     def _finish(
@@ -331,6 +332,7 @@ def main() -> int:
     ctx_raw = speed_cfg.get("ctx_size")
     ctx_size = int(ctx_raw) if ctx_raw is not None else None
     trust_start_health = bool(speed_cfg.get("trust_start_health", False))
+    temperature = float(speed_cfg.get("temperature", 0.2))
     json_out = args.json_out or (
         ROOT / "benchmarks" / "runs" / f"{args.schedule.stem}.json"
     )
@@ -341,6 +343,7 @@ def main() -> int:
         f" keep_alive={keep_alive} settle_s={settle_s} stop_grace_s={stop_grace_s}"
         f" skip_orchestrator={skip_orchestrator}"
         f" ctx_size={ctx_size} trust_start_health={trust_start_health}"
+        f" temperature={temperature}"
     )
     orch_report: dict
     orch_bind_meta: dict = {"bound": 0, "mode": "skipped"}
@@ -424,6 +427,7 @@ def main() -> int:
             stop_grace_s=stop_grace_s,
             ctx_size=ctx_size,
             trust_start_health=trust_start_health,
+            temperature=temperature,
         )
         if result.server_kept_alive:
             loaded_model = model_id
@@ -509,6 +513,7 @@ def main() -> int:
             "skip_orchestrator": skip_orchestrator,
             "ctx_size": ctx_size,
             "trust_start_health": trust_start_health,
+            "temperature": temperature,
             "slots_reused": sum(1 for s in slot_results if s.server_reused),
             "slots_kept_alive": sum(1 for s in slot_results if s.server_kept_alive),
         },

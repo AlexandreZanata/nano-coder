@@ -448,6 +448,7 @@ make nano-large-site-pro-e    # Solstice Yoga (S4 warm measured+reverted)
 make nano-large-site-pro-f    # Fern & Field + S5 skip-orch speed
 make nano-large-site-pro-g    # Beacon Dental + S6 skip-dup-kill / tighter tokens
 make nano-large-site-pro-h    # Atlas Climbing + S7 CTX=2048 / trust health
+make nano-large-site-pro-i    # Lumen Photo + S8 temp0 / tighter tokens
 
 # Arena playground — browse out/proposal + schedule runs
 make nano-arena

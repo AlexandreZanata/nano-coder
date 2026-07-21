@@ -112,6 +112,8 @@ notes: |
   Fern archived; skip duplicate port-kill + tighter tokens; workers 5/5 openable 4/4.
   2026-07-21: Pro-site H GREEN — Atlas Climbing; S7 KEEP (11.43s vs 13.00s, −12%);
   Beacon archived; CTX=2048 + trust_start_health; workers 5/5 openable 4/4.
+  2026-07-21: Pro-site I GREEN — Lumen Photo; S8 KEEP (9.82s vs 11.43s, −14%);
+  Atlas archived; temp0 + stop_grace0 + tokens 750/480; workers 5/5 openable 4/4.
 
 pro_site_benchmarks:
   protocol: orchestrator_only_results_no_hand_edit
@@ -150,6 +152,12 @@ pro_site_benchmarks:
       measured_wall_s: 11.43
       delta_s: -1.57
       note: CTX=2048 + trust shell health; peak_vram ~1503MB
+    S8_temp0_stop_grace0_tighter_tokens:
+      status: kept
+      baseline_wall_s: 11.43
+      measured_wall_s: 9.82
+      delta_s: -1.61
+      note: temperature=0 + stop_grace=0 + max_tokens 750/480
   A_harbor_coffee:
     status: archived
   B_summit_trail:
@@ -168,11 +176,14 @@ pro_site_benchmarks:
     status: archived
     wall_clock_s: 13.00
   H_atlas_climbing:
-    status: done
-    schedule: benchmarks/large_site_schedule_pro_h.json
+    status: archived
     wall_clock_s: 11.43
+  I_lumen_photo:
+    status: done
+    schedule: benchmarks/large_site_schedule_pro_i.json
+    wall_clock_s: 9.82
     orch: skipped_S5
-    speed: S7
+    speed: S8
     workers_passed: "5/5"
     openable_pages: 4
-    report: benchmarks/runs/large_site_schedule_pro_h.json
+    report: benchmarks/runs/large_site_schedule_pro_i.json

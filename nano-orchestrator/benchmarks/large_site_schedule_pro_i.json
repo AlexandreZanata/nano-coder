@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "kind": "pro_site",
+  "site_name": "Lumen Photo Studio",
+  "benchmark_id": "pro-site-I-lumen-photo",
+  "require_unique_models": false,
+  "prefer_orch_plan": false,
+  "speed": {
+    "keep_alive_same_model": true,
+    "settle_s": 0.0,
+    "stop_grace_s": 0.0,
+    "skip_redundant_stop": true,
+    "skip_orchestrator": true,
+    "ctx_size": 2048,
+    "trust_start_health": true,
+    "temperature": 0.0,
+    "approach": "S8_temp0_stop_grace0_tighter_tokens"
+  },
+  "request": "Build Lumen Photo Studio site: styles.css + index/menu/about/contact HTML. Task ids styles,home,menu,about,contact.",
+  "orchestrator_model": "smollm3-3b",
+  "min_passed": 5,
+  "max_retries_per_slot": 2,
+  "slots": [
+    {
+      "id": "styles",
+      "filename": "styles.css",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "css",
+      "prompt": "Copy this CSS exactly. Output ONLY CSS. No HTML. No markdown.\n:root{--bg:#f7f3ee;--surface:#fff;--text:#1c1917;--muted:#78716c;--accent:#0f766e;--accent-2:#14b8a6;--line:#e7e5e4;--max:1100px;--font:\"Segoe UI\",system-ui,sans-serif;--display:Georgia,\"Times New Roman\",serif}\n*{box-sizing:border-box}\nbody{margin:0;font-family:var(--font);color:var(--text);background:linear-gradient(180deg,#efe8df 0%,var(--bg) 40%,#faf7f2 100%);line-height:1.6}\na{color:var(--accent);text-decoration:none}a:hover{color:var(--accent-2)}\n.site-header{border-bottom:1px solid var(--line);background:rgba(255,255,255,.92);position:sticky;top:0;z-index:10}\n.nav-inner{max-width:var(--max);margin:0 auto;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}\n.brand{font-family:var(--display);font-size:1.35rem;color:var(--text)}\n.nav-links{display:flex;gap:1.2rem;flex-wrap:wrap}.nav-links a{color:var(--muted)}\n.nav-links a:hover,.nav-links a[aria-current=page]{color:var(--accent)}\n.hero{max-width:var(--max);margin:0 auto;padding:4rem 1.25rem 3rem}\n.hero h1{font-family:var(--display);font-size:clamp(2.1rem,5vw,3.2rem);line-height:1.15;margin:0 0 1rem}\n.hero p{color:var(--muted);max-width:38rem;font-size:1.08rem}\n.btn{display:inline-block;margin-top:1.4rem;padding:.75rem 1.2rem;background:var(--accent);color:#fff;border-radius:4px;font-weight:600}\n.section{max-width:var(--max);margin:0 auto;padding:2rem 1.25rem 3rem}\n.section h2{font-family:var(--display);font-size:1.75rem}\n.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}\n.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1.2rem}\n.card h3{margin-top:0;font-family:var(--display)}.price{color:var(--accent);font-weight:700}\n.menu-list{list-style:none;padding:0;margin:0}\n.menu-list li{display:flex;justify-content:space-between;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--line)}\n.site-footer{border-top:1px solid var(--line);margin-top:2rem;padding:2rem 1.25rem;color:var(--muted);text-align:center}\nform{display:grid;gap:.85rem;max-width:28rem}\nlabel{display:grid;gap:.35rem;color:var(--muted);font-size:.9rem}\ninput,textarea,select{padding:.7rem .8rem;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit}\nbutton[type=submit]{justify-self:start;padding:.75rem 1.2rem;border:0;border-radius:4px;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}\n@media (max-width:640px){.nav-inner{flex-direction:column;align-items:flex-start}}\n",
+      "constraints": [
+        "valid CSS",
+        "no HTML"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 750
+    },
+    {
+      "id": "home",
+      "filename": "index.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. No markdown.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Lumen Photo Studio \u2014 Home</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Lumen Photo Studio</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\" aria-current=\"page\">Home</a><a href=\"menu.html\">Packages</a><a href=\"about.html\">Studio</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<section class=\"hero\">\n<h1>Natural light. Honest portraits.</h1>\n<p>Lumen Photo Studio books portrait, brand, and event sessions with a calm north-facing loft.</p>\n<a class=\"btn\" href=\"menu.html\">Browse packages</a>\n</section>\n<section class=\"section\">\n<h2>Session highlights</h2>\n<div class=\"grid\">\n<article class=\"card\"><h3>Portrait hour</h3><p>Guided poses with soft window light and two outfit changes.</p></article>\n<article class=\"card\"><h3>Brand mini</h3><p>Headshots and lifestyle frames for founders and teams.</p></article>\n<article class=\"card\"><h3>Event coverage</h3><p>Two-hour documentary coverage for launches and dinners.</p></article>\n</div>\n</section>\n<footer class=\"site-footer\"><p>412 Glassworks Ave \u00b7 Tue\u2013Sun \u00b7 (555) 019-4410</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "complete document"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 480
+    },
+    {
+      "id": "menu",
+      "filename": "menu.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep every dollar price.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Packages \u2014 Lumen Photo Studio</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Lumen Photo Studio</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\" aria-current=\"page\">Packages</a><a href=\"about.html\">Studio</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Packages</h1>\n<ul class=\"menu-list\">\n<li><span>Portrait Hour</span><span class=\"price\">$280.00</span></li>\n<li><span>Brand Mini (5 looks)</span><span class=\"price\">$450.00</span></li>\n<li><span>Event Coverage (2h)</span><span class=\"price\">$650.00</span></li>\n<li><span>Family Session</span><span class=\"price\">$320.00</span></li>\n<li><span>Print Credit Add-on</span><span class=\"price\">$75.00</span></li>\n<li><span>Rush Edit (48h)</span><span class=\"price\">$120.00</span></li>\n</ul>\n</main>\n<footer class=\"site-footer\"><p>Lumen Photo Studio \u00b7 Prices in USD \u00b7 Travel fees may apply</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "dollar prices"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 480
+    },
+    {
+      "id": "about",
+      "filename": "about.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Studio \u2014 Lumen Photo Studio</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Lumen Photo Studio</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Packages</a><a href=\"about.html\" aria-current=\"page\">Studio</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>The studio</h1>\n<p>Lumen sits in a converted glassworks loft with tall windows, seamless paper, and a quiet lounge for wardrobe changes.</p>\n<p>Sessions are directed, never rushed \u2014 you leave with selects within five business days.</p>\n<div class=\"grid\">\n<article class=\"card\"><h3>Equipment</h3><p>Full-frame bodies, prime lenses, and continuous LED when daylight fades.</p></article>\n<article class=\"card\"><h3>Delivery</h3><p>Color-graded JPEGs plus optional RAW for commercial clients.</p></article>\n</div>\n</main>\n<footer class=\"site-footer\"><p>Lumen Photo Studio \u00b7 Established 2016</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 480
+    },
+    {
+      "id": "contact",
+      "filename": "contact.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep the contact form fields.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Contact \u2014 Lumen Photo Studio</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Lumen Photo Studio</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Packages</a><a href=\"about.html\">Studio</a><a href=\"contact.html\" aria-current=\"page\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Contact</h1>\n<p>Tell us the date, package, and location preference. We reply within one business day.</p>\n<form method=\"post\" action=\"/contact\">\n<label>Name<input type=\"text\" name=\"name\" required /></label>\n<label>Email<input type=\"email\" name=\"email\" required /></label>\n<label>Message<textarea name=\"message\" rows=\"5\" required></textarea></label>\n<button type=\"submit\">Send message</button>\n</form>\n</main>\n<footer class=\"site-footer\"><p>412 Glassworks Ave \u00b7 (555) 019-4410 \u00b7 book@lumenstudio.example</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "contact form"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 480
+    }
+  ]
+}

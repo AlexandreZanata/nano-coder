@@ -225,6 +225,16 @@ def test_pro_h_schedule_s7_flags() -> None:
     assert data["speed"]["approach"] == "S7_ctx2048_trust_start_health"
 
 
+def test_pro_i_schedule_s8_flags() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_i.json")
+    assert_schedule_valid(data)
+    assert data["benchmark_id"] == "pro-site-I-lumen-photo"
+    assert data["speed"]["temperature"] == 0.0
+    assert data["speed"]["stop_grace_s"] == 0.0
+    assert data["slots"][0]["max_tokens"] == 750
+    assert data["speed"]["approach"] == "S8_temp0_stop_grace0_tighter_tokens"
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 
