@@ -187,6 +187,18 @@ def test_model_server_stop_grace_params() -> None:
     assert "stop_grace_s" in inspect.signature(start_server).parameters
 
 
+def test_primary_worker_model() -> None:
+    from nano_orchestrator.application.large_site_schedule import primary_worker_model
+
+    assert (
+        primary_worker_model(
+            [{"model_id": "a"}, {"model_id": "b"}, {"model_id": "a"}]
+        )
+        == "a"
+    )
+    assert primary_worker_model([]) is None
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 

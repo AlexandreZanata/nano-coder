@@ -55,6 +55,17 @@ def next_slot_same_model(slots: list[dict], index: int) -> bool:
     return str(slots[index]["model_id"]) == str(slots[index + 1]["model_id"])
 
 
+def primary_worker_model(slots: list[dict]) -> str | None:
+    """Most common model_id in the schedule (for warm-start during orch)."""
+    if not slots:
+        return None
+    counts: dict[str, int] = {}
+    for slot in slots:
+        mid = str(slot["model_id"])
+        counts[mid] = counts.get(mid, 0) + 1
+    return max(counts.items(), key=lambda kv: kv[1])[0]
+
+
 def bind_orch_plan_to_slots(
     slots: list[dict],
     orch_tasks: list[dict] | None,

@@ -21,11 +21,46 @@
 | S1 | Cold start/stop every worker slot | — | Site B **53.31 s** | — | prior default |
 | S2 | `keep_alive_same_model` + settle 0.15s | 53.31 s | Site C **30.04 s** | **−23.27 s (−44%)** | **KEEP** |
 | S3 | S2 + `stop_grace_s=0.2` + `skip_redundant_stop` + `settle_s=0` | 30.04 s | Site D **26.87 s** | **−3.17 s (−11%)** | **KEEP** |
+| S4 | Warm worker on `:8082` during orch (parallel load) | 26.87 s | 27.31 / 31.23 / 32.70 s | not faster | **REVERT** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
-S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.
+S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
+S4: overlapped worker GGUF load with orch decompose (dual-port). Warm OK but wall ≥ baseline → code restored to S3.
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## E — Solstice Yoga Collective (`pro-site-E-solstice-yoga`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-ember-oak-pro-archived/` @ 2026-07-21T15:04:06Z |
+| Site | Solstice Yoga Collective (studio / class drop-ins) |
+| Schedule | [`large_site_schedule_pro_e.json`](large_site_schedule_pro_e.json) |
+| Why this task | New wellness domain; measure S4 warm-during-orch vs S3 |
+| Speed | S4 **REVERT**; Site E final timed under **S3** |
+| Command | `make nano-large-site-pro-e` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| S4 attempts (reverted) | 27.31 / 31.23 / 32.70 s |
+| Final S3 make (orch-bound) | **32.02 s** |
+| Orch O0 (S3 final) | 11.67 s |
+
+### Results
+
+| Check | Value |
+|-------|-------|
+| Orch | ok · `orch_bound=5` |
+| Workers | **5/5** |
+| Pass bar | **MET** |
+| Openable | **4/4** |
+| Hand edits | **none** |
+| Report | [`runs/large_site_schedule_pro_e.json`](runs/large_site_schedule_pro_e.json) |
 
 ---
 
@@ -40,7 +75,8 @@ First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5
 | Why this task | New craft domain; measure S3 atop keep-alive |
 | Speed | S3 |
 | Command | `make nano-large-site-pro-d` |
-| Status | **done — GREEN** |
+| Status | **archived** (superseded by E) |
+| Archive path | `out/archive/2026-07-21-ember-oak-pro-archived/` |
 
 ### Timing
 

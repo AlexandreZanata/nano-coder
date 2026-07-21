@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "kind": "pro_site",
+  "site_name": "Solstice Yoga Collective",
+  "benchmark_id": "pro-site-E-solstice-yoga",
+  "require_unique_models": false,
+  "prefer_orch_plan": true,
+  "speed": {
+    "keep_alive_same_model": true,
+    "settle_s": 0.0,
+    "stop_grace_s": 0.2,
+    "skip_redundant_stop": true,
+    "health_poll_s": 0.12,
+    "warm_worker_during_orch": false,
+    "approach": "S3_after_S4_revert",
+    "s4_warm_worker_during_orch": {
+      "status": "reverted",
+      "reason": "not_faster_than_26.87s_baseline",
+      "measured_walls_s": [
+        27.31,
+        31.23,
+        32.7
+      ]
+    }
+  },
+  "request": "Build a large professional Solstice Yoga Collective website with styles.css plus four HTML pages (index, classes/menu, teachers/about, contact). Shared sticky nav, hero, cards, priced class list, footer, contact form. Max 5 MicroTasks. Languages: css + html only. Task ids MUST be styles, home, menu, about, contact.",
+  "orchestrator_model": "smollm3-3b",
+  "min_passed": 5,
+  "max_retries_per_slot": 3,
+  "slots": [
+    {
+      "id": "styles",
+      "filename": "styles.css",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "css",
+      "prompt": "Copy this CSS exactly. Output ONLY CSS. No HTML. No markdown.\n:root{--bg:#14181f;--surface:#1e2633;--text:#f2f5fa;--muted:#aeb8c9;--accent:#7c9cff;--accent-2:#c9d6ff;--line:#303a4d;--max:1100px;--font:\"Segoe UI\",system-ui,sans-serif;--display:Georgia,\"Times New Roman\",serif}\n*{box-sizing:border-box}\nbody{margin:0;font-family:var(--font);color:var(--text);background:linear-gradient(180deg,#0d1118 0%,var(--bg) 45%,#1a2230 100%);line-height:1.6}\na{color:var(--accent-2);text-decoration:none}a:hover{color:var(--accent)}\n.site-header{border-bottom:1px solid var(--line);background:rgba(20,24,31,.94);position:sticky;top:0;z-index:10}\n.nav-inner{max-width:var(--max);margin:0 auto;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}\n.brand{font-family:var(--display);font-size:1.3rem;color:var(--text)}\n.nav-links{display:flex;gap:1.2rem;flex-wrap:wrap}.nav-links a{color:var(--muted)}\n.nav-links a:hover,.nav-links a[aria-current=page]{color:var(--accent)}\n.hero{max-width:var(--max);margin:0 auto;padding:4rem 1.25rem 3rem}\n.hero h1{font-family:var(--display);font-size:clamp(2.1rem,5vw,3.2rem);line-height:1.15;margin:0 0 1rem}\n.hero p{color:var(--muted);max-width:38rem;font-size:1.08rem}\n.btn{display:inline-block;margin-top:1.4rem;padding:.75rem 1.2rem;background:var(--accent);color:#0d1118;border-radius:4px;font-weight:600}\n.section{max-width:var(--max);margin:0 auto;padding:2rem 1.25rem 3rem}\n.section h2{font-family:var(--display);font-size:1.75rem}\n.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}\n.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1.2rem}\n.card h3{margin-top:0;font-family:var(--display)}.price{color:var(--accent);font-weight:700}\n.menu-list{list-style:none;padding:0;margin:0}\n.menu-list li{display:flex;justify-content:space-between;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--line)}\n.site-footer{border-top:1px solid var(--line);margin-top:2rem;padding:2rem 1.25rem;color:var(--muted);text-align:center}\nform{display:grid;gap:.85rem;max-width:28rem}\nlabel{display:grid;gap:.35rem;color:var(--muted);font-size:.9rem}\ninput,textarea,select{padding:.7rem .8rem;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit}\nbutton[type=submit]{justify-self:start;padding:.75rem 1.2rem;border:0;border-radius:4px;background:var(--accent);color:#0d1118;font-weight:600;cursor:pointer}\n@media (max-width:640px){.nav-inner{flex-direction:column;align-items:flex-start}}\n",
+      "constraints": [
+        "valid CSS",
+        "no HTML"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 1200
+    },
+    {
+      "id": "home",
+      "filename": "index.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. No markdown.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Solstice Yoga Collective \u2014 Home</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Solstice Yoga Collective</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\" aria-current=\"page\">Home</a><a href=\"menu.html\">Classes</a><a href=\"about.html\">Teachers</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<section class=\"hero\">\n<h1>Steady breath, strong body, quiet mind</h1>\n<p>Solstice Yoga Collective offers vinyasa, yin, and prenatal classes in a bright loft near the river.</p>\n<a class=\"btn\" href=\"menu.html\">See class drop-ins</a>\n</section>\n<section class=\"section\">\n<h2>Why members stay</h2>\n<div class=\"grid\">\n<article class=\"card\"><h3>Small groups</h3><p>Caps keep every room personal and carefully paced.</p></article>\n<article class=\"card\"><h3>Props ready</h3><p>Blocks, straps, and bolsters are cleaned between classes.</p></article>\n<article class=\"card\"><h3>All levels</h3><p>Teachers offer clear options for beginners and advanced students.</p></article>\n</div>\n</section>\n<footer class=\"site-footer\"><p>9 River Loft \u00b7 Open daily 6:00\u201321:00 \u00b7 (555) 016-9900</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "complete document"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "menu",
+      "filename": "menu.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep every dollar price.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Classes \u2014 Solstice Yoga Collective</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Solstice Yoga Collective</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\" aria-current=\"page\">Classes</a><a href=\"about.html\">Teachers</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Drop-in classes</h1>\n<ul class=\"menu-list\">\n<li><span>Sunrise Vinyasa</span><span class=\"price\">$22.00</span></li>\n<li><span>Midday Flow</span><span class=\"price\">$20.00</span></li>\n<li><span>Yin Restore</span><span class=\"price\">$18.00</span></li>\n<li><span>Prenatal Soft</span><span class=\"price\">$24.00</span></li>\n<li><span>Community Class</span><span class=\"price\">$12.00</span></li>\n<li><span>Private Session</span><span class=\"price\">$85.00</span></li>\n</ul>\n</main>\n<footer class=\"site-footer\"><p>Solstice Yoga Collective \u00b7 Prices in USD</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "dollar prices"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "about",
+      "filename": "about.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Teachers \u2014 Solstice Yoga Collective</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Solstice Yoga Collective</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Classes</a><a href=\"about.html\" aria-current=\"page\">Teachers</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Teachers</h1>\n<p>Our faculty trains in alignment-based vinyasa and trauma-aware cueing, with weekly mentoring circles.</p>\n<p>Visiting teachers join each season for workshops on breath, mobility, and restorative sequencing.</p>\n<div class=\"grid\">\n<article class=\"card\"><h3>Studio ethics</h3><p>We prioritize consent-based assists and clear verbal options.</p></article>\n<article class=\"card\"><h3>Community care</h3><p>Scholarship spots open each month for local students.</p></article>\n</div>\n</main>\n<footer class=\"site-footer\"><p>Solstice Yoga Collective \u00b7 Est. 2018</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "contact",
+      "filename": "contact.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep the contact form fields.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Contact \u2014 Solstice Yoga Collective</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Solstice Yoga Collective</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Classes</a><a href=\"about.html\">Teachers</a><a href=\"contact.html\" aria-current=\"page\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Contact</h1>\n<p>Ask about memberships, workshop rentals, or teacher training interest forms.</p>\n<form method=\"post\" action=\"/contact\">\n<label>Name<input type=\"text\" name=\"name\" required /></label>\n<label>Email<input type=\"email\" name=\"email\" required /></label>\n<label>Message<textarea name=\"message\" rows=\"5\" required></textarea></label>\n<button type=\"submit\">Send message</button>\n</form>\n</main>\n<footer class=\"site-footer\"><p>9 River Loft \u00b7 (555) 016-9900 \u00b7 hello@solsticeyoga.example</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "contact form"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    }
+  ]
+}

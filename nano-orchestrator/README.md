@@ -444,6 +444,7 @@ make nano-large-site-pro      # Harbor Coffee
 make nano-large-site-pro-b    # Summit Trail
 make nano-large-site-pro-c    # Cedar Library + keep-alive speed
 make nano-large-site-pro-d    # Ember & Oak + S3 stop_grace
+make nano-large-site-pro-e    # Solstice Yoga (S4 warm measured+reverted)
 
 # Arena playground — browse out/proposal + schedule runs
 make nano-arena

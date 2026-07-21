@@ -104,6 +104,8 @@ notes: |
   Summit archived; orch_bound=5; slots_reused=4.
   2026-07-21: Pro-site D GREEN — Ember & Oak Pottery; S3 KEEP (26.87s vs 30.04s, −11%);
   Cedar archived; orch_bound=5; stop_grace=0.2 + skip_redundant_stop.
+  2026-07-21: Pro-site E GREEN — Solstice Yoga; S4 warm-during-orch REVERT (not faster);
+  final under S3 32.02s; Ember archived; orch_bound=5.
 
 pro_site_benchmarks:
   protocol: orchestrator_only_results_no_hand_edit
@@ -119,6 +121,11 @@ pro_site_benchmarks:
       baseline_wall_s: 30.04
       measured_wall_s: 26.87
       delta_s: -3.17
+    S4_warm_worker_during_orch:
+      status: reverted
+      baseline_wall_s: 26.87
+      measured_walls_s: [27.31, 31.23, 32.7]
+      reason: not_faster
   A_harbor_coffee:
     status: archived
     schedule: benchmarks/large_site_schedule_pro.json
@@ -126,28 +133,23 @@ pro_site_benchmarks:
     status: archived
     schedule: benchmarks/large_site_schedule_pro_b.json
     wall_clock_s: 53.31
-    orch_bound: 5
-    workers_passed: "5/5"
-    openable_pages: 4
-    peak_vram_mb: 1579
-    report: benchmarks/runs/large_site_schedule_pro_b.json
   C_cedar_library:
     status: archived
     schedule: benchmarks/large_site_schedule_pro_c.json
     wall_clock_s: 30.04
-    orch_bound: 5
-    workers_passed: "5/5"
-    openable_pages: 4
-    peak_vram_mb: 1579
-    slots_reused: 4
-    report: benchmarks/runs/large_site_schedule_pro_c.json
   D_ember_oak:
-    status: done
+    status: archived
     schedule: benchmarks/large_site_schedule_pro_d.json
     wall_clock_s: 26.87
     orch_bound: 5
     workers_passed: "5/5"
     openable_pages: 4
-    peak_vram_mb: 1579
-    slots_reused: 4
     report: benchmarks/runs/large_site_schedule_pro_d.json
+  E_solstice_yoga:
+    status: done
+    schedule: benchmarks/large_site_schedule_pro_e.json
+    wall_clock_s: 32.02
+    orch_bound: 5
+    workers_passed: "5/5"
+    openable_pages: 4
+    report: benchmarks/runs/large_site_schedule_pro_e.json
