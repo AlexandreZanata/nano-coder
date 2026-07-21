@@ -72,6 +72,10 @@ def cmd_large_site(args: argparse.Namespace) -> int:
         extra.append("--keep-alive")
     if getattr(args, "no_keep_alive", False):
         extra.append("--no-keep-alive")
+    if getattr(args, "port", None) is not None:
+        extra.extend(["--port", str(args.port)])
+    if getattr(args, "base_url", None):
+        extra.extend(["--base-url", args.base_url])
     return _run_script("benchmarks/run_large_site_schedule.py", extra)
 
 
@@ -240,6 +244,17 @@ def build_parser() -> argparse.ArgumentParser:
         "--no-keep-alive",
         action="store_true",
         help="Disable keep-alive even if schedule enables it",
+    )
+    p_site.add_argument(
+        "--port",
+        type=int,
+        default=None,
+        help="llama-server port (default: runner 8081)",
+    )
+    p_site.add_argument(
+        "--base-url",
+        default=None,
+        help="llama-server base URL (default: http://127.0.0.1:<port>)",
     )
     p_site.set_defaults(func=cmd_large_site)
 

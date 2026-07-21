@@ -439,6 +439,7 @@ python -m nano_orchestrator smoke --request "Create a FreeMarker list item and a
 # Spec: benchmarks/LARGE_SITE_TEST_SCHEDULE.md
 # Pro-site backlog: benchmarks/PRO_SITE_BACKLOG.md (orchestrator-only HTML/CSS results)
 # Lovable track: expand site kinds (SaaS/portfolio/agency) while keeping ~4.8s S13 stack
+# If :8081 is busy (e.g. docker-proxy), use: NANO_PORT=8082 make nano-large-site-pro-v
 make nano-large-site
 make nano-large-site-all
 make nano-large-site-pro      # Harbor Coffee
@@ -462,6 +463,7 @@ make nano-large-site-pro-r    # Brickhouse Brew (S17 measured+reverted; final S1
 make nano-large-site-pro-s    # Northwind Kayak (S18 measured+reverted; final S13)
 make nano-large-site-pro-t    # Quill & Copper (S19 measured+reverted; final S13)
 make nano-large-site-pro-u    # Brightfolio SaaS (S20 measured+reverted; final S13; Lovable track)
+make nano-large-site-pro-v    # Fieldwork Studio agency (S21 measured+reverted; final S13; Lovable track)
 
 # Arena playground — browse out/proposal + schedule runs
 make nano-arena

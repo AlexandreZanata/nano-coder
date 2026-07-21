@@ -141,7 +141,8 @@ Canonical backlog: [`PRO_SITE_BACKLOG.md`](PRO_SITE_BACKLOG.md).
 | R | Brickhouse Brewing Co. | `make nano-large-site-pro-r` | 4.90 s | S17 REVERT (styles750 truncates form); final under S13; archived |
 | S | Northwind Kayak Outfitters | `make nano-large-site-pro-s` | 4.91 s | S18 REVERT (END stop 0/5); final under S13; archived |
 | T | Quill & Copper Stationery | `make nano-large-site-pro-t` | 4.88 s | S19 REVERT (CTX9216 noise); final under S13; archived |
-| U | Brightfolio (SaaS) | `make nano-large-site-pro-u` | **4.83 s** | S20 REVERT (CSS footer truncate); final under S13; Lovable SaaS track |
+| U | Brightfolio (SaaS) | `make nano-large-site-pro-u` | **4.83 s** | S20 REVERT (CSS footer truncate); final under S13; archived |
+| V | Fieldwork Studio (agency) | `NANO_PORT=8082 make nano-large-site-pro-v` | **4.76 s** | S21 REVERT (menu judge); final S13; Lovable agency track |
 
 Speed: S2–S8 + S12/S13 parallel kept · S4/S9/S10/S11/S14 REVERT. Best wall Site N **4.83 s**. CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
 

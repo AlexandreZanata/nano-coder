@@ -38,6 +38,7 @@
 | S18 | Early-stop `<<<END>>>` stop marker (avoid padding to max_tokens) | 4.83 s | **2.00 s** red (0/5 echo/stop) | faster / red | **REVERT** |
 | S19 | S13 + `CTX=9216` (smaller KV vs 10240, keep `-np 5`) | 4.83 s | **4.81 s** green (noise) | −0.02 s | **REVERT** |
 | S20 | Compact CSS (form early) + styles `max_tokens=720` | 4.83 s | **4.56 s** red (`styles_has_footer`) | faster / red | **REVERT** |
+| S21 | Ultra-compact CSS (footer+form early) + styles `max_tokens=700` | 4.83 s | **6.26 s** red (menu judge 4/5; styles CSS OK) | slower / red | **REVERT** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
@@ -58,22 +59,65 @@ S17: styles `max_tokens=750` + `health_sleep=0.1` + `skip_final_stop`. Faster wa
 S18: `stop_extra=["<<<END>>>"]` in prompts. Model echoed meta-instructions and stopped at ~30 tokens (0/5) → REVERT; Site S final under S13.
 S19: `CTX=9216` with `-np 5`. Green **4.81 s** but within noise of S13 (~4.8 s) → REVERT to CTX 10240; Site T final under S13.
 S20: compact CSS + styles `max_tokens=720`. Faster but truncated before `.site-footer` → REVERT; Site U final under S13 (780).
+S21: ultra-compact CSS with footer+form early + `max_tokens=700`. Styles quality green (footer+form present) but menu judge failed (4/5) and wall slower → REVERT tokens to 780; Site V final under S13. Note: host `:8081` was occupied by docker-proxy — measured on `:8082`.
 
 ### Lovable direction (project-type expansion)
 
-Goal: nano-orchestrator as a **fast Lovable-style builder** — beautiful professional sites in seconds.
+**North-star:** a chat that turns plain text into a complete professional system (sites first → apps later) — the next Lovable: extremely fast, beautiful, orchestrator-built.
 
-| Track | Site kinds to cover next | Notes |
-|-------|--------------------------|-------|
-| Retail / local biz | A–T series | menu/prices + contact form (current bar) |
-| SaaS landing | **U Brightfolio** (done) | pricing tiers as `$` board |
-| Portfolio / agency | planned | case-study grid, still 5 MicroTasks |
-| Booking / services | planned | keep openable HTML+CSS only for now |
+| Track | Site kinds | Status |
+|-------|------------|--------|
+| Retail / local biz | A–T | done series |
+| SaaS landing | U Brightfolio | archived |
+| Portfolio / agency | **V Fieldwork Studio** | done |
+| Booking / services | planned | next |
+| Chat → full system | planned | text prompt → orch decompose → workers (no hand edits) |
 
 Invariant: **result HTML/CSS only from workers** — no hand edits to `out/proposal/`.  
-Speed ceiling today: **S13 ~4.8 s**; styles decode (~780 tokens / ~3.6 s) is the remaining wall.
+Speed ceiling today: **S13 ~4.8 s**. Lesson: early footer+form in CSS can survive lower `max_tokens`, but pass bar still needs all 5 judges green.
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## V — Fieldwork Studio (`pro-site-V-fieldwork-agency`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-brightfolio-saas-pro-archived/` @ 2026-07-21T16:50:21Z |
+| Site | Fieldwork Studio (design agency / portfolio + services board) |
+| Schedule | [`large_site_schedule_pro_v.json`](large_site_schedule_pro_v.json) |
+| Why this task | **Agency/portfolio Lovable track**; measure **S21** ultra-compact CSS |
+| Speed | S21 **REVERT** (4/5 judge); Site V final timed under **S13** on `:8082` |
+| Command | `NANO_PORT=8082 make nano-large-site-pro-v` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| S21 attempt (red) | **6.26 s** — menu judge fail; styles CSS OK; archived `out/archive/2026-07-21-fieldwork-s21-failed/` |
+| Final make (S13 @8082) | **4.76 s** |
+| Orch O0 | skipped |
+
+| Slot (final S13) | elapsed_s | reused |
+|------------------|-----------|--------|
+| styles | 3.53 | yes |
+| home | 2.85 | yes |
+| menu | 2.82 | yes |
+| about | 2.83 | yes |
+| contact | 2.83 | yes |
+
+### Quality
+
+- Pass bar: **5/5** · quality_ok · openable **4/4**
+- Peak VRAM: ~1601 MB
+- Report: [`runs/large_site_schedule_pro_v.json`](runs/large_site_schedule_pro_v.json)
+
+### Notes
+
+- No hand edits to `out/proposal/`
+- Ops: if `:8081` busy (docker), use `NANO_PORT=8082`
 
 ---
 

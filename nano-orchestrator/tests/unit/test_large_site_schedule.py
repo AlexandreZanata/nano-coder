@@ -368,6 +368,21 @@ def test_pro_u_schedule_after_s20_revert() -> None:
     assert "Brightfolio" in data["site_name"]
 
 
+def test_pro_v_schedule_after_s21_revert() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_v.json")
+    assert_schedule_valid(data)
+    assert data["benchmark_id"] == "pro-site-V-fieldwork-agency"
+    assert data["speed"]["ctx_size"] == 10240
+    assert data["speed"]["parallel_all_slots"] is True
+    assert data["speed"]["n_parallel"] == 5
+    assert data["slots"][0]["max_tokens"] == 780
+    assert data["speed"]["approach"] == "S13_after_S21_revert"
+    assert "Fieldwork" in data["site_name"]
+    # footer+form appear early in compact CSS (Lovable speed lesson from S20/S21)
+    css_prompt = data["slots"][0]["prompt"]
+    assert css_prompt.index("site-footer") < css_prompt.index(".card")
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 

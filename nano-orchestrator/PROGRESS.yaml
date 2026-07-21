@@ -232,6 +232,11 @@ pro_site_benchmarks:
       baseline_wall_s: 4.83
       measured_wall_s: 4.56
       reason: quality_fail_styles_has_footer
+    S21_ultracompact_css_max700:
+      status: reverted
+      baseline_wall_s: 4.83
+      measured_wall_s: 6.26
+      reason: quality_fail_menu_judge_4_of_5_and_slower
   A_harbor_coffee:
     status: archived
   B_summit_trail:
@@ -289,12 +294,17 @@ pro_site_benchmarks:
     status: archived
     wall_clock_s: 4.88
   U_brightfolio_saas:
-    status: done
-    schedule: benchmarks/large_site_schedule_pro_u.json
+    status: archived
     wall_clock_s: 4.83
+    track: lovable_saas_landing
+  V_fieldwork_agency:
+    status: done
+    schedule: benchmarks/large_site_schedule_pro_v.json
+    wall_clock_s: 4.76
     orch: skipped_S5
-    speed: S13_after_S20_revert
+    speed: S13_after_S21_revert
     workers_passed: "5/5"
     openable_pages: 4
-    track: lovable_saas_landing
-    report: benchmarks/runs/large_site_schedule_pro_u.json
+    track: lovable_portfolio_agency
+    port_note: "8082 (8081 docker-proxy busy)"
+    report: benchmarks/runs/large_site_schedule_pro_v.json
