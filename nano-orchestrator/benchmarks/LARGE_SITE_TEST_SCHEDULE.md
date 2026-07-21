@@ -10,23 +10,29 @@ Build a **large coffee-shop site** (multi-page HTML + JS cart helpers + FreeMark
 1. Running **orchestrator** (`smollm3-3b`) to propose a MicroTask JSON plan  
 2. Executing a **canonical 5-slot schedule** — **one model per task** — so each worker is loaded, measured, and judged  
 
-## Models under monitor
+## Models under monitor (live all-models schedule)
+
+Canonical file: [`large_site_schedule_all_models.json`](large_site_schedule_all_models.json) — **one unique model per task**.
 
 | Slot | Model ID | Role | Site piece |
 |------|----------|------|------------|
-| O0 | `smollm3-3b` | orchestrator | Decompose user request → ≤5 MicroTasks |
-| W1 | `qwen25-coder-0.5b` | worker | `home.html` — hero, about, nav |
-| W2 | `gemma3-270m` | worker | `menu.html` — priced menu + CTA |
-| W3 | `qwen3-0.6b` | worker | `cart.js` — add/remove/total (ESM) |
-| W4 | `smollm2-360m` | worker | `formatMoney.js` — currency helper |
-| W5 | `qwen25-coder-0.5b-freemarker-ft` | worker | `menu-item.ftl` — `#list` + `?html` |
+| O0 | `smollm3-3b` | orchestrator | Decompose → bind 5 MicroTasks |
+| W1 | `qwen25-coder-0.5b-html-ft` | worker | `home.html` |
+| W2 | `qwen25-coder-0.5b` | worker | `menu.html` + prices |
+| W3 | `qwen25-coder-0.5b-javascript-ft` | worker | `cart.js` |
+| W4 | `gemma3-270m` | worker | `formatMoney.js` |
+| W5 | `qwen25-coder-0.5b-freemarker-ft` | worker | `menu-item.ftl` |
 
-Optional follow-up (same schedule, FT HTML/JS):
+```bash
+make nano-large-site-all
+```
 
-| Slot | Model ID | Piece |
-|------|----------|-------|
-| W1b | `qwen25-coder-0.5b-html-ft` | re-gen `home.html` |
-| W3b | `qwen25-coder-0.5b-javascript-ft` | re-gen `cart.js` |
+### Measured 2026-07-21 — GREEN (live orch)
+
+- Orch: **OK** (`count=5`, `orch_bound=5`)
+- Workers: **5/5** judge + quality
+- Peak VRAM: **3547 MB** (orch) · report: `benchmarks/runs/large_site_schedule_all_models.json`
+- Proposal: `out/proposal/`
 
 ## Cronograma (wall-clock order)
 
@@ -71,7 +77,28 @@ Human gate: review `out/proposal/` — never auto-persist.
 - [ ] ≥3/5 tasks `passed=true` (syntax sandboxes)  
 - [ ] Proposal package has `auto_persist: false`
 
-## Measured run (2026-07-21) — GREEN
+## All-models schedule (unique worker per slot + live orch)
+
+See [`large_site_schedule_all_models.json`](large_site_schedule_all_models.json):
+
+| Slot | Model | Piece |
+|------|-------|-------|
+| O0 | `smollm3-3b` | decompose → bind plan to slots |
+| W1 | `qwen25-coder-0.5b` | home.html |
+| W2 | `gemma3-270m` | menu.html |
+| W3 | `qwen3-0.6b` | cart.js |
+| W4 | `smollm2-360m` | formatMoney.js |
+| W5 | `qwen25-coder-0.5b-freemarker-ft` | menu-item.ftl |
+
+```bash
+make nano-large-site-all
+# or:
+NANO_ORCH_HTML_VALIDATE=1 python benchmarks/run_large_site_schedule.py \
+  --schedule benchmarks/large_site_schedule_all_models.json
+```
+
+Orch binds MicroTasks by id/language onto the unique model roster (`orch_bind` in the JSON report). If orch JSON fails, canonical slot prompts still run (one model each).
+
 
 | Slot | Model | Latency | VRAM MB | Judge | Quality |
 |------|-------|---------|---------|-------|---------|
@@ -87,3 +114,17 @@ Human gate: review `out/proposal/` — never auto-persist.
 - **Passed bar:** **5/5** · **Quality checklist:** all true · **Peak VRAM:** **1577 MB** · **Exit:** 0  
 - **Artifacts:** `out/proposal/` · `benchmarks/runs/large_site_schedule.json`  
 - **Command:** `NANO_ORCH_HTML_VALIDATE=1 python benchmarks/run_large_site_schedule.py --skip-orchestrator`
+
+## Pro-site CSS+HTML series (orchestrator-only results)
+
+Canonical backlog: [`PRO_SITE_BACKLOG.md`](PRO_SITE_BACKLOG.md).
+
+| ID | Site | Make target | Wall (latest) | Notes |
+|----|------|-------------|---------------|-------|
+| A | Harbor Coffee | `make nano-large-site-pro` | — | archived |
+| B | Summit Trail | `make nano-large-site-pro-b` | 53.31 s | cold start/stop baseline |
+| C | Cedar Civic Library | `make nano-large-site-pro-c` | **30.04 s** | keep-alive S2 (−44%) |
+
+Speed: schedule `speed.keep_alive_same_model` reuses `llama-server` when consecutive slots share `model_id`. CLI: `--keep-alive` / `--no-keep-alive`.
+
+**Rule:** never hand-edit `out/proposal/` site files; archive before each new site run.

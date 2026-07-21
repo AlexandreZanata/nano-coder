@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "kind": "pro_site",
+  "site_name": "Summit Trail Outfitters",
+  "benchmark_id": "pro-site-B-summit-trail",
+  "require_unique_models": false,
+  "prefer_orch_plan": true,
+  "request": "Build a large professional Summit Trail Outfitters website with styles.css plus four HTML pages (index, menu/shop, about/guides, contact). Shared sticky nav, hero, cards, priced shop list, footer, contact form. Max 5 MicroTasks. Languages: css + html only. Task ids MUST be styles, home, menu, about, contact.",
+  "orchestrator_model": "smollm3-3b",
+  "min_passed": 5,
+  "max_retries_per_slot": 3,
+  "slots": [
+    {
+      "id": "styles",
+      "filename": "styles.css",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "css",
+      "prompt": "Copy this CSS exactly. Output ONLY CSS. No HTML. No markdown.\n:root{--bg:#0f1a14;--surface:#1a2b22;--text:#eef5f0;--muted:#a8c0b4;--accent:#6fbf73;--accent-2:#c6e8c8;--line:#2d4438;--max:1100px;--font:\"Segoe UI\",system-ui,sans-serif;--display:Georgia,\"Times New Roman\",serif}\n*{box-sizing:border-box}\nbody{margin:0;font-family:var(--font);color:var(--text);background:linear-gradient(180deg,#0a120e 0%,var(--bg) 45%,#15241c 100%);line-height:1.6}\na{color:var(--accent-2);text-decoration:none}a:hover{color:var(--accent)}\n.site-header{border-bottom:1px solid var(--line);background:rgba(15,26,20,.94);position:sticky;top:0;z-index:10}\n.nav-inner{max-width:var(--max);margin:0 auto;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}\n.brand{font-family:var(--display);font-size:1.3rem;color:var(--text)}\n.nav-links{display:flex;gap:1.2rem;flex-wrap:wrap}.nav-links a{color:var(--muted)}\n.nav-links a:hover,.nav-links a[aria-current=page]{color:var(--accent)}\n.hero{max-width:var(--max);margin:0 auto;padding:4rem 1.25rem 3rem}\n.hero h1{font-family:var(--display);font-size:clamp(2.1rem,5vw,3.2rem);line-height:1.15;margin:0 0 1rem}\n.hero p{color:var(--muted);max-width:38rem;font-size:1.08rem}\n.btn{display:inline-block;margin-top:1.4rem;padding:.75rem 1.2rem;background:var(--accent);color:#0f1a14;border-radius:4px;font-weight:600}\n.section{max-width:var(--max);margin:0 auto;padding:2rem 1.25rem 3rem}\n.section h2{font-family:var(--display);font-size:1.75rem}\n.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}\n.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1.2rem}\n.card h3{margin-top:0;font-family:var(--display)}.price{color:var(--accent);font-weight:700}\n.menu-list{list-style:none;padding:0;margin:0}\n.menu-list li{display:flex;justify-content:space-between;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--line)}\n.site-footer{border-top:1px solid var(--line);margin-top:2rem;padding:2rem 1.25rem;color:var(--muted);text-align:center}\nform{display:grid;gap:.85rem;max-width:28rem}\nlabel{display:grid;gap:.35rem;color:var(--muted);font-size:.9rem}\ninput,textarea,select{padding:.7rem .8rem;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit}\nbutton[type=submit]{justify-self:start;padding:.75rem 1.2rem;border:0;border-radius:4px;background:var(--accent);color:#0f1a14;font-weight:600;cursor:pointer}\n@media (max-width:640px){.nav-inner{flex-direction:column;align-items:flex-start}}\n",
+      "constraints": [
+        "valid CSS",
+        "no HTML"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 1200
+    },
+    {
+      "id": "home",
+      "filename": "index.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. No markdown.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Summit Trail Outfitters \u2014 Home</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Summit Trail Outfitters</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\" aria-current=\"page\">Home</a><a href=\"menu.html\">Shop</a><a href=\"about.html\">Guides</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<section class=\"hero\">\n<h1>Gear built for long miles and cold mornings</h1>\n<p>Summit Trail Outfitters supplies packs, layers, and trail tools for weekend hikers and thru-hikers alike.</p>\n<a class=\"btn\" href=\"menu.html\">Browse the shop</a>\n</section>\n<section class=\"section\">\n<h2>Trail-ready essentials</h2>\n<div class=\"grid\">\n<article class=\"card\"><h3>Ultralight packs</h3><p>Framed and frameless packs tested on Cascade ridgelines.</p></article>\n<article class=\"card\"><h3>Layer systems</h3><p>Merino base layers and shell jackets for wet alpine weather.</p></article>\n<article class=\"card\"><h3>Field tools</h3><p>Filters, stoves, and repair kits packed for reliability.</p></article>\n</div>\n</section>\n<footer class=\"site-footer\"><p>88 Ridge Avenue \u00b7 Open daily 8:00\u201319:00 \u00b7 (555) 019-8800</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "complete document"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "menu",
+      "filename": "menu.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep every dollar price.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Shop \u2014 Summit Trail Outfitters</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Summit Trail Outfitters</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\" aria-current=\"page\">Shop</a><a href=\"about.html\">Guides</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Shop</h1>\n<ul class=\"menu-list\">\n<li><span>Ridge 40L Pack</span><span class=\"price\">$189.00</span></li>\n<li><span>Alpine Shell Jacket</span><span class=\"price\">$249.00</span></li>\n<li><span>Merino Base Tee</span><span class=\"price\">$48.00</span></li>\n<li><span>Trail Filter Kit</span><span class=\"price\">$64.00</span></li>\n<li><span>Titanium Stove</span><span class=\"price\">$79.00</span></li>\n<li><span>Repair Patch Pack</span><span class=\"price\">$18.00</span></li>\n</ul>\n</main>\n<footer class=\"site-footer\"><p>Summit Trail Outfitters \u00b7 Prices in USD</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "dollar prices"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "about",
+      "filename": "about.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Guides \u2014 Summit Trail Outfitters</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Summit Trail Outfitters</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Shop</a><a href=\"about.html\" aria-current=\"page\">Guides</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Field guides</h1>\n<p>Our guides are written by staff who hike the same routes they recommend, from desert canyon walks to snowy passes.</p>\n<p>Every packing list is updated seasonally and checked against real trip logs before publication.</p>\n<div class=\"grid\">\n<article class=\"card\"><h3>Weekend loops</h3><p>Two-day routes with water notes and bail-out points.</p></article>\n<article class=\"card\"><h3>Alpine starts</h3><p>Cold-weather layering and early summit timing tips.</p></article>\n</div>\n</main>\n<footer class=\"site-footer\"><p>Summit Trail Outfitters \u00b7 Guides since 2011</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "contact",
+      "filename": "contact.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep the contact form fields.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Contact \u2014 Summit Trail Outfitters</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Summit Trail Outfitters</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Shop</a><a href=\"about.html\">Guides</a><a href=\"contact.html\" aria-current=\"page\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Contact</h1>\n<p>Ask about gear fitting, group rentals, or guided weekend trips.</p>\n<form method=\"post\" action=\"/contact\">\n<label>Name<input type=\"text\" name=\"name\" required /></label>\n<label>Email<input type=\"email\" name=\"email\" required /></label>\n<label>Message<textarea name=\"message\" rows=\"5\" required></textarea></label>\n<button type=\"submit\">Send message</button>\n</form>\n</main>\n<footer class=\"site-footer\"><p>88 Ridge Avenue \u00b7 (555) 019-8800 \u00b7 hello@summittrail.example</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "contact form"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    }
+  ],
+  "speed": {
+    "keep_alive_same_model": true,
+    "settle_s": 0.15,
+    "approach": "reuse_llama_server_across_same_model_slots"
+  }
+}

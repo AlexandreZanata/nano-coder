@@ -7,7 +7,7 @@ import re
 from nano_orchestrator.domain.entities import MicroTask, TargetLanguage
 
 _FENCE_RE = re.compile(
-    r"```(?:javascript|js|html|htm|ftl|freemarker|text)?\s*\n(.*?)```",
+    r"```(?:javascript|js|html|htm|css|ftl|freemarker|text)?\s*\n(.*?)```",
     re.DOTALL | re.IGNORECASE,
 )
 _TRAILING_CHATTER = re.compile(
@@ -44,7 +44,7 @@ def build_orchestrator_prompt(user_request: str, max_tasks: int = 5) -> str:
         "You split coding work into MicroTask JSON objects.\n"
         f"Return ONLY a JSON array with at most {max_tasks} objects.\n"
         "Each object keys: id, role, language, prompt, constraints, acceptance, max_tokens.\n"
-        'role must be "coder". language must be javascript|html|freemarker.\n'
+        'role must be "coder". language must be javascript|html|freemarker|css.\n'
         "Example output:\n"
         f"{example}\n\n"
         f"User request:\n{user_request}\n"
@@ -55,10 +55,13 @@ def build_orchestrator_prompt(user_request: str, max_tasks: int = 5) -> str:
 def extract_code(raw: str, language: TargetLanguage) -> str:
     """Pull first fenced block, else strip chatter and return remainder."""
     match = _FENCE_RE.search(raw)
-    if match:
+    if match and match.group(1).strip():
         text = match.group(1).strip()
     else:
         text = raw.strip()
+        # Drop empty/broken fences like "```\n```"
+        text = re.sub(r"^```(?:\w+)?\s*", "", text)
+        text = re.sub(r"\s*```$", "", text).strip()
         for marker in ("Here is", "Here's", "Sure,", "Certainly", "The menu page"):
             if text.startswith(marker):
                 nl = text.find("\n")
@@ -68,6 +71,8 @@ def extract_code(raw: str, language: TargetLanguage) -> str:
             text = _slice_from(text, ("export ", "function ", "const ", "class "))
         elif language is TargetLanguage.HTML:
             text = _slice_html(text)
+        elif language is TargetLanguage.CSS:
+            text = _slice_css(text)
         elif language is TargetLanguage.FREEMARKER:
             text = _slice_from(text, ("<#", "#list", "${", "<"))
     text = _TRAILING_CHATTER.sub("", text).strip()
@@ -77,6 +82,8 @@ def extract_code(raw: str, language: TargetLanguage) -> str:
         text = _trim_html_document(text)
     if language is TargetLanguage.JAVASCRIPT:
         text = _trim_js_module(text)
+    if language is TargetLanguage.CSS:
+        text = _trim_css(text)
     return normalize_worker_code(text, language)
 
 
@@ -93,6 +100,14 @@ def looks_like_code(code: str, language: TargetLanguage) -> bool:
     if language is TargetLanguage.HTML:
         lower = c.lower()
         return ("<!doctype html>" in lower or "<html" in lower) and "</html>" in lower
+    if language is TargetLanguage.CSS:
+        lower = c.lower()
+        return (
+            "{" in c
+            and "}" in c
+            and "<html" not in lower
+            and any(t in lower for t in ("body", "nav", ":root", ".hero"))
+        )
     if language is TargetLanguage.FREEMARKER:
         return "<#list" in c.lower() and "?html" in c.lower()
     return False
@@ -149,6 +164,32 @@ def _slice_html(text: str) -> str:
             return text[idx:]
     idx = text.find("<")
     return text[idx:] if idx != -1 else text
+
+
+def _slice_css(text: str) -> str:
+    lower = text.lower()
+    for token in (":root", "body", "*", "html", ".hero", "nav", "/*"):
+        idx = lower.find(token)
+        if idx != -1:
+            return text[idx:]
+    brace = text.find("{")
+    return text[: brace].rsplit("\n", 1)[-1] + text[brace:] if brace > 0 else text
+
+
+def _trim_css(text: str) -> str:
+    cut = re.search(
+        r"\n(?:Here is the|Here is|The CSS|Language:|Task:|Constraints:|Acceptance:|Now write)",
+        text,
+        re.I,
+    )
+    if cut:
+        text = text[: cut.start()].strip()
+    first = text.find(":root")
+    if first >= 0:
+        second = text.find(":root", first + 5)
+        if second > 0:
+            text = text[:second].strip()
+    return text.strip()
 
 
 def _trim_html_document(text: str) -> str:

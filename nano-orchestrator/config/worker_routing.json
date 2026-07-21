@@ -35,7 +35,8 @@
   "fine_tuned_overrides": {
     "javascript": "qwen25-coder-0.5b-javascript-ft",
     "html": "qwen25-coder-0.5b-html-ft",
-    "freemarker": "qwen25-coder-0.5b-freemarker-ft"
+    "freemarker": "qwen25-coder-0.5b-freemarker-ft",
+    "css": "qwen25-coder-0.5b-html-ft"
   },
   "fallback_model_id": "qwen25-coder-0.5b"
 }

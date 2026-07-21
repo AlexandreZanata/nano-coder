@@ -437,8 +437,16 @@ python -m nano_orchestrator smoke --request "Create a FreeMarker list item and a
 
 # Large-site multi-model schedule (orch + one model per task)
 # Spec: benchmarks/LARGE_SITE_TEST_SCHEDULE.md
+# Pro-site backlog: benchmarks/PRO_SITE_BACKLOG.md (orchestrator-only HTML/CSS results)
 make nano-large-site
-# or: python -m nano_orchestrator large-site
+make nano-large-site-all
+make nano-large-site-pro      # Harbor Coffee
+make nano-large-site-pro-b    # Summit Trail
+make nano-large-site-pro-c    # Cedar Library + keep-alive speed
+
+# Arena playground — browse out/proposal + schedule runs
+make nano-arena
+# → http://127.0.0.1:8765
 ```
 
 Human gate: smoke prints proposed files to `out/proposal/` — **operator copies manually**. Never auto-commit generated code (`auto_persist: false`).

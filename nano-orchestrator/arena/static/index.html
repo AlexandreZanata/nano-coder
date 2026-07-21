@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nano-Orchestrator Arena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/arena.css" />
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <header class="top">
+      <div class="brand">
+        <p class="eyebrow">nano-orchestrator</p>
+        <h1>Arena</h1>
+      </div>
+      <div class="top-meta">
+        <span id="status-pill" class="pill">loading</span>
+        <button type="button" id="btn-refresh" class="btn">Refresh</button>
+        <label class="toggle">
+          <input type="checkbox" id="auto-refresh" checked />
+          Auto 3s
+        </label>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="rail">
+        <section>
+          <h2>Proposal</h2>
+          <p id="proposal-path" class="muted path"></p>
+          <ul id="file-list" class="list"></ul>
+        </section>
+        <section>
+          <h2>Schedule runs</h2>
+          <ul id="run-list" class="list"></ul>
+        </section>
+        <section class="gate">
+          <h2>Human gate</h2>
+          <p class="muted">
+            Outputs land in <code>out/proposal/</code> only.
+            <strong>auto_persist: false</strong> — copy manually if you keep anything.
+          </p>
+        </section>
+      </aside>
+
+      <section class="stage">
+        <div class="stage-head">
+          <div>
+            <h2 id="stage-title">Select a file</h2>
+            <p id="stage-sub" class="muted"></p>
+          </div>
+          <div class="stage-actions">
+            <button type="button" id="tab-preview" class="btn ghost active">Preview</button>
+            <button type="button" id="tab-source" class="btn ghost">Source</button>
+            <a id="open-site" class="btn ghost" href="/site/index.html" target="_blank" rel="noopener">Open site</a>
+          </div>
+        </div>
+        <div id="verdict-bar" class="verdict-bar hidden"></div>
+        <iframe
+          id="preview"
+          class="preview"
+          title="HTML site preview"
+          sandbox="allow-same-origin allow-forms allow-popups"
+        ></iframe>
+        <pre id="source" class="source hidden"><code></code></pre>
+      </section>
+
+      <aside class="metrics">
+        <section>
+          <h2>Package</h2>
+          <div id="package-summary" class="cards"></div>
+        </section>
+        <section>
+          <h2>Selected run</h2>
+          <div id="run-summary" class="cards">
+            <p class="muted">Pick a run from the left rail.</p>
+          </div>
+          <pre id="run-json" class="run-json hidden"><code></code></pre>
+        </section>
+      </aside>
+    </main>
+
+    <script src="/arena.js"></script>
+  </body>
+</html>

@@ -98,3 +98,39 @@ notes: |
   2026-07-21: EX polish complete (T-070…T-075). ADR-007 promoted; CLI + Makefile + CI;
   security tests for ASI08 / auto_persist / log redaction; README stopped (negative).
   Backlog closed — keep solo Qwen2.5-Coder-0.5B.
+  2026-07-21: Pro-site B GREEN — Summit Trail Outfitters (CSS+4 HTML) via nano-orchestrator
+  only; Harbor archived; wall 53.31s; orch_bound=5; see benchmarks/PRO_SITE_BACKLOG.md.
+  2026-07-21: Pro-site C GREEN — Cedar Civic Library; keep-alive S2 KEEP (30.04s vs 53.31s, −44%);
+  Summit archived; orch_bound=5; slots_reused=4.
+
+pro_site_benchmarks:
+  protocol: orchestrator_only_results_no_hand_edit
+  backlog: benchmarks/PRO_SITE_BACKLOG.md
+  speed:
+    S2_keep_alive_same_model:
+      status: kept
+      baseline_wall_s: 53.31
+      measured_wall_s: 30.04
+      delta_s: -23.27
+  A_harbor_coffee:
+    status: archived
+    schedule: benchmarks/large_site_schedule_pro.json
+  B_summit_trail:
+    status: archived
+    schedule: benchmarks/large_site_schedule_pro_b.json
+    wall_clock_s: 53.31
+    orch_bound: 5
+    workers_passed: "5/5"
+    openable_pages: 4
+    peak_vram_mb: 1579
+    report: benchmarks/runs/large_site_schedule_pro_b.json
+  C_cedar_library:
+    status: done
+    schedule: benchmarks/large_site_schedule_pro_c.json
+    wall_clock_s: 30.04
+    orch_bound: 5
+    workers_passed: "5/5"
+    openable_pages: 4
+    peak_vram_mb: 1579
+    slots_reused: 4
+    report: benchmarks/runs/large_site_schedule_pro_c.json

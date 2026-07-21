@@ -11,6 +11,7 @@ class TargetLanguage(str, Enum):
     JAVASCRIPT = "javascript"
     HTML = "html"
     FREEMARKER = "freemarker"
+    CSS = "css"
 
 
 class WorkerRole(str, Enum):

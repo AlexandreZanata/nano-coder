@@ -1,0 +1,229 @@
+{
+  "ts": "2026-07-21T14:18:01.649625+00:00",
+  "schedule": "benchmarks/large_site_schedule_all_models.json",
+  "request": "Split into EXACTLY 5 MicroTasks as a JSON array only. Task ids MUST be site-home, site-menu, site-cart, site-money, site-ftl. Languages: site-home=html, site-menu=html, site-cart=javascript, site-money=javascript, site-ftl=freemarker. Each object needs id, role=coder, language, prompt, constraints, acceptance=[\"syntax_valid\"], max_tokens>=256. Build Harbor Coffee Co. large site: home page, priced menu page, cart ESM, formatMoney ESM, FreeMarker #list item partial.",
+  "orchestrator": {
+    "ok": true,
+    "error": null,
+    "elapsed_s": 11.738002986001447,
+    "vram_mb": 3547,
+    "tasks": [
+      {
+        "id": "site-home",
+        "role": "coder",
+        "language": "html",
+        "prompt": "Build home page",
+        "context": null,
+        "constraints": [
+          "semantic HTML5"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 256
+      },
+      {
+        "id": "site-menu",
+        "role": "coder",
+        "language": "html",
+        "prompt": "Build menu page",
+        "context": null,
+        "constraints": [
+          "semantic HTML5"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 256
+      },
+      {
+        "id": "site-cart",
+        "role": "coder",
+        "language": "javascript",
+        "prompt": "Build cart ESM",
+        "context": null,
+        "constraints": [
+          "ES modules"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 256
+      },
+      {
+        "id": "site-money",
+        "role": "coder",
+        "language": "javascript",
+        "prompt": "Build formatMoney ESM",
+        "context": null,
+        "constraints": [
+          "ES modules"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 256
+      },
+      {
+        "id": "site-ftl",
+        "role": "coder",
+        "language": "freemarker",
+        "prompt": "Build #list item partial",
+        "context": null,
+        "constraints": [
+          "semantic HTML5"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 256
+      }
+    ],
+    "raw_ok": true,
+    "count": 5
+  },
+  "orch_bind": {
+    "bound": 5,
+    "mode": "orch_bound",
+    "bindings": [
+      {
+        "slot_id": "site-home",
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "orch_task_id": "site-home",
+        "orch_language": "html"
+      },
+      {
+        "slot_id": "site-menu",
+        "model_id": "qwen25-coder-0.5b",
+        "orch_task_id": "site-menu",
+        "orch_language": "html"
+      },
+      {
+        "slot_id": "site-cart",
+        "model_id": "qwen25-coder-0.5b-javascript-ft",
+        "orch_task_id": "site-cart",
+        "orch_language": "javascript"
+      },
+      {
+        "slot_id": "site-money",
+        "model_id": "gemma3-270m",
+        "orch_task_id": "site-money",
+        "orch_language": "javascript"
+      },
+      {
+        "slot_id": "site-ftl",
+        "model_id": "qwen25-coder-0.5b-freemarker-ft",
+        "orch_task_id": "site-ftl",
+        "orch_language": "freemarker"
+      }
+    ]
+  },
+  "models_monitored": {
+    "orchestrator": "smollm3-3b",
+    "workers": [
+      "gemma3-270m",
+      "qwen25-coder-0.5b",
+      "qwen25-coder-0.5b-freemarker-ft",
+      "qwen25-coder-0.5b-html-ft",
+      "qwen25-coder-0.5b-javascript-ft"
+    ],
+    "unique_worker_count": 5
+  },
+  "slots": [
+    {
+      "slot_id": "site-home",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 476,
+      "tokens_used": 158,
+      "vram_mb": 1577,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 5.500702160999936,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "site-menu",
+      "model_id": "qwen25-coder-0.5b",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 483,
+      "tokens_used": 151,
+      "vram_mb": 1577,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 5.515280437000911,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "site-cart",
+      "model_id": "qwen25-coder-0.5b-javascript-ft",
+      "language": "javascript",
+      "ok": true,
+      "latency_ms": 618,
+      "tokens_used": 208,
+      "vram_mb": 1577,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 5.5231641090013,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "site-money",
+      "model_id": "gemma3-270m",
+      "language": "javascript",
+      "ok": true,
+      "latency_ms": 583,
+      "tokens_used": 256,
+      "vram_mb": 1365,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 6.132984118001332,
+      "attempts": 2,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "site-ftl",
+      "model_id": "qwen25-coder-0.5b-freemarker-ft",
+      "language": "freemarker",
+      "ok": true,
+      "latency_ms": 116,
+      "tokens_used": 30,
+      "vram_mb": 1575,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 5.128194484999767,
+      "attempts": 1,
+      "quality_ok": true
+    }
+  ],
+  "passed_count": 5,
+  "slot_count": 5,
+  "peak_vram_mb": 1577,
+  "vram_ok": true,
+  "package": "/data/dev/projects/webstorm/nano-coder/nano-orchestrator/out/proposal/package.json",
+  "quality": {
+    "home_complete_html": true,
+    "home_has_nav": true,
+    "menu_complete_html": true,
+    "menu_has_prices": true,
+    "menu_has_5_items": true,
+    "cart_exports": true,
+    "money_formats": true,
+    "ftl_list_html": true
+  },
+  "quality_ok": true,
+  "pass_bar": {
+    "min_passed": 5,
+    "met": true
+  }
+}

@@ -1,0 +1,287 @@
+{
+  "ts": "2026-07-21T14:37:54.265074+00:00",
+  "schedule": "benchmarks/large_site_schedule_pro.json",
+  "kind": "pro_site",
+  "request": "Build a large professional Harbor Coffee Co. website with styles.css plus four HTML pages (index, menu, about, contact). Shared sticky nav, hero, cards, footer, contact form. Max 5 MicroTasks. Languages: css + html only.",
+  "orchestrator": {
+    "ok": true,
+    "error": null,
+    "elapsed_s": 13.09962238099979,
+    "vram_mb": 3547,
+    "tasks": [
+      {
+        "id": "t1",
+        "role": "coder",
+        "language": "css",
+        "prompt": "Create styles.css with sticky nav, hero, cards, footer, contact form",
+        "context": null,
+        "constraints": [
+          "responsive",
+          "mobile-first"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 128
+      },
+      {
+        "id": "t2",
+        "role": "coder",
+        "language": "html",
+        "prompt": "Create index.html with hero, cards, footer, contact form",
+        "context": null,
+        "constraints": [
+          "responsive",
+          "mobile-first"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 128
+      },
+      {
+        "id": "t3",
+        "role": "coder",
+        "language": "html",
+        "prompt": "Create menu.html with semantic HTML5 menu",
+        "context": null,
+        "constraints": [
+          "responsive",
+          "mobile-first"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 128
+      },
+      {
+        "id": "t4",
+        "role": "coder",
+        "language": "html",
+        "prompt": "Create about.html with hero, cards, footer, contact form",
+        "context": null,
+        "constraints": [
+          "responsive",
+          "mobile-first"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 128
+      },
+      {
+        "id": "t5",
+        "role": "coder",
+        "language": "html",
+        "prompt": "Create contact.html with hero, cards, footer, contact form",
+        "context": null,
+        "constraints": [
+          "responsive",
+          "mobile-first"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 128
+      }
+    ],
+    "raw_ok": true,
+    "count": 5
+  },
+  "orch_bind": {
+    "bound": 5,
+    "mode": "orch_bound",
+    "bindings": [
+      {
+        "slot_id": "styles",
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "orch_task_id": "t1",
+        "orch_language": "css"
+      },
+      {
+        "slot_id": "home",
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "orch_task_id": "t2",
+        "orch_language": "html"
+      },
+      {
+        "slot_id": "menu",
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "orch_task_id": "t3",
+        "orch_language": "html"
+      },
+      {
+        "slot_id": "about",
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "orch_task_id": "t4",
+        "orch_language": "html"
+      },
+      {
+        "slot_id": "contact",
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "orch_task_id": "t5",
+        "orch_language": "html"
+      }
+    ]
+  },
+  "models_monitored": {
+    "orchestrator": "smollm3-3b",
+    "workers": [
+      "qwen25-coder-0.5b-html-ft"
+    ],
+    "unique_worker_count": 1
+  },
+  "slots": [
+    {
+      "slot_id": "styles",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "css",
+      "ok": true,
+      "latency_ms": 3591,
+      "tokens_used": 1200,
+      "vram_mb": 1579,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 8.45451012400008,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "home",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 2028,
+      "tokens_used": 700,
+      "vram_mb": 1579,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 7.036575822001396,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "menu",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 2044,
+      "tokens_used": 700,
+      "vram_mb": 1577,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 7.080710029000329,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "about",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 2034,
+      "tokens_used": 700,
+      "vram_mb": 1577,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 7.0459173819999705,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "contact",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 2024,
+      "tokens_used": 700,
+      "vram_mb": 1577,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 7.029419378999592,
+      "attempts": 1,
+      "quality_ok": true
+    }
+  ],
+  "passed_count": 5,
+  "slot_count": 5,
+  "peak_vram_mb": 1579,
+  "vram_ok": true,
+  "package": "/data/dev/projects/webstorm/nano-coder/nano-orchestrator/out/proposal/package.json",
+  "openable": {
+    "pages": {
+      "about.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      },
+      "contact.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      },
+      "index.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      },
+      "menu.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      }
+    },
+    "openable": [
+      "about.html",
+      "contact.html",
+      "index.html",
+      "menu.html"
+    ],
+    "archive_candidates": [],
+    "has_styles": true
+  },
+  "archive": {
+    "ok": true,
+    "archive": "2026-07-21-pro-site-non-openable",
+    "kept": [
+      "about.html",
+      "contact.html",
+      "index.html",
+      "menu.html",
+      "styles.css"
+    ],
+    "moved": []
+  },
+  "quality": {
+    "styles_complete": true,
+    "styles_has_root": true,
+    "styles_has_nav": true,
+    "styles_has_hero": true,
+    "styles_has_footer": true,
+    "styles_has_form": true,
+    "index_complete_html": true,
+    "index_links_css": true,
+    "index_has_nav": true,
+    "menu_complete_html": true,
+    "menu_links_css": true,
+    "menu_has_nav": true,
+    "about_complete_html": true,
+    "about_links_css": true,
+    "about_has_nav": true,
+    "contact_complete_html": true,
+    "contact_links_css": true,
+    "contact_has_nav": true,
+    "menu_has_prices": true,
+    "contact_has_form": true
+  },
+  "quality_ok": true,
+  "pass_bar": {
+    "min_passed": 5,
+    "met": true
+  }
+}

@@ -63,15 +63,18 @@ def build_routing_from_scores(
 ) -> WorkerRouting:
     overrides = fine_tuned_overrides or {}
     picks: dict[str, str] = {}
-    for lang in ("javascript", "html", "freemarker"):
+    for lang in ("javascript", "html", "freemarker", "css"):
         if prefer_fine_tuned and overrides.get(lang):
             picks[lang] = overrides[lang]
         else:
-            picks[lang] = select_best_model(scores.get(lang, []), fallback=fallback)
+            # CSS shares HTML bake-off scores when css scores are absent
+            score_key = lang if scores.get(lang) else ("html" if lang == "css" else lang)
+            picks[lang] = select_best_model(scores.get(score_key, []), fallback=fallback)
     return WorkerRouting(
         javascript=picks["javascript"],
         html=picks["html"],
         freemarker=picks["freemarker"],
+        css=picks["css"],
         default=fallback,
     )
 

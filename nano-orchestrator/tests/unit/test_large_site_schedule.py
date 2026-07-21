@@ -102,6 +102,101 @@ def test_evaluate_site_quality_on_good_fixtures() -> None:
     assert all(checks.values()), checks
 
 
+PRO_SCHEDULE = ROOT / "benchmarks" / "large_site_schedule_pro.json"
+
+
+def test_pro_schedule_valid() -> None:
+    data = load_schedule(PRO_SCHEDULE)
+    assert_schedule_valid(data)
+    assert data["kind"] == "pro_site"
+    langs = {s["language"] for s in data["slots"]}
+    assert {"html", "css"} <= langs
+    assert all(s.get("filename") for s in data["slots"])
+
+
+def test_evaluate_pro_site_quality() -> None:
+    from nano_orchestrator.application.large_site_schedule import (
+        evaluate_pro_site_quality,
+    )
+
+    css = (
+        ":root { --accent: #c4783a; }\nbody { margin: 0; }\n"
+        "nav { display: flex; }\n.hero { padding: 2rem; }\n"
+        ".site-footer { padding: 1rem; }\nform { display: grid; }\n"
+    )
+    page = (
+        "<!DOCTYPE html><html><head>"
+        "<link rel='stylesheet' href='styles.css' />"
+        "</head><body><nav><a href='index.html'>Home</a></nav>"
+        "<main><h1>Hi</h1></main></body></html>\n"
+    )
+    menu = page.replace("<h1>Hi</h1>", "<ul><li>Latte $4.50</li></ul>")
+    contact = page.replace("<h1>Hi</h1>", "<form method='post'><button>Send</button></form>")
+    checks = evaluate_pro_site_quality(
+        {
+            "styles": css,
+            "home": page,
+            "menu": menu,
+            "about": page,
+            "contact": contact,
+        }
+    )
+    assert all(checks.values()), checks
+
+
+def test_css_extract_and_looks_like() -> None:
+    from nano_orchestrator.application.codegen_prompts import (
+        extract_code,
+        looks_like_code,
+    )
+    from nano_orchestrator.domain.entities import TargetLanguage
+
+    raw = "Sure, here is CSS:\n```css\n:root { --x: 1; }\nbody { color: red; }\nnav a { color: blue; }\n.hero { padding: 1rem; }\n```\n"
+    code = extract_code(raw, TargetLanguage.CSS)
+    assert ":root" in code
+    assert looks_like_code(code, TargetLanguage.CSS)
+
+
+def test_keep_alive_helpers() -> None:
+    from nano_orchestrator.application.large_site_schedule import (
+        next_slot_same_model,
+        should_reuse_server,
+    )
+
+    assert should_reuse_server("m1", "m1", keep_alive=True) is True
+    assert should_reuse_server("m1", "m2", keep_alive=True) is False
+    assert should_reuse_server(None, "m1", keep_alive=True) is False
+    assert should_reuse_server("m1", "m1", keep_alive=False) is False
+    slots = [
+        {"model_id": "a"},
+        {"model_id": "a"},
+        {"model_id": "b"},
+    ]
+    assert next_slot_same_model(slots, 0) is True
+    assert next_slot_same_model(slots, 1) is False
+    assert next_slot_same_model(slots, 2) is False
+
+
+def test_bind_orch_plan_maps_by_id() -> None:
+    from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
+
+    slots = [
+        {"id": "site-home", "model_id": "m1", "language": "html", "max_tokens": 100},
+        {"id": "site-cart", "model_id": "m2", "language": "javascript", "max_tokens": 100},
+    ]
+    orch = [
+        {"id": "site-home", "language": "html", "prompt": "orch home", "max_tokens": 300},
+        {"id": "site-cart", "language": "javascript", "prompt": "orch cart", "max_tokens": 50},
+    ]
+    merged, meta = bind_orch_plan_to_slots(slots, orch)
+    assert meta["bound"] == 2
+    assert meta["mode"] == "orch_bound"
+    assert merged[0]["model_id"] == "m1"
+    assert merged[0]["orch_prompt"] == "orch home"
+    assert merged[0]["max_tokens"] == 300
+    assert merged[1]["max_tokens"] == 100
+
+
 def test_coerce_microtask_missing_fields() -> None:
     from nano_orchestrator.domain.microtask_parser import parse_microtasks_json
 

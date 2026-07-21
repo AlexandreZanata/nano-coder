@@ -64,7 +64,12 @@ def _coerce_microtask_item(item: dict) -> dict:
         out["id"] = f"t-{abs(hash(str(out.get('prompt')))) % 10_000}"
     if "language" in out and isinstance(out["language"], str):
         lang = out["language"].strip().lower()
-        aliases = {"js": "javascript", "htm": "html", "ftl": "freemarker"}
+        aliases = {
+            "js": "javascript",
+            "htm": "html",
+            "ftl": "freemarker",
+            "stylesheet": "css",
+        }
         out["language"] = aliases.get(lang, lang)
     if "constraints" in out and out["constraints"] is None:
         out["constraints"] = []

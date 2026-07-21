@@ -17,6 +17,7 @@ class WorkerRouting:
     javascript: str = "qwen25-coder-0.5b"
     html: str = "qwen25-coder-0.5b"
     freemarker: str = "smollm2-360m"
+    css: str = "qwen25-coder-0.5b"
     default: str = "qwen25-coder-0.5b"
 
     def model_for(self, language: TargetLanguage) -> str:
@@ -26,6 +27,8 @@ class WorkerRouting:
             return self.html
         if language is TargetLanguage.FREEMARKER:
             return self.freemarker
+        if language is TargetLanguage.CSS:
+            return self.css
         return self.default
 
 
@@ -48,7 +51,7 @@ def estimate_confidence(raw: str, code: str) -> float:
         score += 0.25
     if len(code.strip()) >= 20:
         score += 0.15
-    if any(token in code for token in ("export ", "<", "<#", "${")):
+    if any(token in code for token in ("export ", "<", "<#", "${", ":root", "{")):
         score += 0.1
     return round(min(1.0, score), 4)
 

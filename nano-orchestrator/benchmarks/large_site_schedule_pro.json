@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "kind": "pro_site",
+  "site_name": "Harbor Coffee Co.",
+  "require_unique_models": false,
+  "prefer_orch_plan": true,
+  "request": "Build a large professional Harbor Coffee Co. website with styles.css plus four HTML pages (index, menu, about, contact). Shared sticky nav, hero, cards, footer, contact form. Max 5 MicroTasks. Languages: css + html only.",
+  "orchestrator_model": "smollm3-3b",
+  "min_passed": 5,
+  "max_retries_per_slot": 3,
+  "slots": [
+    {
+      "id": "styles",
+      "filename": "styles.css",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "css",
+      "prompt": "Copy this CSS exactly. Output ONLY CSS. No HTML. No markdown.\n:root{--bg:#1a1410;--surface:#2a211c;--text:#f5efe6;--muted:#c4b5a5;--accent:#c4783a;--accent-2:#e8c39e;--line:#3d322a;--max:1100px;--font:\"Segoe UI\",system-ui,sans-serif;--display:Georgia,\"Times New Roman\",serif}\n*{box-sizing:border-box}\nbody{margin:0;font-family:var(--font);color:var(--text);background:linear-gradient(180deg,#120e0b 0%,var(--bg) 40%,#241a14 100%);line-height:1.6}\na{color:var(--accent-2);text-decoration:none}a:hover{color:var(--accent)}\n.site-header{border-bottom:1px solid var(--line);background:rgba(26,20,16,.92);position:sticky;top:0;z-index:10}\n.nav-inner{max-width:var(--max);margin:0 auto;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}\n.brand{font-family:var(--display);font-size:1.35rem;color:var(--text)}\n.nav-links{display:flex;gap:1.25rem;flex-wrap:wrap}.nav-links a{color:var(--muted)}\n.nav-links a:hover,.nav-links a[aria-current=page]{color:var(--accent)}\n.hero{max-width:var(--max);margin:0 auto;padding:4rem 1.25rem 3rem}\n.hero h1{font-family:var(--display);font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.15;margin:0 0 1rem}\n.hero p{color:var(--muted);max-width:36rem;font-size:1.1rem}\n.btn{display:inline-block;margin-top:1.5rem;padding:.75rem 1.25rem;background:var(--accent);color:#1a1410;border-radius:4px;font-weight:600}\n.section{max-width:var(--max);margin:0 auto;padding:2rem 1.25rem 3rem}\n.section h2{font-family:var(--display);font-size:1.8rem}\n.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem}\n.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1.25rem}\n.card h3{margin-top:0;font-family:var(--display)}.price{color:var(--accent);font-weight:700}\n.menu-list{list-style:none;padding:0;margin:0}\n.menu-list li{display:flex;justify-content:space-between;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--line)}\n.site-footer{border-top:1px solid var(--line);margin-top:2rem;padding:2rem 1.25rem;color:var(--muted);text-align:center}\nform{display:grid;gap:.85rem;max-width:28rem}\nlabel{display:grid;gap:.35rem;color:var(--muted);font-size:.9rem}\ninput,textarea,select{padding:.7rem .8rem;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit}\nbutton[type=submit]{justify-self:start;padding:.75rem 1.25rem;border:0;border-radius:4px;background:var(--accent);color:#1a1410;font-weight:600;cursor:pointer}\n@media (max-width:640px){.nav-inner{flex-direction:column;align-items:flex-start}}\n",
+      "constraints": [
+        "valid CSS",
+        "no HTML"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 1200
+    },
+    {
+      "id": "home",
+      "filename": "index.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. No markdown.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Harbor Coffee Co. \u2014 Home</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\">\n<div class=\"nav-inner\">\n<a class=\"brand\" href=\"index.html\">Harbor Coffee Co.</a>\n<nav class=\"nav-links\" aria-label=\"Primary\">\n<a href=\"index.html\" aria-current=\"page\">Home</a>\n<a href=\"menu.html\">Menu</a>\n<a href=\"about.html\">About</a>\n<a href=\"contact.html\">Contact</a>\n</nav>\n</div>\n</header>\n<section class=\"hero\">\n<h1>Slow-roasted coffee for busy mornings</h1>\n<p>Harbor Coffee Co. serves single-origin espresso, seasonal pour-overs, and fresh pastries on the waterfront.</p>\n<a class=\"btn\" href=\"menu.html\">View the menu</a>\n</section>\n<section class=\"section\">\n<h2>Why guests return</h2>\n<div class=\"grid\">\n<article class=\"card\"><h3>Local roast</h3><p>Beans roasted weekly in small batches for peak flavor.</p></article>\n<article class=\"card\"><h3>Waterfront seating</h3><p>Quiet tables with harbor views and reliable Wi-Fi.</p></article>\n<article class=\"card\"><h3>Fresh pastry</h3><p>Butter croissants and seasonal tarts baked every morning.</p></article>\n</div>\n</section>\n<footer class=\"site-footer\">\n<p>12 Pier Lane \u00b7 Open daily 7:00\u201318:00 \u00b7 (555) 014-2200</p>\n</footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "complete document"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "menu",
+      "filename": "menu.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep every dollar price.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Menu \u2014 Harbor Coffee Co.</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\">\n<div class=\"nav-inner\">\n<a class=\"brand\" href=\"index.html\">Harbor Coffee Co.</a>\n<nav class=\"nav-links\" aria-label=\"Primary\">\n<a href=\"index.html\">Home</a>\n<a href=\"menu.html\" aria-current=\"page\">Menu</a>\n<a href=\"about.html\">About</a>\n<a href=\"contact.html\">Contact</a>\n</nav>\n</div>\n</header>\n<main class=\"section\">\n<h1>Menu</h1>\n<ul class=\"menu-list\">\n<li><span>Harbor Latte</span><span class=\"price\">$4.50</span></li>\n<li><span>Cappuccino</span><span class=\"price\">$4.00</span></li>\n<li><span>Espresso</span><span class=\"price\">$3.00</span></li>\n<li><span>Mocha</span><span class=\"price\">$4.75</span></li>\n<li><span>Americano</span><span class=\"price\">$3.50</span></li>\n<li><span>Seasonal Pour-Over</span><span class=\"price\">$5.25</span></li>\n</ul>\n</main>\n<footer class=\"site-footer\"><p>Harbor Coffee Co. \u00b7 Menu updated daily</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "dollar prices"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "about",
+      "filename": "about.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>About \u2014 Harbor Coffee Co.</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\">\n<div class=\"nav-inner\">\n<a class=\"brand\" href=\"index.html\">Harbor Coffee Co.</a>\n<nav class=\"nav-links\" aria-label=\"Primary\">\n<a href=\"index.html\">Home</a>\n<a href=\"menu.html\">Menu</a>\n<a href=\"about.html\" aria-current=\"page\">About</a>\n<a href=\"contact.html\">Contact</a>\n</nav>\n</div>\n</header>\n<main class=\"section\">\n<h1>Our story</h1>\n<p>Founded on Pier Lane in 2014, Harbor Coffee Co. started as a two-person cart and grew into a neighborhood cafe known for careful roasting and friendly service.</p>\n<p>We source beans from long-term farm partners, roast in small batches, and train every barista on dial-in and milk texture.</p>\n<div class=\"grid\">\n<article class=\"card\"><h3>Craft</h3><p>Every espresso recipe is logged and tasted before service.</p></article>\n<article class=\"card\"><h3>Community</h3><p>We host cuppings and local maker pop-ups each month.</p></article>\n</div>\n</main>\n<footer class=\"site-footer\"><p>Harbor Coffee Co. \u00b7 Est. 2014</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "contact",
+      "filename": "contact.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep the contact form fields.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Contact \u2014 Harbor Coffee Co.</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\">\n<div class=\"nav-inner\">\n<a class=\"brand\" href=\"index.html\">Harbor Coffee Co.</a>\n<nav class=\"nav-links\" aria-label=\"Primary\">\n<a href=\"index.html\">Home</a>\n<a href=\"menu.html\">Menu</a>\n<a href=\"about.html\">About</a>\n<a href=\"contact.html\" aria-current=\"page\">Contact</a>\n</nav>\n</div>\n</header>\n<main class=\"section\">\n<h1>Contact</h1>\n<p>Visit us at 12 Pier Lane or send a message for catering and private events.</p>\n<form method=\"post\" action=\"/contact\">\n<label>Name<input type=\"text\" name=\"name\" required /></label>\n<label>Email<input type=\"email\" name=\"email\" required /></label>\n<label>Message<textarea name=\"message\" rows=\"5\" required></textarea></label>\n<button type=\"submit\">Send message</button>\n</form>\n</main>\n<footer class=\"site-footer\">\n<p>12 Pier Lane \u00b7 (555) 014-2200 \u00b7 hello@harborcoffee.example</p>\n</footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "contact form"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    }
+  ],
+  "speed": {
+    "keep_alive_same_model": true,
+    "settle_s": 0.15,
+    "approach": "reuse_llama_server_across_same_model_slots"
+  }
+}

@@ -68,7 +68,25 @@ def cmd_large_site(args: argparse.Namespace) -> int:
         extra.append("--skip-orchestrator")
     if args.schedule:
         extra.extend(["--schedule", args.schedule])
+    if getattr(args, "keep_alive", False):
+        extra.append("--keep-alive")
+    if getattr(args, "no_keep_alive", False):
+        extra.append("--no-keep-alive")
     return _run_script("benchmarks/run_large_site_schedule.py", extra)
+
+
+def cmd_arena(args: argparse.Namespace) -> int:
+    script = ROOT / "arena" / "server.py"
+    cmd = [
+        sys.executable,
+        str(script),
+        "--host",
+        args.host,
+        "--port",
+        str(args.port),
+    ]
+    return subprocess.call(cmd, cwd=str(ROOT))
+
 
 
 def cmd_decompose(args: argparse.Namespace) -> int:
@@ -187,7 +205,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_judge.add_argument("--task-id", default="cli-task")
     p_judge.add_argument(
         "--language",
-        choices=["javascript", "html", "freemarker"],
+        choices=["javascript", "html", "freemarker", "css"],
         required=True,
     )
     p_judge.add_argument("--code-file", required=True)
@@ -213,7 +231,22 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_site.add_argument("--skip-orchestrator", action="store_true")
     p_site.add_argument("--schedule", default=None)
+    p_site.add_argument(
+        "--keep-alive",
+        action="store_true",
+        help="Reuse server across consecutive same-model worker slots",
+    )
+    p_site.add_argument(
+        "--no-keep-alive",
+        action="store_true",
+        help="Disable keep-alive even if schedule enables it",
+    )
     p_site.set_defaults(func=cmd_large_site)
+
+    p_arena = sub.add_parser("arena", help="Open local Arena playground (proposals + runs)")
+    p_arena.add_argument("--host", default="127.0.0.1")
+    p_arena.add_argument("--port", type=int, default=8765)
+    p_arena.set_defaults(func=cmd_arena)
 
     p_ver = sub.add_parser("version", help="Print package version")
     p_ver.set_defaults(func=cmd_version)

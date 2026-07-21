@@ -21,11 +21,19 @@ from nano_orchestrator.application.codegen_prompts import looks_like_code  # noq
 from nano_orchestrator.application.judge_use_case import JudgeUseCase  # noqa: E402
 from nano_orchestrator.application.large_site_schedule import (  # noqa: E402
     assert_schedule_valid,
+    bind_orch_plan_to_slots,
+    evaluate_pro_site_quality,
     evaluate_site_quality,
     load_schedule,
+    next_slot_same_model,
+    should_reuse_server,
+    slot_filenames,
     slot_to_task,
 )
-from nano_orchestrator.application.merge_proposal import write_proposal  # noqa: E402
+from nano_orchestrator.application.merge_proposal import (  # noqa: E402
+    archive_non_openable,
+    write_proposal,
+)
 from nano_orchestrator.application.orchestrate_use_case import OrchestrateUseCase  # noqa: E402
 from nano_orchestrator.application.worker_dispatch import WorkerDispatchUseCase  # noqa: E402
 from nano_orchestrator.domain.entities import (  # noqa: E402
@@ -64,6 +72,8 @@ class SlotResult:
     elapsed_s: float
     attempts: int = 1
     quality_ok: bool | None = None
+    server_reused: bool = False
+    server_kept_alive: bool = False
 
 
 def run_orchestrator_slot(
@@ -120,37 +130,87 @@ def run_worker_slot(
     base_url: str,
     judge: JudgeUseCase,
     max_attempts: int = 2,
+    reuse_server: bool = False,
+    keep_alive: bool = False,
+    settle_s: float = 0.5,
 ) -> tuple[SlotResult, WorkerResponse | None, JudgeVerdict | None]:
     t0 = time.perf_counter()
     peak = vram_used_mb()
     last_error: str | None = None
     best_response: WorkerResponse | None = None
     best_verdict: JudgeVerdict | None = None
+    reused = False
 
-    started = start_server(model_id, port=port)
-    if started.is_err():
+    if reuse_server:
+        reused = True
+    else:
+        started = start_server(model_id, port=port)
+        if started.is_err():
+            return (
+                SlotResult(
+                    slot_id=task.id,
+                    model_id=model_id,
+                    language=task.language.value,
+                    ok=False,
+                    latency_ms=None,
+                    tokens_used=None,
+                    vram_mb=vram_used_mb(),
+                    passed=None,
+                    score=None,
+                    error=str(started.error),
+                    elapsed_s=time.perf_counter() - t0,
+                    attempts=0,
+                    quality_ok=False,
+                    server_reused=False,
+                    server_kept_alive=False,
+                ),
+                None,
+                None,
+            )
+        if settle_s > 0:
+            time.sleep(settle_s)
+
+    adapter = LlamaCppAdapter(base_url, model_id=model_id, temperature=0.2)
+    dispatch = WorkerDispatchUseCase(adapter)
+
+    def _finish(
+        *,
+        passed: bool | None,
+        score: float | None,
+        error: str | None,
+        attempts: int,
+        quality_ok: bool | None,
+        ok: bool,
+        latency_ms: int | None,
+        tokens_used: int | None,
+    ) -> tuple[SlotResult, WorkerResponse | None, JudgeVerdict | None]:
+        kept = False
+        if keep_alive:
+            kept = True
+        else:
+            stop_server(port)
+        peak_final = _peak(peak, vram_used_mb())
         return (
             SlotResult(
                 slot_id=task.id,
                 model_id=model_id,
                 language=task.language.value,
-                ok=False,
-                latency_ms=None,
-                tokens_used=None,
-                vram_mb=vram_used_mb(),
-                passed=None,
-                score=None,
-                error=str(started.error),
+                ok=ok,
+                latency_ms=latency_ms,
+                tokens_used=tokens_used,
+                vram_mb=peak_final,
+                passed=passed,
+                score=score,
+                error=error,
                 elapsed_s=time.perf_counter() - t0,
-                attempts=0,
-                quality_ok=False,
+                attempts=attempts,
+                quality_ok=quality_ok,
+                server_reused=reused,
+                server_kept_alive=kept,
             ),
-            None,
-            None,
+            best_response,
+            best_verdict,
         )
-
-    adapter = LlamaCppAdapter(base_url, model_id=model_id, temperature=0.1)
-    dispatch = WorkerDispatchUseCase(adapter)
 
     for attempt in range(1, max_attempts + 1):
         gen = dispatch.run_task(task)
@@ -168,53 +228,31 @@ def run_worker_slot(
         best_response = response
         best_verdict = verdict
         if verdict.passed and quality:
-            stop_server(port)
-            peak = _peak(peak, vram_used_mb())
-            return (
-                SlotResult(
-                    slot_id=task.id,
-                    model_id=model_id,
-                    language=task.language.value,
-                    ok=True,
-                    latency_ms=response.latency_ms,
-                    tokens_used=response.tokens_used,
-                    vram_mb=peak,
-                    passed=True,
-                    score=verdict.score,
-                    error=None,
-                    elapsed_s=time.perf_counter() - t0,
-                    attempts=attempt,
-                    quality_ok=True,
-                ),
-                response,
-                verdict,
+            return _finish(
+                passed=True,
+                score=verdict.score,
+                error=None,
+                attempts=attempt,
+                quality_ok=True,
+                ok=True,
+                latency_ms=response.latency_ms,
+                tokens_used=response.tokens_used,
             )
         last_error = "quality_or_judge_failed"
 
-    stop_server(port)
-    peak = _peak(peak, vram_used_mb())
     passed = bool(best_verdict and best_verdict.passed)
     quality = bool(
         best_response and looks_like_code(best_response.code, task.language)
     )
-    return (
-        SlotResult(
-            slot_id=task.id,
-            model_id=model_id,
-            language=task.language.value,
-            ok=best_response is not None,
-            latency_ms=best_response.latency_ms if best_response else None,
-            tokens_used=best_response.tokens_used if best_response else None,
-            vram_mb=peak,
-            passed=passed,
-            score=best_verdict.score if best_verdict else None,
-            error=None if (passed and quality) else last_error,
-            elapsed_s=time.perf_counter() - t0,
-            attempts=max_attempts,
-            quality_ok=quality,
-        ),
-        best_response,
-        best_verdict,
+    return _finish(
+        passed=passed,
+        score=best_verdict.score if best_verdict else None,
+        error=None if (passed and quality) else last_error,
+        attempts=max_attempts,
+        quality_ok=quality,
+        ok=best_response is not None,
+        latency_ms=best_response.latency_ms if best_response else None,
+        tokens_used=best_response.tokens_used if best_response else None,
     )
 
 
@@ -230,9 +268,20 @@ def main() -> int:
         help="Skip live decompose; run canonical slots only",
     )
     parser.add_argument(
+        "--keep-alive",
+        action="store_true",
+        help="Reuse llama-server across consecutive slots with the same model_id",
+    )
+    parser.add_argument(
+        "--no-keep-alive",
+        action="store_true",
+        help="Force stop/start every worker slot (disable schedule speed.keep_alive)",
+    )
+    parser.add_argument(
         "--json-out",
         type=Path,
-        default=ROOT / "benchmarks" / "runs" / "large_site_schedule.json",
+        default=None,
+        help="Defaults to benchmarks/runs/<schedule-stem>.json",
     )
     args = parser.parse_args()
 
@@ -247,14 +296,28 @@ def main() -> int:
     slots = list(schedule["slots"])
     min_passed = int(schedule.get("min_passed") or len(slots))
     max_attempts = int(schedule.get("max_retries_per_slot") or 2)
+    prefer_orch = bool(schedule.get("prefer_orch_plan", True))
+    speed_cfg = dict(schedule.get("speed") or {})
+    keep_alive = bool(speed_cfg.get("keep_alive_same_model", False)) or args.keep_alive
+    if args.no_keep_alive:
+        keep_alive = False
+    settle_s = float(speed_cfg.get("settle_s", 0.5))
+    json_out = args.json_out or (
+        ROOT / "benchmarks" / "runs" / f"{args.schedule.stem}.json"
+    )
 
     print(f"=== LARGE SITE SCHEDULE start {datetime.now(timezone.utc).isoformat()} ===")
+    print(
+        f"schedule={args.schedule.name} unique_models={schedule.get('require_unique_models')}"
+        f" keep_alive={keep_alive}"
+    )
     orch_report: dict
+    orch_bind_meta: dict = {"bound": 0, "mode": "skipped"}
     if args.skip_orchestrator:
         orch_report = {"ok": None, "skipped": True}
         print("[O0] orchestrator skipped")
     else:
-        print(f"[O0] orchestrator {orch_model} decompose…")
+        print(f"[O0] orchestrator {orch_model} decompose (one task → one model)…")
         orch_report = run_orchestrator_slot(
             model_id=orch_model,
             request=request,
@@ -270,9 +333,18 @@ def main() -> int:
                     "count": orch_report.get("count"),
                     "vram_mb": orch_report.get("vram_mb"),
                     "elapsed_s": round(float(orch_report.get("elapsed_s") or 0), 2),
+                    "models_monitored": [orch_model],
                 }
             )
         )
+        if prefer_orch and orch_report.get("ok") and orch_report.get("tasks"):
+            slots, orch_bind_meta = bind_orch_plan_to_slots(
+                slots, list(orch_report["tasks"])
+            )
+            print(json.dumps({"orch_bind": orch_bind_meta}))
+        else:
+            print("[O0] fallback: canonical slots (orch plan unused)")
+            orch_bind_meta = {"bound": 0, "mode": "canonical_fallback"}
 
     judge = JudgeUseCase(CompositeSandbox())
     tasks: list[MicroTask] = []
@@ -281,11 +353,23 @@ def main() -> int:
     escalate: dict[str, bool] = {}
     slot_results: list[SlotResult] = []
     peak_all = vram_used_mb()
+    models_used: list[str] = []
+    loaded_model: str | None = None
 
     for idx, slot in enumerate(slots, start=1):
         task = slot_to_task(slot)
         model_id = str(slot["model_id"])
-        print(f"[W{idx}] {task.id} → {model_id} ({task.language.value})…")
+        models_used.append(model_id)
+        orch_note = slot.get("orch_task_id")
+        reuse = should_reuse_server(loaded_model, model_id, keep_alive=keep_alive)
+        keep_after = keep_alive and next_slot_same_model(slots, idx - 1)
+        print(
+            f"[W{idx}] {task.id} → {model_id} ({task.language.value})"
+            + (f" orch={orch_note}" if orch_note else "")
+            + (" reuse" if reuse else " cold")
+            + (" keep" if keep_after else " stop")
+            + "…"
+        )
         result, response, verdict = run_worker_slot(
             task=task,
             model_id=model_id,
@@ -293,7 +377,14 @@ def main() -> int:
             base_url=args.base_url,
             judge=judge,
             max_attempts=max_attempts,
+            reuse_server=reuse,
+            keep_alive=keep_after,
+            settle_s=settle_s,
         )
+        if result.server_kept_alive:
+            loaded_model = model_id
+        else:
+            loaded_model = None
         slot_results.append(result)
         print(json.dumps(asdict(result), indent=None))
         if response is not None and verdict is not None:
@@ -303,7 +394,13 @@ def main() -> int:
             escalate[task.id] = not (verdict.passed and bool(result.quality_ok))
         peak_all = _peak(peak_all, result.vram_mb)
 
+    if loaded_model is not None:
+        stop_server(args.port)
+        loaded_model = None
+
+    filenames = slot_filenames(slots)
     package_path = None
+    archive_report: dict | None = None
     if tasks and len(tasks) == len(responses):
         package_path = write_proposal(
             out_dir=args.out_dir,
@@ -313,43 +410,81 @@ def main() -> int:
             verdicts=verdicts,
             escalate=escalate,
             peak_vram_mb=peak_all,
+            filenames=filenames or None,
         )
+        if str(schedule.get("kind") or "") == "pro_site":
+            archive_report = archive_non_openable(
+                out_dir=args.out_dir,
+                label="pro-site-non-openable",
+            )
 
-    files = {
-        tid: responses[tid].code
-        for tid in responses
-    }
-    quality = evaluate_site_quality(files)
+    files = {tid: responses[tid].code for tid in responses}
+    kind = str(schedule.get("kind") or "bakeoff")
+    quality = (
+        evaluate_pro_site_quality(files)
+        if kind == "pro_site"
+        else evaluate_site_quality(files)
+    )
     quality_ok = all(quality.values()) if quality else False
     passed_n = sum(1 for s in slot_results if s.passed and s.quality_ok)
+    unique_models = sorted(set(models_used))
+    # Strict schedules (min_passed == slot_count) also require full quality checklist.
+    bar_met = passed_n >= min_passed and (
+        quality_ok if min_passed >= len(slot_results) else True
+    )
+    openable = None
+    if package_path and package_path.is_file():
+        openable = json.loads(package_path.read_text(encoding="utf-8")).get("openable")
     report = {
         "ts": datetime.now(timezone.utc).isoformat(),
         "schedule": str(args.schedule),
+        "kind": kind,
         "request": request,
         "orchestrator": orch_report,
+        "orch_bind": orch_bind_meta,
+        "models_monitored": {
+            "orchestrator": None if args.skip_orchestrator else orch_model,
+            "workers": unique_models,
+            "unique_worker_count": len(unique_models),
+        },
         "slots": [asdict(s) for s in slot_results],
         "passed_count": passed_n,
         "slot_count": len(slot_results),
         "peak_vram_mb": peak_all,
         "vram_ok": peak_all is None or peak_all <= 6000,
         "package": str(package_path) if package_path else None,
+        "openable": openable,
+        "archive": archive_report,
         "quality": quality,
         "quality_ok": quality_ok,
+        "speed": {
+            "keep_alive_same_model": keep_alive,
+            "settle_s": settle_s,
+            "slots_reused": sum(1 for s in slot_results if s.server_reused),
+            "slots_kept_alive": sum(1 for s in slot_results if s.server_kept_alive),
+        },
         "pass_bar": {
             "min_passed": min_passed,
-            "met": passed_n >= min_passed and quality_ok,
+            "met": bar_met,
         },
     }
-    args.json_out.parent.mkdir(parents=True, exist_ok=True)
-    args.json_out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+
+    json_out.parent.mkdir(parents=True, exist_ok=True)
+    json_out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"summary": {
+        "kind": kind,
         "passed": f"{passed_n}/{len(slot_results)}",
         "quality_ok": quality_ok,
         "quality": quality,
+        "openable": openable,
+        "archive": archive_report,
+        "models_monitored": report["models_monitored"],
+        "orch_bind": orch_bind_meta,
         "peak_vram_mb": peak_all,
         "package": report["package"],
-        "report": str(args.json_out),
+        "report": str(json_out),
         "pass_bar_met": report["pass_bar"]["met"],
+        "speed": report["speed"],
     }}, indent=2))
     print("\nHUMAN GATE: review out/proposal/ — do not auto-persist.")
     return 0 if report["pass_bar"]["met"] and report["vram_ok"] else 1

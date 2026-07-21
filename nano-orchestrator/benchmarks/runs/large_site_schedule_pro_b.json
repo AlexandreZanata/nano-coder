@@ -1,0 +1,282 @@
+{
+  "ts": "2026-07-21T14:45:09.369803+00:00",
+  "schedule": "benchmarks/large_site_schedule_pro_b.json",
+  "kind": "pro_site",
+  "request": "Build a large professional Summit Trail Outfitters website with styles.css plus four HTML pages (index, menu/shop, about/guides, contact). Shared sticky nav, hero, cards, priced shop list, footer, contact form. Max 5 MicroTasks. Languages: css + html only. Task ids MUST be styles, home, menu, about, contact.",
+  "orchestrator": {
+    "ok": true,
+    "error": null,
+    "elapsed_s": 13.027828148999106,
+    "vram_mb": 3549,
+    "tasks": [
+      {
+        "id": "styles",
+        "role": "coder",
+        "language": "css",
+        "prompt": "Create styles.css with 5 rules for hero, cards, footer, nav, contact",
+        "context": null,
+        "constraints": [
+          "semantic HTML5"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 128
+      },
+      {
+        "id": "home",
+        "role": "coder",
+        "language": "html",
+        "prompt": "Create index.html with hero, nav, cards, footer",
+        "context": null,
+        "constraints": [
+          "semantic HTML5"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 128
+      },
+      {
+        "id": "menu",
+        "role": "coder",
+        "language": "html",
+        "prompt": "Create menu/shop.html with nav, cards, footer",
+        "context": null,
+        "constraints": [
+          "semantic HTML5"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 128
+      },
+      {
+        "id": "about",
+        "role": "coder",
+        "language": "html",
+        "prompt": "Create about/guides.html with nav, cards, footer",
+        "context": null,
+        "constraints": [
+          "semantic HTML5"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 128
+      },
+      {
+        "id": "contact",
+        "role": "coder",
+        "language": "html",
+        "prompt": "Create contact.html with nav, cards, footer, contact form",
+        "context": null,
+        "constraints": [
+          "semantic HTML5"
+        ],
+        "acceptance": [
+          "syntax_valid"
+        ],
+        "max_tokens": 128
+      }
+    ],
+    "raw_ok": true,
+    "count": 5
+  },
+  "orch_bind": {
+    "bound": 5,
+    "mode": "orch_bound",
+    "bindings": [
+      {
+        "slot_id": "styles",
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "orch_task_id": "styles",
+        "orch_language": "css"
+      },
+      {
+        "slot_id": "home",
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "orch_task_id": "home",
+        "orch_language": "html"
+      },
+      {
+        "slot_id": "menu",
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "orch_task_id": "menu",
+        "orch_language": "html"
+      },
+      {
+        "slot_id": "about",
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "orch_task_id": "about",
+        "orch_language": "html"
+      },
+      {
+        "slot_id": "contact",
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "orch_task_id": "contact",
+        "orch_language": "html"
+      }
+    ]
+  },
+  "models_monitored": {
+    "orchestrator": "smollm3-3b",
+    "workers": [
+      "qwen25-coder-0.5b-html-ft"
+    ],
+    "unique_worker_count": 1
+  },
+  "slots": [
+    {
+      "slot_id": "styles",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "css",
+      "ok": true,
+      "latency_ms": 3514,
+      "tokens_used": 1200,
+      "vram_mb": 1579,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 11.970208029999412,
+      "attempts": 2,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "home",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 2054,
+      "tokens_used": 700,
+      "vram_mb": 1579,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 7.081110608998642,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "menu",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 2028,
+      "tokens_used": 700,
+      "vram_mb": 1579,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 7.013235320000604,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "about",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 2022,
+      "tokens_used": 700,
+      "vram_mb": 1577,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 7.041518775000441,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "contact",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 2019,
+      "tokens_used": 700,
+      "vram_mb": 1577,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 7.018568297000456,
+      "attempts": 1,
+      "quality_ok": true
+    }
+  ],
+  "passed_count": 5,
+  "slot_count": 5,
+  "peak_vram_mb": 1579,
+  "vram_ok": true,
+  "package": "/data/dev/projects/webstorm/nano-coder/nano-orchestrator/out/proposal/package.json",
+  "openable": {
+    "pages": {
+      "about.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      },
+      "contact.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      },
+      "index.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      },
+      "menu.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      }
+    },
+    "openable": [
+      "about.html",
+      "contact.html",
+      "index.html",
+      "menu.html"
+    ],
+    "archive_candidates": [],
+    "has_styles": true
+  },
+  "archive": {
+    "ok": true,
+    "archive": "2026-07-21-pro-site-non-openable",
+    "kept": [
+      "about.html",
+      "contact.html",
+      "index.html",
+      "menu.html",
+      "styles.css"
+    ],
+    "moved": []
+  },
+  "quality": {
+    "styles_complete": true,
+    "styles_has_root": true,
+    "styles_has_nav": true,
+    "styles_has_hero": true,
+    "styles_has_footer": true,
+    "styles_has_form": true,
+    "index_complete_html": true,
+    "index_links_css": true,
+    "index_has_nav": true,
+    "menu_complete_html": true,
+    "menu_links_css": true,
+    "menu_has_nav": true,
+    "about_complete_html": true,
+    "about_links_css": true,
+    "about_has_nav": true,
+    "contact_complete_html": true,
+    "contact_links_css": true,
+    "contact_has_nav": true,
+    "menu_has_prices": true,
+    "contact_has_form": true
+  },
+  "quality_ok": true,
+  "pass_bar": {
+    "min_passed": 5,
+    "met": true
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "kind": "pro_site",
+  "site_name": "Cedar Civic Library",
+  "benchmark_id": "pro-site-C-cedar-library",
+  "require_unique_models": false,
+  "prefer_orch_plan": true,
+  "speed": {
+    "keep_alive_same_model": true,
+    "settle_s": 0.15,
+    "approach": "reuse_llama_server_across_same_model_slots"
+  },
+  "request": "Build a large professional Cedar Civic Library website with styles.css plus four HTML pages (index, catalog/menu, programs/about, contact). Shared sticky nav, hero, cards, fee list with prices, footer, contact form. Max 5 MicroTasks. Languages: css + html only. Task ids MUST be styles, home, menu, about, contact.",
+  "orchestrator_model": "smollm3-3b",
+  "min_passed": 5,
+  "max_retries_per_slot": 3,
+  "slots": [
+    {
+      "id": "styles",
+      "filename": "styles.css",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "css",
+      "prompt": "Copy this CSS exactly. Output ONLY CSS. No HTML. No markdown.\n:root{--bg:#12161c;--surface:#1c2430;--text:#eef2f7;--muted:#a9b4c4;--accent:#5b8def;--accent-2:#b7d0ff;--line:#2c3646;--max:1100px;--font:\"Segoe UI\",system-ui,sans-serif;--display:Georgia,\"Times New Roman\",serif}\n*{box-sizing:border-box}\nbody{margin:0;font-family:var(--font);color:var(--text);background:linear-gradient(180deg,#0c1016 0%,var(--bg) 45%,#182030 100%);line-height:1.6}\na{color:var(--accent-2);text-decoration:none}a:hover{color:var(--accent)}\n.site-header{border-bottom:1px solid var(--line);background:rgba(18,22,28,.94);position:sticky;top:0;z-index:10}\n.nav-inner{max-width:var(--max);margin:0 auto;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}\n.brand{font-family:var(--display);font-size:1.3rem;color:var(--text)}\n.nav-links{display:flex;gap:1.2rem;flex-wrap:wrap}.nav-links a{color:var(--muted)}\n.nav-links a:hover,.nav-links a[aria-current=page]{color:var(--accent)}\n.hero{max-width:var(--max);margin:0 auto;padding:4rem 1.25rem 3rem}\n.hero h1{font-family:var(--display);font-size:clamp(2.1rem,5vw,3.2rem);line-height:1.15;margin:0 0 1rem}\n.hero p{color:var(--muted);max-width:38rem;font-size:1.08rem}\n.btn{display:inline-block;margin-top:1.4rem;padding:.75rem 1.2rem;background:var(--accent);color:#0c1016;border-radius:4px;font-weight:600}\n.section{max-width:var(--max);margin:0 auto;padding:2rem 1.25rem 3rem}\n.section h2{font-family:var(--display);font-size:1.75rem}\n.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}\n.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1.2rem}\n.card h3{margin-top:0;font-family:var(--display)}.price{color:var(--accent);font-weight:700}\n.menu-list{list-style:none;padding:0;margin:0}\n.menu-list li{display:flex;justify-content:space-between;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--line)}\n.site-footer{border-top:1px solid var(--line);margin-top:2rem;padding:2rem 1.25rem;color:var(--muted);text-align:center}\nform{display:grid;gap:.85rem;max-width:28rem}\nlabel{display:grid;gap:.35rem;color:var(--muted);font-size:.9rem}\ninput,textarea,select{padding:.7rem .8rem;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit}\nbutton[type=submit]{justify-self:start;padding:.75rem 1.2rem;border:0;border-radius:4px;background:var(--accent);color:#0c1016;font-weight:600;cursor:pointer}\n@media (max-width:640px){.nav-inner{flex-direction:column;align-items:flex-start}}\n",
+      "constraints": [
+        "valid CSS",
+        "no HTML"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 1200
+    },
+    {
+      "id": "home",
+      "filename": "index.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. No markdown.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Cedar Civic Library \u2014 Home</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Cedar Civic Library</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\" aria-current=\"page\">Home</a><a href=\"menu.html\">Catalog</a><a href=\"about.html\">Programs</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<section class=\"hero\">\n<h1>Quiet rooms, open stacks, and community programs</h1>\n<p>Cedar Civic Library welcomes readers of every age with free Wi-Fi, study carrels, and a growing digital catalog.</p>\n<a class=\"btn\" href=\"menu.html\">Browse the catalog</a>\n</section>\n<section class=\"section\">\n<h2>This week</h2>\n<div class=\"grid\">\n<article class=\"card\"><h3>Study halls</h3><p>Silent floors open late on weeknights for exam season.</p></article>\n<article class=\"card\"><h3>Story hour</h3><p>Saturday mornings for children ages 3\u20137 in the garden room.</p></article>\n<article class=\"card\"><h3>Maker lab</h3><p>Book a 3D printer or sewing machine with a library card.</p></article>\n</div>\n</section>\n<footer class=\"site-footer\"><p>400 Cedar Street \u00b7 Open Mon\u2013Sat 9:00\u201320:00 \u00b7 (555) 014-4400</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "complete document"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "menu",
+      "filename": "menu.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep every dollar price.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Catalog \u2014 Cedar Civic Library</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Cedar Civic Library</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\" aria-current=\"page\">Catalog</a><a href=\"about.html\">Programs</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Catalog highlights</h1>\n<ul class=\"menu-list\">\n<li><span>Library card (resident)</span><span class=\"price\">$0.00</span></li>\n<li><span>Non-resident card (annual)</span><span class=\"price\">$45.00</span></li>\n<li><span>Late fee per day</span><span class=\"price\">$0.25</span></li>\n<li><span>Print page (B&amp;W)</span><span class=\"price\">$0.10</span></li>\n<li><span>Print page (color)</span><span class=\"price\">$0.50</span></li>\n<li><span>Maker lab hour</span><span class=\"price\">$5.00</span></li>\n</ul>\n</main>\n<footer class=\"site-footer\"><p>Cedar Civic Library \u00b7 Fees in USD</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "dollar prices"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "about",
+      "filename": "about.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Programs \u2014 Cedar Civic Library</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Cedar Civic Library</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Catalog</a><a href=\"about.html\" aria-current=\"page\">Programs</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Programs</h1>\n<p>From literacy tutoring to digital skills workshops, our programs are free with a library card unless noted.</p>\n<p>Volunteer mentors and local authors host events throughout the year in the community hall.</p>\n<div class=\"grid\">\n<article class=\"card\"><h3>Adult literacy</h3><p>One-to-one tutoring twice a week by appointment.</p></article>\n<article class=\"card\"><h3>Teen makers</h3><p>After-school coding and craft sessions each Thursday.</p></article>\n</div>\n</main>\n<footer class=\"site-footer\"><p>Cedar Civic Library \u00b7 Serving the city since 1924</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "contact",
+      "filename": "contact.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep the contact form fields.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Contact \u2014 Cedar Civic Library</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Cedar Civic Library</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Catalog</a><a href=\"about.html\">Programs</a><a href=\"contact.html\" aria-current=\"page\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Contact</h1>\n<p>Ask about holds, room reservations, or volunteer applications.</p>\n<form method=\"post\" action=\"/contact\">\n<label>Name<input type=\"text\" name=\"name\" required /></label>\n<label>Email<input type=\"email\" name=\"email\" required /></label>\n<label>Message<textarea name=\"message\" rows=\"5\" required></textarea></label>\n<button type=\"submit\">Send message</button>\n</form>\n</main>\n<footer class=\"site-footer\"><p>400 Cedar Street \u00b7 (555) 014-4400 \u00b7 hello@cedarcivic.example</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "contact form"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    }
+  ]
+}

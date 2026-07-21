@@ -1,0 +1,82 @@
+{
+  "version": 4,
+  "site_name": "Harbor Coffee Co.",
+  "require_unique_models": true,
+  "prefer_orch_plan": true,
+  "notes": "One unique model per MicroTask. Live orch binds plan by id; canonical prompts execute for quality. Bake-off weak models (gemma/qwen3) replaced by FT where needed after monitor run v1.",
+  "request": "Split into EXACTLY 5 MicroTasks as a JSON array only. Task ids MUST be site-home, site-menu, site-cart, site-money, site-ftl. Languages: site-home=html, site-menu=html, site-cart=javascript, site-money=javascript, site-ftl=freemarker. Each object needs id, role=coder, language, prompt, constraints, acceptance=[\"syntax_valid\"], max_tokens>=256. Build Harbor Coffee Co. large site: home page, priced menu page, cart ESM, formatMoney ESM, FreeMarker #list item partial.",
+  "orchestrator_model": "smollm3-3b",
+  "min_passed": 5,
+  "max_retries_per_slot": 3,
+  "slots": [
+    {
+      "id": "site-home",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Output ONLY a complete HTML5 home page for Harbor Coffee Co. Start with <!DOCTYPE html>. Include <nav> links to menu.html and contact.html, <h1>, about with two <p>, <footer> address. End with </html>. No JS. No empty fences.",
+      "constraints": [
+        "semantic HTML5",
+        "complete document"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 512
+    },
+    {
+      "id": "site-menu",
+      "model_id": "qwen25-coder-0.5b",
+      "language": "html",
+      "prompt": "Copy this HTML exactly (keep dollar prices). Start with <!DOCTYPE html> immediately:\n<!DOCTYPE html>\n<html lang=\"en\">\n<head><meta charset=\"utf-8\" /><title>Menu</title></head>\n<body>\n<h1>Menu</h1>\n<ul>\n<li>Latte \u2014 $4.50</li>\n<li>Cappuccino \u2014 $4.00</li>\n<li>Espresso \u2014 $3.00</li>\n<li>Mocha \u2014 $4.75</li>\n<li>Americano \u2014 $3.50</li>\n</ul>\n<form method=\"post\" action=\"/order\"><button type=\"submit\">Order</button></form>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "dollar prices"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 384
+    },
+    {
+      "id": "site-cart",
+      "model_id": "qwen25-coder-0.5b-javascript-ft",
+      "language": "javascript",
+      "prompt": "Output ONLY ES module JavaScript. Must use export function for addItem(cart, id, price), removeItem(cart, id), and total(cart). cart is array of {id,price,qty}. Implement full bodies. Throw TypeError if cart is not an array. Start with export function \u2014 no empty fences.",
+      "constraints": [
+        "ES modules",
+        "export function"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 512
+    },
+    {
+      "id": "site-money",
+      "model_id": "gemma3-270m",
+      "language": "javascript",
+      "prompt": "Output exactly this and nothing else:\nexport function formatMoney(amount) {\n  if (typeof amount !== 'number' || !Number.isFinite(amount)) throw new TypeError('amount');\n  return '$' + amount.toFixed(2);\n}\n",
+      "constraints": [
+        "ES modules"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 128
+    },
+    {
+      "id": "site-ftl",
+      "model_id": "qwen25-coder-0.5b-freemarker-ft",
+      "language": "freemarker",
+      "prompt": "Output ONLY:\n<#list items as item>\n  <li>${item.name?html} \u2014 ${item.price}</li>\n</#list>\n",
+      "constraints": [
+        "#list",
+        "?html"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 96
+    }
+  ]
+}
