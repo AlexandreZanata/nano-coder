@@ -180,8 +180,13 @@ nano-orchestrator/                     # repo root subproject (versioned)
 │   └── ftl_parser_spike/              # FreeMarker JVM syntax spike (T-042)
 └── docs/
     ├── CODE-QUALITY-STANDARD.md
-    └── ADR-DRAFT-multi-nano-orchestration.md
+    ├── NEGATIVE-RESULT.md             # GATE-NEG close
+    └── ADR-DRAFT-multi-nano-orchestration.md  # superseded → docs/adr/ADR-007-…
 ```
+
+Canonical ADR: [`docs/adr/ADR-007-multi-nano-orchestration.md`](../docs/adr/ADR-007-multi-nano-orchestration.md).
+
+CLI: `nano-orchestrator` (`decompose` / `judge` / `bakeoff` / `smoke` / …) — see §12.
 
 Layers: Interfaces/CLI → Application → Domain ← Infrastructure. Domain NEVER imports outer layers.
 
