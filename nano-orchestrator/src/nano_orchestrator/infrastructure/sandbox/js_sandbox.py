@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 import shutil
 import subprocess
 import tempfile
@@ -24,10 +25,23 @@ def check(code: str, acceptance: list[str]) -> Result[dict[str, bool], str]:
         return Err("node_not_found")
 
     if want_syntax:
-        checks["syntax"] = _node_check(code)
+        checks["syntax"] = _node_check(code) and _has_js_body(code)
     if want_exec:
         checks["exec"] = _vm_exec(code)
     return Ok(checks)
+
+
+def _has_js_body(code: str) -> bool:
+    """Reject empty stubs that still pass node --check."""
+    lower = code.lower()
+    if "your code here" in lower or re.search(r"\btodo\b", lower):
+        return False
+    if "export " not in code:
+        return False
+    # Empty function bodies: export function f() {}
+    if re.search(r"function\s+[A-Za-z0-9_]+\s*\([^)]*\)\s*\{\s*\}", code):
+        return False
+    return True
 
 
 def _node_check(code: str) -> bool:

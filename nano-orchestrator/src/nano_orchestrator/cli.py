@@ -62,6 +62,15 @@ def cmd_gates(args: argparse.Namespace) -> int:
     return _run_script("benchmarks/run_success_gates.py", extra)
 
 
+def cmd_large_site(args: argparse.Namespace) -> int:
+    extra: list[str] = []
+    if args.skip_orchestrator:
+        extra.append("--skip-orchestrator")
+    if args.schedule:
+        extra.extend(["--schedule", args.schedule])
+    return _run_script("benchmarks/run_large_site_schedule.py", extra)
+
+
 def cmd_decompose(args: argparse.Namespace) -> int:
     """Validate MicroTask JSON (offline) or live-decompose via smoke fixed path."""
     from nano_orchestrator.domain.microtask_parser import parse_microtasks_json
@@ -197,6 +206,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_gates = sub.add_parser("gates", help="Run EG success gates (GPU)")
     p_gates.add_argument("--limit", type=int, default=None)
     p_gates.set_defaults(func=cmd_gates)
+
+    p_site = sub.add_parser(
+        "large-site",
+        help="Multi-model large-site schedule (one model per task)",
+    )
+    p_site.add_argument("--skip-orchestrator", action="store_true")
+    p_site.add_argument("--schedule", default=None)
+    p_site.set_defaults(func=cmd_large_site)
 
     p_ver = sub.add_parser("version", help="Print package version")
     p_ver.set_defaults(func=cmd_version)

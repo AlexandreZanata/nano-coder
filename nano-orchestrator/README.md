@@ -434,6 +434,11 @@ NANO_ORCH_HTML_VALIDATE=1 python scripts/validate_gold_code.py
 
 # Smoke (Phase 2) — human gate on out/proposal/
 python -m nano_orchestrator smoke --request "Create a FreeMarker list item and a JS filter helper" --fixed-tasks
+
+# Large-site multi-model schedule (orch + one model per task)
+# Spec: benchmarks/LARGE_SITE_TEST_SCHEDULE.md
+make nano-large-site
+# or: python -m nano_orchestrator large-site
 ```
 
 Human gate: smoke prints proposed files to `out/proposal/` — **operator copies manually**. Never auto-commit generated code (`auto_persist: false`).

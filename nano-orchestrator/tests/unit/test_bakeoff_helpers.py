@@ -13,11 +13,54 @@ def test_extract_code_from_fence() -> None:
     assert "export const answer = 42;" in code
 
 
-def test_extract_code_html_strips_preamble() -> None:
-    raw = "Here is the markup:\n<form method=\"post\"></form>\n"
+def test_extract_html_stops_at_first_document() -> None:
+    raw = (
+        "<!DOCTYPE html><html><body><p>A</p></body></html>\n"
+        "Language: html\n"
+        "<!DOCTYPE html><html><body><p>B</p></body></html>\n"
+    )
     code = extract_code(raw, TargetLanguage.HTML)
-    assert code.lstrip().startswith("<form")
+    assert "Language:" not in code
+    assert code.count("</html>") == 1
+    assert "A" in code and "B" not in code
 
+
+def test_extract_code_trims_ftl_chatter() -> None:
+    raw = (
+        "<#list items as item><li>${item.name?html}</li></#list>\n"
+        "Solution:\n<#list items as item><li>${item.name?html}</li></#list>\n"
+    )
+    code = extract_code(raw, TargetLanguage.FREEMARKER)
+    assert code.count("<#list") == 1
+    assert "Solution" not in code
+
+
+def test_extract_rejects_js_filler_prefix() -> None:
+    raw = (
+        "Test case: cart = []\n"
+        "export function total(cart) { return 0; }\n"
+        "The code must be in a single fenced code block.\n"
+    )
+    code = extract_code(raw, TargetLanguage.JAVASCRIPT)
+    assert code.strip().startswith("export function")
+    assert "The code must" not in code
+
+
+def test_looks_like_code_helpers() -> None:
+    from nano_orchestrator.application.codegen_prompts import looks_like_code
+
+    assert looks_like_code(
+        "<!DOCTYPE html><html><body></body></html>\n", TargetLanguage.HTML
+    )
+    assert not looks_like_code("Latte and prices only prose\n", TargetLanguage.HTML)
+    assert looks_like_code(
+        "export function formatMoney(a) { return '$' + a.toFixed(2); }\n",
+        TargetLanguage.JAVASCRIPT,
+    )
+    assert not looks_like_code(
+        "export function formatMoney(a) {\n  // your code here\n}\n",
+        TargetLanguage.JAVASCRIPT,
+    )
 
 def test_bakeoff_summary_p50_and_pass() -> None:
     summary = BakeoffSummary(

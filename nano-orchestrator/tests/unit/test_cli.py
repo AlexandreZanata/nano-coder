@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def test_parser_has_decompose_judge_bakeoff() -> None:
     parser = build_parser()
     help_text = parser.format_help()
-    for name in ("decompose", "judge", "bakeoff", "smoke", "version"):
+    for name in ("decompose", "judge", "bakeoff", "smoke", "version", "large-site"):
         assert name in help_text
 
 

@@ -37,11 +37,37 @@ def parse_microtasks_json(raw: str) -> Result[list[MicroTask], str]:
     for idx, item in enumerate(data):
         if not isinstance(item, dict):
             return Err(f"invalid_item:{idx}:not_object")
+        coerced = _coerce_microtask_item(item)
         try:
-            tasks.append(MicroTask.model_validate(item))
+            tasks.append(MicroTask.model_validate(coerced))
         except ValidationError as exc:
             return Err(f"schema_error:{idx}:{exc.errors()[0]['msg']}")
     try:
         return Ok(validate_microtasks(tasks))
     except ValueError as exc:
         return Err(str(exc))
+
+
+def _coerce_microtask_item(item: dict) -> dict:
+    """Fill common missing fields from weak orchestrator output."""
+    out = dict(item)
+    if "role" not in out or out.get("role") in (None, ""):
+        out["role"] = "coder"
+    if "acceptance" not in out or out.get("acceptance") in (None, []):
+        out["acceptance"] = ["syntax_valid"]
+    if "prompt" not in out or not str(out.get("prompt") or "").strip():
+        for alt in ("task", "description", "instruction"):
+            if out.get(alt):
+                out["prompt"] = str(out[alt])
+                break
+    if "id" not in out or not str(out.get("id") or "").strip():
+        out["id"] = f"t-{abs(hash(str(out.get('prompt')))) % 10_000}"
+    if "language" in out and isinstance(out["language"], str):
+        lang = out["language"].strip().lower()
+        aliases = {"js": "javascript", "htm": "html", "ftl": "freemarker"}
+        out["language"] = aliases.get(lang, lang)
+    if "constraints" in out and out["constraints"] is None:
+        out["constraints"] = []
+    if "max_tokens" in out and out["max_tokens"] is None:
+        del out["max_tokens"]
+    return out

@@ -1,0 +1,106 @@
+{
+  "ts": "2026-07-21T14:06:14.327698+00:00",
+  "schedule": "/data/dev/projects/webstorm/nano-coder/nano-orchestrator/benchmarks/large_site_schedule.json",
+  "request": "Build a large multi-page coffee shop website with home HTML, menu HTML with prices, cart.js, formatMoney.js, and FreeMarker menu-item.ftl. Max 5 MicroTasks.",
+  "orchestrator": {
+    "ok": null,
+    "skipped": true
+  },
+  "slots": [
+    {
+      "slot_id": "site-home",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 468,
+      "tokens_used": 157,
+      "vram_mb": 1577,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 4.991422958999465,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "site-menu",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 1109,
+      "tokens_used": 384,
+      "vram_mb": 1577,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 5.6190295920005155,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "site-cart",
+      "model_id": "qwen25-coder-0.5b-javascript-ft",
+      "language": "javascript",
+      "ok": true,
+      "latency_ms": 1461,
+      "tokens_used": 512,
+      "vram_mb": 1577,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 5.8329403629995795,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "site-money",
+      "model_id": "qwen25-coder-0.5b-javascript-ft",
+      "language": "javascript",
+      "ok": true,
+      "latency_ms": 476,
+      "tokens_used": 160,
+      "vram_mb": 1575,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 4.841572830000587,
+      "attempts": 1,
+      "quality_ok": true
+    },
+    {
+      "slot_id": "site-ftl",
+      "model_id": "qwen25-coder-0.5b-freemarker-ft",
+      "language": "freemarker",
+      "ok": true,
+      "latency_ms": 112,
+      "tokens_used": 30,
+      "vram_mb": 1575,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 4.59756918399944,
+      "attempts": 1,
+      "quality_ok": true
+    }
+  ],
+  "passed_count": 5,
+  "slot_count": 5,
+  "peak_vram_mb": 1577,
+  "vram_ok": true,
+  "package": "/data/dev/projects/webstorm/nano-coder/nano-orchestrator/out/proposal/package.json",
+  "quality": {
+    "home_complete_html": true,
+    "home_has_nav": true,
+    "menu_complete_html": true,
+    "menu_has_prices": true,
+    "menu_has_5_items": true,
+    "cart_exports": true,
+    "money_formats": true,
+    "ftl_list_html": true
+  },
+  "quality_ok": true,
+  "pass_bar": {
+    "min_passed": 5,
+    "met": true
+  }
+}

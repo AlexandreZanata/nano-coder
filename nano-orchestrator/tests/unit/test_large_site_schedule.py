@@ -1,0 +1,114 @@
+"""Unit tests for large-site schedule loader (CPU-only)."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import pytest
+
+from nano_orchestrator.application.large_site_schedule import (
+    assert_schedule_valid,
+    load_schedule,
+    slot_to_task,
+)
+
+ROOT = Path(__file__).resolve().parents[2]
+SCHEDULE = ROOT / "benchmarks" / "large_site_schedule.json"
+
+
+def test_schedule_valid() -> None:
+    data = load_schedule(SCHEDULE)
+    assert_schedule_valid(data)
+    assert len(data["slots"]) <= 5
+
+
+def test_schedule_one_model_per_slot() -> None:
+    data = load_schedule(SCHEDULE)
+    if data.get("require_unique_models", True):
+        models = [s["model_id"] for s in data["slots"]]
+        assert len(models) == len(set(models))
+
+
+def test_normalize_adds_export_and_fixes_ftl() -> None:
+    from nano_orchestrator.application.codegen_prompts import (
+        extract_code,
+        normalize_worker_code,
+    )
+    from nano_orchestrator.domain.entities import TargetLanguage
+
+    js = normalize_worker_code(
+        "function total(cart) { return 0; }\n", TargetLanguage.JAVASCRIPT
+    )
+    assert js.startswith("export function")
+    ftl = extract_code(
+        "#list items as item\n#{item.name?html}\n",
+        TargetLanguage.FREEMARKER,
+    )
+    assert "<#list" in ftl
+    assert "${item.name?html}" in ftl
+    assert "</#list>" in ftl
+
+
+def test_schedule_covers_html_js_ftl() -> None:
+    data = load_schedule(SCHEDULE)
+    langs = {s["language"] for s in data["slots"]}
+    assert {"html", "javascript", "freemarker"} <= langs
+
+
+def test_slot_to_task_roundtrip() -> None:
+    data = load_schedule(SCHEDULE)
+    task = slot_to_task(data["slots"][0])
+    assert task.id == "site-home"
+    assert task.language.value == "html"
+    assert task.max_tokens >= 384
+
+
+def test_assert_rejects_six_slots() -> None:
+    data = load_schedule(SCHEDULE)
+    bad = dict(data)
+    bad["slots"] = list(data["slots"]) + [data["slots"][0]]
+    with pytest.raises(ValueError, match="asi08"):
+        assert_schedule_valid(bad)
+
+
+def test_evaluate_site_quality_on_good_fixtures() -> None:
+    from nano_orchestrator.application.large_site_schedule import evaluate_site_quality
+
+    files = {
+        "site-home": (
+            "<!DOCTYPE html><html lang='en'><head><title>x</title></head>"
+            "<body><header><nav><a href='menu.html'>Menu</a></nav></header>"
+            "<main><h1>Hi</h1></main></body></html>\n"
+        ),
+        "site-menu": (
+            "<!DOCTYPE html><html><head><title>m</title></head><body>"
+            "<h1>Menu</h1><ul>"
+            "<li>A $1</li><li>B $2</li><li>C $3</li><li>D $4</li><li>E $5</li>"
+            "</ul><form method='post' action='/order'>"
+            "<button type='submit'>Go</button></form></body></html>\n"
+        ),
+        "site-cart": (
+            "export function addItem(cart, id, price) { cart.push({id, price, qty:1}); "
+            "return cart; }\n"
+            "export function removeItem(cart, id) { return cart.filter(x => x.id !== id); }\n"
+            "export function total(cart) { return cart.reduce((s, x) => s + x.price * x.qty, 0); }\n"
+        ),
+        "site-money": (
+            "export function formatMoney(amount) { return '$' + amount.toFixed(2); }\n"
+        ),
+        "site-ftl": "<#list items as item><li>${item.name?html}</li></#list>\n",
+    }
+    checks = evaluate_site_quality(files)
+    assert all(checks.values()), checks
+
+
+def test_coerce_microtask_missing_fields() -> None:
+    from nano_orchestrator.domain.microtask_parser import parse_microtasks_json
+
+    raw = '[{"id":"t1","language":"js","prompt":"do thing"}]'
+    result = parse_microtasks_json(raw)
+    assert result.is_ok()
+    task = result.value[0]  # type: ignore[index]
+    assert task.role.value == "coder"
+    assert task.language.value == "javascript"
+    assert task.acceptance == ["syntax_valid"]

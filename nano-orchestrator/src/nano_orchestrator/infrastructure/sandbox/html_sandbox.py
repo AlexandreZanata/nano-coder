@@ -29,11 +29,27 @@ def check(code: str, acceptance: list[str]) -> Result[dict[str, bool], str]:
 
         use_validate = os.environ.get("NANO_ORCH_HTML_VALIDATE", "").strip() == "1"
         if use_validate:
+            if not _has_html_structure(code):
+                checks["syntax"] = False
+                checks["html_structure"] = False
+                return Ok(checks)
             return Ok(_run_html_validate(path, checks))
 
-        checks["syntax"] = "<" in code and ">" in code
+        checks["syntax"] = _has_html_structure(code)
         checks["html_validate_skipped"] = True
         return Ok(checks)
+
+
+def _has_html_structure(code: str) -> bool:
+    """Require at least one real HTML/FTL-ish tag; reject pure prose dumps."""
+    import re
+
+    if not re.search(r"<[a-zA-Z][a-zA-Z0-9:-]*\b", code):
+        return False
+    # Bullet lists pretending to be specs
+    if code.count("<") == 0:
+        return False
+    return True
 
 
 def _run_html_validate(path: Path, checks: dict[str, bool]) -> dict[str, bool]:

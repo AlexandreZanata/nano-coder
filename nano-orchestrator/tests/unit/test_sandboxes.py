@@ -18,6 +18,13 @@ def test_given_valid_js_when_syntax_check_then_true() -> None:
     assert result.value["syntax"] is True  # type: ignore[union-attr]
 
 
+def test_given_empty_js_stub_when_syntax_check_then_false() -> None:
+    stub = "export function formatMoney(amount) {\n  // your code here\n}\n"
+    result = js_sandbox.check(stub, ["syntax_valid"])
+    assert result.is_ok()
+    assert result.value["syntax"] is False  # type: ignore[union-attr]
+
+
 def test_given_invalid_js_when_syntax_check_then_false() -> None:
     result = js_sandbox.check("function (\n", ["syntax_valid"])
     assert result.is_ok()

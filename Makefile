@@ -1,4 +1,4 @@
-.PHONY: check lint lint-fix test coverage docs-check hypothesis-check harness-smoke paper-build paper-sync clean install health health-gpu check-real reviewer-repro nano-test nano-smoke nano-bakeoff nano-gates nano-validate-schema
+.PHONY: check lint lint-fix test coverage docs-check hypothesis-check harness-smoke paper-build paper-sync clean install health health-gpu check-real reviewer-repro nano-test nano-smoke nano-bakeoff nano-gates nano-validate-schema nano-large-site
 
 PYTHON ?= $(shell test -x .venv/bin/python && echo .venv/bin/python || echo python3)
 # Absolute path: targets `cd` into NANO_DIR before invoking Python.
@@ -111,3 +111,6 @@ nano-bakeoff:
 
 nano-gates:
 	cd $(NANO_DIR) && $(NANO_PYTHON) -m nano_orchestrator gates
+
+nano-large-site:
+	cd $(NANO_DIR) && NANO_ORCH_HTML_VALIDATE=1 $(NANO_PYTHON) -m nano_orchestrator large-site

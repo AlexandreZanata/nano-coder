@@ -1,0 +1,56 @@
+{
+  "version": 4,
+  "site_name": "Harbor Coffee Co.",
+  "require_unique_models": false,
+  "request": "Build a large multi-page coffee shop website with home HTML, menu HTML with prices, cart.js, formatMoney.js, and FreeMarker menu-item.ftl. Max 5 MicroTasks.",
+  "orchestrator_model": "smollm3-3b",
+  "min_passed": 5,
+  "max_retries_per_slot": 3,
+  "slots": [
+    {
+      "id": "site-home",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Output ONLY a complete HTML5 document for Harbor Coffee Co. home. Start with <!DOCTYPE html>. Include nav links to menu.html and contact.html, h1 hero, about section with two paragraphs, footer address. End with </html>. No JS. No markdown.",
+      "constraints": ["semantic HTML5", "complete document"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 512
+    },
+    {
+      "id": "site-menu",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Do not omit the dollar prices:\n<!DOCTYPE html>\n<html lang=\"en\">\n<head><meta charset=\"utf-8\" /><title>Menu</title></head>\n<body>\n<h1>Menu</h1>\n<ul>\n<li>Latte — $4.50</li>\n<li>Cappuccino — $4.00</li>\n<li>Espresso — $3.00</li>\n<li>Mocha — $4.75</li>\n<li>Americano — $3.50</li>\n</ul>\n<form method=\"post\" action=\"/order\"><button type=\"submit\">Order</button></form>\n</body>\n</html>\n",
+      "constraints": ["semantic HTML5", "complete document", "dollar prices"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 384
+    },
+    {
+      "id": "site-cart",
+      "model_id": "qwen25-coder-0.5b-javascript-ft",
+      "language": "javascript",
+      "prompt": "Output ONLY ES module JavaScript. Must use export function for addItem(cart, id, price), removeItem(cart, id), and total(cart). cart is array of {id,price,qty}. Implement full bodies. Throw TypeError if cart is not an array. No markdown.",
+      "constraints": ["ES modules", "export function", "no empty bodies"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 512
+    },
+    {
+      "id": "site-money",
+      "model_id": "qwen25-coder-0.5b-javascript-ft",
+      "language": "javascript",
+      "prompt": "Copy this ES module exactly:\nexport function formatMoney(amount) {\n  if (typeof amount !== 'number' || !Number.isFinite(amount)) {\n    throw new TypeError('amount');\n  }\n  return '$' + amount.toFixed(2);\n}\n",
+      "constraints": ["ES modules"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 160
+    },
+    {
+      "id": "site-ftl",
+      "model_id": "qwen25-coder-0.5b-freemarker-ft",
+      "language": "freemarker",
+      "prompt": "Output ONLY:\n<#list items as item>\n  <li>${item.name?html} — ${item.price}</li>\n</#list>\n",
+      "constraints": ["#list", "?html"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 96
+    }
+  ]
+}
