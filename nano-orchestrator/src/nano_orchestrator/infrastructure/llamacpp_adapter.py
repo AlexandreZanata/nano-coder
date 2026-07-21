@@ -10,6 +10,16 @@ from dataclasses import dataclass
 
 from nano_orchestrator.domain.result import Err, Ok, Result
 
+DEFAULT_STOP = (
+    "</s>",
+    "<|im_end|>",
+    "<|endoftext|>",
+    "<end_of_turn>",
+    "<think>",
+    "</think>",
+    "\n<think>",
+)
+
 
 @dataclass(frozen=True, slots=True)
 class GenerationResult:
@@ -22,16 +32,28 @@ class GenerationResult:
 class LlamaCppAdapter:
     """Talks to llama-server HTTP `/completion` API."""
 
-    def __init__(self, base_url: str = "http://127.0.0.1:8081") -> None:
+    def __init__(
+        self,
+        base_url: str = "http://127.0.0.1:8081",
+        *,
+        timeout_s: float = 180.0,
+        temperature: float = 0.2,
+        stop: tuple[str, ...] = DEFAULT_STOP,
+    ) -> None:
         self._base_url = base_url.rstrip("/")
+        self._timeout_s = timeout_s
+        self._temperature = temperature
+        self._stop = list(stop)
 
     def health(self) -> Result[bool, str]:
         try:
             req = urllib.request.Request(f"{self._base_url}/health", method="GET")
-            with urllib.request.urlopen(req, timeout=5) as resp:
-                return Ok(resp.status == 200)
+            with urllib.request.urlopen(req, timeout=min(5.0, self._timeout_s)) as resp:
+                return Ok(200 <= resp.status < 300)
         except urllib.error.URLError as exc:
             return Err(f"llamacpp_unreachable:{exc}")
+        except TimeoutError:
+            return Err("llamacpp_health_timeout")
 
     def generate(self, prompt: str, *, max_tokens: int = 512) -> Result[str, str]:
         detailed = self.generate_detailed(prompt, max_tokens=max_tokens)
@@ -42,20 +64,16 @@ class LlamaCppAdapter:
     def generate_detailed(
         self, prompt: str, *, max_tokens: int = 512
     ) -> Result[GenerationResult, str]:
+        if not prompt.strip():
+            return Err("empty_prompt")
+        if max_tokens < 1:
+            return Err("invalid_max_tokens")
         payload = json.dumps(
             {
                 "prompt": prompt,
                 "n_predict": max_tokens,
-                "temperature": 0.2,
-                "stop": [
-                    "</s>",
-                    "<|im_end|>",
-                    "<|endoftext|>",
-                    "<end_of_turn>",
-                    "<think>",
-                    "</think>",
-                    "\n<think>",
-                ],
+                "temperature": self._temperature,
+                "stop": self._stop,
             }
         ).encode("utf-8")
         req = urllib.request.Request(
@@ -66,12 +84,16 @@ class LlamaCppAdapter:
         )
         started = time.perf_counter()
         try:
-            with urllib.request.urlopen(req, timeout=180) as resp:
+            with urllib.request.urlopen(req, timeout=self._timeout_s) as resp:
                 body = json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            return Err(f"llamacpp_http:{exc.code}")
         except urllib.error.URLError as exc:
             return Err(f"llamacpp_unreachable:{exc}")
         except TimeoutError:
             return Err("llamacpp_timeout")
+        except json.JSONDecodeError:
+            return Err("llamacpp_bad_json")
         latency_ms = int((time.perf_counter() - started) * 1000)
         content = body.get("content")
         if not isinstance(content, str):

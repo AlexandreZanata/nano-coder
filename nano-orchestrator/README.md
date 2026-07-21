@@ -357,17 +357,16 @@ Pass@1 definition for a micro-task: `JudgeVerdict.passed == true` after sandbox 
 
 ### Today (Phase 0 kickoff)
 
-**Next task:** [T-030 in TASKS.md](TASKS.md) — Phase 2 LlamaCppAdapter / decompose loop.
+**Next task:** [T-040 in TASKS.md](TASKS.md) — Phase 4 sandbox hardening (JS / HTML / FTL).
 
-Phase 1 bake-off **complete** — winners locked in PROGRESS.yaml. See [benchmarks/RESULTS.md](benchmarks/RESULTS.md).
+Phase 2 pipeline **live**. Smoke:
 
 ```bash
 cd nano-orchestrator
-python scripts/validate_schema.py
-python scripts/validate_gold_code.py
 python -m pytest tests/unit -q
-./scripts/start_model_server.sh qwen25-coder-0.5b
-python benchmarks/worker_bakeoff.py --mode worker --model-id qwen25-coder-0.5b --write-results
+python scripts/smoke_runner.py \
+  --request "Create a JS clamp helper and an HTML checkout submit form"
+# Review out/proposal/ (human gate). Peak VRAM notes: benchmarks/PHASE2_VRAM.md
 ```
 
 ### Tomorrow

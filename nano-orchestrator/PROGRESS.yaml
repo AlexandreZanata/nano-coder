@@ -3,9 +3,9 @@
 # Status values: pending | in_progress | done | blocked | skipped
 
 updated: "2026-07-21"
-current_phase: 2
-mvp_day: 5
-next_task: "T-030"
+current_phase: 4
+mvp_day: 8
+next_task: "T-040"
 
 phase_0_contract:
   entities_py: done
@@ -22,31 +22,31 @@ phase_0_contract:
   held_out_min_6: done
 
 phase_1_bakeoff:
-  baseline_server: done      # T-020
-  setup_models: done         # T-021
-  bakeoff_script: done       # T-022
-  worker_rows: done          # T-023
-  orchestrator_rows: done    # T-024
+  baseline_server: done
+  setup_models: done
+  bakeoff_script: done
+  worker_rows: done
+  orchestrator_rows: done
   results_md_filled: done
   winners_locked:
     worker_a: qwen25-coder-0.5b
     worker_b: smollm2-360m
-    orchestrator: smollm3-3b  # T-025
+    orchestrator: smollm3-3b
 
 phase_2_runner:
-  llamacpp_adapter: pending  # T-030
-  decompose_json: pending    # T-031
-  worker_dispatch: pending   # T-032
-  judge_wired: pending       # T-033
-  retry_policy: pending      # T-034
-  merge_human_gate: pending  # T-035
-  keep_alive_vram_policy: pending  # T-036
-  smoke_e2e: pending         # T-037
+  llamacpp_adapter: done     # T-030
+  decompose_json: done       # T-031
+  worker_dispatch: done      # T-032
+  judge_wired: done          # T-033
+  retry_policy: done         # T-034
+  merge_human_gate: done     # T-035
+  keep_alive_vram_policy: done  # T-036
+  smoke_e2e: done            # T-037
 
 phase_4_judge:
-  js_sandbox: pending
-  html_validate: pending
-  ftl_jvm_spike: pending
+  js_sandbox: pending        # T-040
+  html_validate: pending     # T-041
+  ftl_jvm_spike: pending     # T-042
   ftl_wired: pending
   llm_secondary_only: pending
   llm_call_log: pending
@@ -78,6 +78,5 @@ polish:
   readme_final: pending
 
 notes: |
-  2026-07-21: E1 complete. Workers: qwen25-coder-0.5b > smollm2-360m > qwen3-0.6b > gemma3-270m.
-  Orchestrator: smollm3-3b (4/10 JSON) > nanbeige4.1-3b (1/10). FTL Pass@1 blocked on T-042.
-  Next: T-030 / Phase 2 minimal orchestrator loop.
+  2026-07-21: E2 complete. Full smoke: smollm3 decompose → qwen25 workers → judge → out/proposal.
+  Peak VRAM 3547 MB (≤6000). Next: T-040 Phase 4 sandboxes (FTL spike unblocks gold FTL Pass@1).

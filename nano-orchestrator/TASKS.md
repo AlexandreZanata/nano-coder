@@ -106,37 +106,37 @@ grep -n '^\- \[ \]' TASKS.md | head -20   # next open tasks
 
 ## E2 — Minimal orchestrator (Phase 2)
 
-- [ ] **T-030** Harden `LlamaCppAdapter` (timeouts, stop tokens, token counts) + unit/integration smoke  
+- [x] **T-030** Harden `LlamaCppAdapter` (timeouts, stop tokens, token counts) + unit/integration smoke  
   - **Deps:** T-020 · **DoD:** `generate()` returns `Ok` against live server  
-  - **PROGRESS:** `llamacpp_adapter` · **Effort:** 0.5 day
+  - **PROGRESS:** `llamacpp_adapter` · **Done:** 2026-07-21
 
-- [ ] **T-031** Orchestrator prompt + JSON parse → `list[MicroTask]` with schema validation + worker cap  
+- [x] **T-031** Orchestrator prompt + JSON parse → `list[MicroTask]` with schema validation + worker cap  
   - **Deps:** T-030, T-025 · **DoD:** invalid JSON → `Err`; >5 tasks → `Err`  
-  - **Effort:** 1 day
+  - **Done:** 2026-07-21 (`domain/microtask_parser.py`)
 
-- [ ] **T-032** Worker dispatch: route by `TargetLanguage` to locked worker model(s)  
+- [x] **T-032** Worker dispatch: route by `TargetLanguage` to locked worker model(s)  
   - **Deps:** T-031 · **DoD:** JS/HTML/FTL each get a `WorkerResponse`  
-  - **Effort:** 1 day
+  - **Done:** 2026-07-21 (`worker_dispatch.py` + routing)
 
-- [ ] **T-033** Wire `JudgeUseCase` + `CompositeSandbox` into runner (replace demo code)  
+- [x] **T-033** Wire `JudgeUseCase` + `CompositeSandbox` into runner (replace demo code)  
   - **Deps:** T-032 · **DoD:** real checks in smoke output  
-  - **Effort:** 0.5 day
+  - **Done:** 2026-07-21
 
-- [ ] **T-034** Retry policy (max 2) + escalate-to-human flag in output package  
+- [x] **T-034** Retry policy (max 2) + escalate-to-human flag in output package  
   - **Deps:** T-033 · **DoD:** failing task retries ≤2 then `escalate_to_human: true`  
-  - **Effort:** 0.5 day
+  - **Done:** 2026-07-21
 
-- [ ] **T-035** Deterministic merge (ordered by language / task id) → `out/proposal/` print-only  
+- [x] **T-035** Deterministic merge (ordered by language / task id) → `out/proposal/` print-only  
   - **Deps:** T-034 · **DoD:** no auto-write outside `out/`; README human-gate respected  
-  - **Effort:** 0.5 day
+  - **Done:** 2026-07-21
 
-- [ ] **T-036** VRAM policy: unload orchestrator between decompose and merge (script or keep_alive=0)  
+- [x] **T-036** VRAM policy: unload orchestrator between decompose and merge (script or keep_alive=0)  
   - **Deps:** T-031 · **DoD:** peak VRAM documented ≤6 GB for full cycle on 2 workers  
-  - **PROGRESS:** `keep_alive_vram_policy` · **Effort:** 0.5–1 day
+  - **PROGRESS:** `keep_alive_vram_policy` · **Done:** 2026-07-21 — peak 3547 MB (see `benchmarks/PHASE2_VRAM.md`)
 
-- [ ] **T-037** End-to-end smoke: one multi-language user request → scores JSON  
+- [x] **T-037** End-to-end smoke: one multi-language user request → scores JSON  
   - **Deps:** T-035, T-036 · **DoD:** `smoke_runner.py --request "..."` exit 0 with real models  
-  - **PROGRESS:** `smoke_e2e`
+  - **PROGRESS:** `smoke_e2e` · **Done:** 2026-07-21
 
 ---
 
@@ -269,7 +269,7 @@ T-050 → T-052 → T-053 → T-054 → T-055 → T-056
 T-060… (optional) → T-070…T-075
 ```
 
-**Next action right now:** **T-030** (harden LlamaCppAdapter) or **T-040** (JS sandbox polish) in parallel with Phase 2.
+**Next action right now:** **T-040** (JS sandbox polish) or **T-042** (FTL JVM spike) — Phase 4 judge hardening.
 
 ---
 
@@ -280,4 +280,5 @@ T-060… (optional) → T-070…T-075
 | 2026-07-21 | T-001…T-008 | Scaffold done; moved to repo |
 | 2026-07-21 | T-010…T-014 | Gold v1 frozen (30+6); schema + node checks green |
 | 2026-07-21 | T-020…T-025 | Bake-off measured; winners locked (qwen25 / smollm2 / smollm3) |
+| 2026-07-21 | T-030…T-037 | Phase 2 pipeline live; E2E smoke peak VRAM 3547 MB |
 | | | |
