@@ -459,6 +459,7 @@ make nano-large-site-pro-p    # Pinecrest Vet (S15 measured+reverted; final S13)
 make nano-large-site-pro-q    # Tidepool Surf (S16 measured+reverted; final S13)
 make nano-large-site-pro-r    # Brickhouse Brew (S17 measured+reverted; final S13)
 make nano-large-site-pro-s    # Northwind Kayak (S18 measured+reverted; final S13)
+make nano-large-site-pro-t    # Quill & Copper (S19 measured+reverted; final S13)
 
 # Arena playground — browse out/proposal + schedule runs
 make nano-arena

@@ -139,7 +139,8 @@ Canonical backlog: [`PRO_SITE_BACKLOG.md`](PRO_SITE_BACKLOG.md).
 | P | Pinecrest Animal Clinic | `make nano-large-site-pro-p` | **4.79 s** | S15 REVERT (FA+KVU tie); final under S13; archived |
 | Q | Tidepool Surf School | `make nano-large-site-pro-q` | 4.89 s | S16 REVERT (batch noise); final under S13; archived |
 | R | Brickhouse Brewing Co. | `make nano-large-site-pro-r` | 4.90 s | S17 REVERT (styles750 truncates form); final under S13; archived |
-| S | Northwind Kayak Outfitters | `make nano-large-site-pro-s` | 4.91 s | S18 REVERT (END stop 0/5); final under S13 |
+| S | Northwind Kayak Outfitters | `make nano-large-site-pro-s` | 4.91 s | S18 REVERT (END stop 0/5); final under S13; archived |
+| T | Quill & Copper Stationery | `make nano-large-site-pro-t` | 4.88 s | S19 REVERT (CTX9216 noise); final under S13 |
 
 Speed: S2–S8 + S12/S13 parallel kept · S4/S9/S10/S11/S14 REVERT. Best wall Site N **4.83 s**. CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
 
