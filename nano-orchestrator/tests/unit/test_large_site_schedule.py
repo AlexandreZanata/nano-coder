@@ -293,6 +293,19 @@ def test_pro_o_schedule_after_s14_revert() -> None:
     assert data["speed"]["approach"] == "S13_after_S14_revert"
 
 
+def test_pro_p_schedule_after_s15_revert() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_p.json")
+    assert_schedule_valid(data)
+    assert data["benchmark_id"] == "pro-site-P-pinecrest-vet"
+    assert data["speed"].get("flash_attn") is None
+    assert data["speed"].get("kv_unified") is None
+    assert data["speed"]["parallel_all_slots"] is True
+    assert data["speed"]["n_parallel"] == 5
+    assert data["speed"]["ctx_size"] == 10240
+    assert data["slots"][0]["max_tokens"] == 780
+    assert data["speed"]["approach"] == "S13_after_S15_revert"
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 

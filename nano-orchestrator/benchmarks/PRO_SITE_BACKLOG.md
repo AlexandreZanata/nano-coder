@@ -32,6 +32,7 @@
 | S12 | Parallel HTML + `CTX=8192` + `-np 4` | 9.82 s | Site M **5.96 s** | **−3.86 s (−39%)** | **KEEP** |
 | S13 | All 5 slots parallel + `CTX=10240` + `-np 5` | 5.96 s | Site N **4.83 s** | **−1.13 s (−19%)** | **KEEP** |
 | S14 | S13 + tokens 700/440 + `skip_final_stop` | 4.83 s | **5.00 s** red quality | slower / red | **REVERT** |
+| S15 | S13 + `-fa on` + `-kvu` (unified KV) | 4.83 s | **4.83 s** green (tie) | 0.00 s | **REVERT** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
@@ -46,8 +47,50 @@ S11: ThreadPoolExecutor for HTML slots with `-np 4` at CTX 2048. Styles HTTP 400
 S12: same parallel path with `CTX=8192` so each `-np` slot has enough context; styles sequential then 4 HTML concurrent.  
 S13: cold-start once then run **all** slots (CSS+HTML) concurrently with `CTX=10240` / `-np 5`. **Best kept wall.**  
 S14: tighter CSS/HTML tokens + skip final stop. Truncated CSS (`styles_has_footer/form=false`) and slower wall → REVERT to S13.
+S15: force Flash Attention on + unified KV (`-kvu`) with `-np 5`. Green but wall tied N **4.83 s** (no speedup) → REVERT harness; Site P final under S13.
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## P — Pinecrest Animal Clinic (`pro-site-P-pinecrest-vet`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-marble-rye-pro-archived/` @ 2026-07-21T16:02:10Z |
+| Site | Pinecrest Animal Clinic (veterinary services / fee board) |
+| Schedule | [`large_site_schedule_pro_p.json`](large_site_schedule_pro_p.json) |
+| Why this task | New vet domain; measure **S15** (`-fa on` + `-kvu`) vs N **4.83 s** |
+| Speed | S15 **REVERT** (tie); Site P final timed under **S13** |
+| Command | `make nano-large-site-pro-p` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| S15 attempt (green tie) | **4.83 s** — archived `out/archive/2026-07-21-pinecrest-s15-tie/` |
+| Final make (S13) | **4.79 s** |
+| Orch O0 | skipped |
+
+| Slot (final S13) | elapsed_s | reused |
+|------------------|-----------|--------|
+| styles | 3.52 | yes |
+| home | 2.85 | yes |
+| menu | 2.82 | yes |
+| about | 2.82 | yes |
+| contact | 2.81 | yes |
+
+### Quality
+
+- Pass bar: **5/5** · quality_ok · openable **4/4**
+- Peak VRAM: ~1601 MB
+- Report: [`runs/large_site_schedule_pro_p.json`](runs/large_site_schedule_pro_p.json)
+
+### Notes
+
+- No hand edits to `out/proposal/`
+- S15: FA+KVU did not beat styles bottleneck (~3.63 s); keep S13 stack
 
 ---
 
