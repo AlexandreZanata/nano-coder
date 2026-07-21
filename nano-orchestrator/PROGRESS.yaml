@@ -114,6 +114,8 @@ notes: |
   Beacon archived; CTX=2048 + trust_start_health; workers 5/5 openable 4/4.
   2026-07-21: Pro-site I GREEN — Lumen Photo; S8 KEEP (9.82s vs 11.43s, −14%);
   Atlas archived; temp0 + stop_grace0 + tokens 750/480; workers 5/5 openable 4/4.
+  2026-07-21: Pro-site J GREEN — Copper Lantern; S9 REVERT (9.60s red quality);
+  final under S8 10.07s; Lumen archived; workers 5/5 openable 4/4.
 
 pro_site_benchmarks:
   protocol: orchestrator_only_results_no_hand_edit
@@ -158,6 +160,11 @@ pro_site_benchmarks:
       measured_wall_s: 9.82
       delta_s: -1.61
       note: temperature=0 + stop_grace=0 + max_tokens 750/480
+    S9_topk1_skip_final_stop:
+      status: reverted
+      baseline_wall_s: 9.82
+      measured_wall_s: 9.60
+      reason: quality_fail_styles_has_form
   A_harbor_coffee:
     status: archived
   B_summit_trail:
@@ -179,11 +186,14 @@ pro_site_benchmarks:
     status: archived
     wall_clock_s: 11.43
   I_lumen_photo:
-    status: done
-    schedule: benchmarks/large_site_schedule_pro_i.json
+    status: archived
     wall_clock_s: 9.82
+  J_copper_lantern:
+    status: done
+    schedule: benchmarks/large_site_schedule_pro_j.json
+    wall_clock_s: 10.07
     orch: skipped_S5
-    speed: S8
+    speed: S8_after_S9_revert
     workers_passed: "5/5"
     openable_pages: 4
-    report: benchmarks/runs/large_site_schedule_pro_i.json
+    report: benchmarks/runs/large_site_schedule_pro_j.json

@@ -26,6 +26,7 @@
 | S6 | Skip duplicate shell port-kill + `HEALTH_SLEEP=0.2` + tighter `max_tokens` | 17.19 s | Site G **13.00 s** | **−4.19 s (−24%)** | **KEEP** |
 | S7 | `CTX=2048` + `trust_start_health` (skip Python re-poll after shell OK) | 13.00 s | Site H **11.43 s** | **−1.57 s (−12%)** | **KEEP** |
 | S8 | `temperature=0` + `stop_grace_s=0` + tighter tokens (750/480) | 11.43 s | Site I **9.82 s** | **−1.61 s (−14%)** | **KEEP** |
+| S9 | `top_k=1` + `skip_final_stop` (leave server up after last slot) | 9.82 s | **9.60 s** but quality fail | −0.22 s / red | **REVERT** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
@@ -33,9 +34,53 @@ S4: overlapped worker GGUF load with orch decompose (dual-port). Warm OK but wal
 S5: skip live orch decompose when schedule already has canonical CSS/HTML slots; workers still generate all files via nano-orchestrator. Use when speed matters more than orch-bind telemetry.  
 S6: `SKIP_PRE_KILL=1` from Python `start_server` (no second `fuser`+sleep in shell); faster health poll; styles `max_tokens` 900 / HTML 560 (was 1200/700).  
 S7: worker `CTX=2048` (vs default 8192) + trust shell `/health` success (no second Python poll loop). Peak VRAM also dropped (~1503 MB).  
-S8: greedy decode (`temperature=0`), zero stop grace, styles/HTML `max_tokens` 750/480 (was 900/560).
+S8: greedy decode (`temperature=0`), zero stop grace, styles/HTML `max_tokens` 750/480 (was 900/560).  
+S9: `top_k=1` + skip final server stop. Wall slightly faster but `styles_has_form=false` → pass bar failed → code restored to S8.
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## J — Copper Lantern Bookstore (`pro-site-J-copper-lantern`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-lumen-photo-pro-archived/` @ 2026-07-21T15:29:50Z |
+| Site | Copper Lantern Bookstore (retail / shelves + prices) |
+| Schedule | [`large_site_schedule_pro_j.json`](large_site_schedule_pro_j.json) |
+| Why this task | New bookstore domain; measure **S9** vs I **9.82 s** |
+| Speed | S9 **REVERT**; Site J final timed under **S8** |
+| Command | `make nano-large-site-pro-j` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| S9 attempt (red) | 9.60 s — quality fail (`styles_has_form`) |
+| Final make (S8) | **10.07 s** |
+| Orch O0 | skipped |
+
+| Slot (final S8) | elapsed_s | reused |
+|-----------------|-----------|--------|
+| styles | 3.43 | no |
+| home | 1.60 | yes |
+| menu | 1.59 | yes |
+| about | 1.60 | yes |
+| contact | 1.69 | yes |
+
+### Results
+
+| Check | Value |
+|-------|-------|
+| Orch | skipped (intentional S5) |
+| Workers | **5/5** |
+| Pass bar | **MET** |
+| Openable | **4/4** |
+| Hand edits | **none** |
+| Peak VRAM | **1503 MB** |
+| S9 failed archive | `out/archive/2026-07-21-copper-lantern-s9-failed/` |
+| Report | [`runs/large_site_schedule_pro_j.json`](runs/large_site_schedule_pro_j.json) |
 
 ---
 
@@ -49,7 +94,8 @@ First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5
 | Why this task | New creative-services domain; measure **S8** vs H **11.43 s** |
 | Speed | **S8** (on top of S5–S7) |
 | Command | `make nano-large-site-pro-i` |
-| Status | **done — GREEN** |
+| Status | **archived** (superseded by J) |
+| Archive path | `out/archive/2026-07-21-lumen-photo-pro-archived/` |
 
 ### Timing
 

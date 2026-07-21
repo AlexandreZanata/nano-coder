@@ -129,8 +129,9 @@ Canonical backlog: [`PRO_SITE_BACKLOG.md`](PRO_SITE_BACKLOG.md).
 | F | Fern & Field Botanicals | `make nano-large-site-pro-f` | 17.19 s | S5 skip-orch (−36% vs D); archived |
 | G | Beacon Dental Care | `make nano-large-site-pro-g` | 13.00 s | S6 skip-dup-kill (−24% vs F); archived |
 | H | Atlas Climbing Gym | `make nano-large-site-pro-h` | 11.43 s | S7 CTX=2048 + trust health (−12% vs G); archived |
-| I | Lumen Photo Studio | `make nano-large-site-pro-i` | **9.82 s** | S8 temp0 + stop_grace0 + tokens 750/480 (−14% vs H) |
+| I | Lumen Photo Studio | `make nano-large-site-pro-i` | **9.82 s** | S8 temp0 + tighter tokens (−14% vs H); archived |
+| J | Copper Lantern Bookstore | `make nano-large-site-pro-j` | 10.07 s | S9 REVERT (red quality); final under S8 |
 
-Speed: S2 keep-alive · S3 stop_grace · S4 warm REVERT · S5 `speed.skip_orchestrator` · S6 `SKIP_PRE_KILL` · S7 `ctx_size` + `trust_start_health` · S8 `temperature` + tighter tokens. CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
+Speed: S2 keep-alive · S3 stop_grace · S4 warm REVERT · S5 `speed.skip_orchestrator` · S6 `SKIP_PRE_KILL` · S7 `ctx_size` + `trust_start_health` · S8 `temperature` + tighter tokens · S9 top_k/skip_final REVERT. CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
 
 **Rule:** never hand-edit `out/proposal/` site files; archive before each new site run.

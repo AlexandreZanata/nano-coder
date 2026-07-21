@@ -235,6 +235,16 @@ def test_pro_i_schedule_s8_flags() -> None:
     assert data["speed"]["approach"] == "S8_temp0_stop_grace0_tighter_tokens"
 
 
+def test_pro_j_schedule_after_s9_revert() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_j.json")
+    assert_schedule_valid(data)
+    assert data["benchmark_id"] == "pro-site-J-copper-lantern"
+    assert data["speed"]["temperature"] == 0.0
+    assert data["speed"].get("top_k") is None
+    assert data["speed"].get("skip_final_stop") is None
+    assert data["speed"]["approach"] == "S8_after_S9_revert"
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 
