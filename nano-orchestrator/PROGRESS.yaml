@@ -1,0 +1,83 @@
+# Live progress — Nano-Orchestrator
+# Canonical backlog: TASKS.md  |  Spec: README.md
+# Status values: pending | in_progress | done | blocked | skipped
+
+updated: "2026-07-21"
+current_phase: 1
+mvp_day: 3
+next_task: "T-020"
+
+phase_0_contract:
+  entities_py: done          # T-001
+  result_py: done            # T-002
+  rubric_stub: done          # T-003
+  unit_tests: done           # T-005
+  validate_schema_script: done  # T-006
+  gold_exemplars_min_3: done # T-007
+  smoke_runner_demo: done    # T-008
+  gold_js_complete: done     # T-010
+  gold_html_complete: done   # T-011
+  gold_ftl_complete: done    # T-012
+  gold_30_handwritten: done  # T-014
+  held_out_min_6: done       # T-013
+
+phase_1_bakeoff:
+  baseline_server: pending   # T-020
+  setup_models: pending      # T-021
+  bakeoff_script: pending    # T-022
+  worker_rows: pending       # T-023
+  orchestrator_rows: pending # T-024
+  results_md_filled: pending
+  winners_locked:
+    worker_a: null
+    worker_b: null
+    orchestrator: null       # T-025
+
+phase_2_runner:
+  llamacpp_adapter: pending  # T-030
+  decompose_json: pending    # T-031
+  worker_dispatch: pending   # T-032
+  judge_wired: pending       # T-033
+  retry_policy: pending      # T-034
+  merge_human_gate: pending  # T-035
+  keep_alive_vram_policy: pending  # T-036
+  smoke_e2e: pending         # T-037
+
+phase_4_judge:
+  js_sandbox: pending        # T-040
+  html_validate: pending     # T-041
+  ftl_jvm_spike: pending     # T-042
+  ftl_wired: pending         # T-043
+  llm_secondary_only: pending  # T-044
+  llm_call_log: pending      # T-045
+
+phase_3_finetune:
+  train_jsonl: pending       # T-050
+  teacher_distill: pending   # T-051
+  unsloth_smoke: pending     # T-052
+  gguf_export: pending       # T-053
+  held_out_pass_not_worse: pending  # T-054
+  worker_html_ft: pending    # T-055
+  worker_ftl_ft: pending     # T-056
+
+phase_5_dynamic:
+  status: skipped            # unlock via T-060 after E2+E4
+
+mvp_gates:
+  orchestration_beats_solo_0_5b: pending  # GATE-001
+  vram_peak_mb_le_6000: pending           # GATE-002
+  p50_latency_ms_le_target: pending       # GATE-003
+  negative_result_documented: pending     # GATE-NEG if needed
+
+polish:
+  adr_promoted: pending      # T-070
+  cli_entrypoint: pending    # T-071
+  makefile_targets: pending  # T-072
+  ci_cpu_job: pending        # T-073
+  security_pass: pending     # T-074
+  readme_final: pending      # T-075
+
+notes: |
+  2026-07-21: T-010..T-014 done. Gold v1 frozen (30 train + 6 held-out).
+  Validators: scripts/validate_schema.py + scripts/validate_gold_code.py
+  Next: T-020 baseline llama-server on :8081

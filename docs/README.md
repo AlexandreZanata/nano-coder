@@ -47,6 +47,7 @@
 | [PIPELINE-CONTRACT.md](PIPELINE-CONTRACT.md) | CLI commands, config, artifacts (**primary interface**) |
 | [API-CONTRACT.md](API-CONTRACT.md) | Future HTTP API (not phase 1) |
 | [EVALUATION-METHOD.md](EVALUATION-METHOD.md) | Pass@k, metrics, smoke test gates |
+| [../nano-orchestrator/README.md](../nano-orchestrator/README.md) | **Nano-Orchestrator** — local Orchestrator–Workers–Judge plan + code |
 | [TRAINING-METHODS.md](TRAINING-METHODS.md) | **Full PEFT/tensor benchmark catalog** |
 | [QUANTUN-IA-PROVEN-METHODS.md](QUANTUN-IA-PROVEN-METHODS.md) | **Top 3 quantun-ia methods for transfer** |
 

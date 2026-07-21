@@ -1,0 +1,315 @@
+{
+  "version": 1,
+  "frozen": true,
+  "frozen_at": "2026-07-21",
+  "description": "Gold micro-tasks for nano-orchestrator bake-off (v1 frozen). Quality bar: docs/CODE-QUALITY-STANDARD.md",
+  "quality_bar": "../../docs/CODE-QUALITY-STANDARD.md",
+  "counts": {
+    "javascript": 10,
+    "html": 10,
+    "freemarker": 10,
+    "total": 30
+  },
+  "tasks": [
+    {
+      "id": "js-001",
+      "role": "coder",
+      "language": "javascript",
+      "prompt": "Export a pure function filterValues(values, predicate) that returns a new array of numbers matching the predicate. Reject non-arrays with TypeError. Use ES modules.",
+      "constraints": ["no var", "no console.log", "max 30 lines"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 256,
+      "gold_code": "/**\n * Returns elements matching predicate — does not mutate input.\n * @param {number[]} values\n * @param {(n: number) => boolean} predicate\n * @returns {number[]}\n */\nexport function filterValues(values, predicate) {\n  if (!Array.isArray(values)) {\n    throw new TypeError(\"values must be an array\");\n  }\n  return values.filter(predicate);\n}\n"
+    },
+    {
+      "id": "js-002",
+      "role": "coder",
+      "language": "javascript",
+      "prompt": "Export parsePositiveInt(raw) that parses a string to an integer greater than zero. Throw TypeError if raw is not a string. Throw RangeError if the value is not a positive integer.",
+      "constraints": ["no var", "ES modules", "JSDoc"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 256,
+      "gold_code": "/**\n * @param {string} raw\n * @returns {number}\n * @throws {TypeError|RangeError}\n */\nexport function parsePositiveInt(raw) {\n  if (typeof raw !== \"string\") {\n    throw new TypeError(\"raw must be a string\");\n  }\n  const value = Number.parseInt(raw, 10);\n  if (!Number.isInteger(value) || value <= 0 || String(value) !== raw.trim()) {\n    throw new RangeError(\"raw must be a positive integer\");\n  }\n  return value;\n}\n"
+    },
+    {
+      "id": "js-003",
+      "role": "coder",
+      "language": "javascript",
+      "prompt": "Export uniqueSorted(nums) that returns a new ascending array of unique numbers. Reject non-arrays with TypeError. Do not mutate the input.",
+      "constraints": ["no var", "ES modules", "pure function"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 256,
+      "gold_code": "/**\n * @param {number[]} nums\n * @returns {number[]}\n */\nexport function uniqueSorted(nums) {\n  if (!Array.isArray(nums)) {\n    throw new TypeError(\"nums must be an array\");\n  }\n  return [...new Set(nums)].sort((a, b) => a - b);\n}\n"
+    },
+    {
+      "id": "js-004",
+      "role": "coder",
+      "language": "javascript",
+      "prompt": "Export groupBy(items, keyFn) that returns a plain object mapping string keys to arrays of items. Reject non-arrays with TypeError.",
+      "constraints": ["no var", "ES modules", "max 30 lines"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 256,
+      "gold_code": "/**\n * @template T\n * @param {T[]} items\n * @param {(item: T) => string} keyFn\n * @returns {Record<string, T[]>}\n */\nexport function groupBy(items, keyFn) {\n  if (!Array.isArray(items)) {\n    throw new TypeError(\"items must be an array\");\n  }\n  /** @type {Record<string, T[]>} */\n  const groups = Object.create(null);\n  for (const item of items) {\n    const key = keyFn(item);\n    if (!Object.hasOwn(groups, key)) {\n      groups[key] = [];\n    }\n    groups[key].push(item);\n  }\n  return groups;\n}\n"
+    },
+    {
+      "id": "js-005",
+      "role": "coder",
+      "language": "javascript",
+      "prompt": "Export safeJsonParse(text) that returns { ok: true, value } on success or { ok: false, error } with an Error instance on failure. Never throw.",
+      "constraints": ["no var", "ES modules", "Result-like"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 256,
+      "gold_code": "/**\n * @param {string} text\n * @returns {{ ok: true, value: unknown } | { ok: false, error: Error }}\n */\nexport function safeJsonParse(text) {\n  try {\n    return { ok: true, value: JSON.parse(text) };\n  } catch (cause) {\n    const error = cause instanceof Error ? cause : new Error(String(cause));\n    return { ok: false, error };\n  }\n}\n"
+    },
+    {
+      "id": "js-006",
+      "role": "coder",
+      "language": "javascript",
+      "prompt": "Export debounce(fn, waitMs) that returns a wrapped function delaying calls until waitMs quiet time. Attach a cancel() method that clears the pending timer. No DOM APIs.",
+      "constraints": ["no var", "ES modules", "no console.log"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 320,
+      "gold_code": "/**\n * @template {(...args: unknown[]) => void} F\n * @param {F} fn\n * @param {number} waitMs\n * @returns {((...args: Parameters<F>) => void) & { cancel: () => void }}\n */\nexport function debounce(fn, waitMs) {\n  /** @type {ReturnType<typeof setTimeout> | undefined} */\n  let timer;\n  const wrapped = (...args) => {\n    if (timer !== undefined) {\n      clearTimeout(timer);\n    }\n    timer = setTimeout(() => {\n      timer = undefined;\n      fn(...args);\n    }, waitMs);\n  };\n  wrapped.cancel = () => {\n    if (timer !== undefined) {\n      clearTimeout(timer);\n      timer = undefined;\n    }\n  };\n  return wrapped;\n}\n"
+    },
+    {
+      "id": "js-007",
+      "role": "coder",
+      "language": "javascript",
+      "prompt": "Export clamp(n, min, max) that returns n bounded to [min, max]. Throw RangeError if min > max.",
+      "constraints": ["no var", "ES modules", "JSDoc"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "/**\n * @param {number} n\n * @param {number} min\n * @param {number} max\n * @returns {number}\n */\nexport function clamp(n, min, max) {\n  if (min > max) {\n    throw new RangeError(\"min must be <= max\");\n  }\n  return Math.min(max, Math.max(min, n));\n}\n"
+    },
+    {
+      "id": "js-008",
+      "role": "coder",
+      "language": "javascript",
+      "prompt": "Export toQueryString(params) that builds an application/x-www-form-urlencoded query string from a plain object of string values. Skip nullish values. Encode keys and values with encodeURIComponent.",
+      "constraints": ["no var", "ES modules"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 256,
+      "gold_code": "/**\n * @param {Record<string, string | null | undefined>} params\n * @returns {string}\n */\nexport function toQueryString(params) {\n  const parts = [];\n  for (const [key, value] of Object.entries(params)) {\n    if (value === null || value === undefined) {\n      continue;\n    }\n    parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);\n  }\n  return parts.join(\"&\");\n}\n"
+    },
+    {
+      "id": "js-009",
+      "role": "coder",
+      "language": "javascript",
+      "prompt": "Export deepFreeze(obj) that recursively Object.freeze an object graph (plain objects and arrays). Return the same reference. Ignore non-objects.",
+      "constraints": ["no var", "ES modules", "max 30 lines"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 256,
+      "gold_code": "/**\n * @template T\n * @param {T} obj\n * @returns {T}\n */\nexport function deepFreeze(obj) {\n  if (obj === null || typeof obj !== \"object\") {\n    return obj;\n  }\n  for (const value of Object.values(obj)) {\n    deepFreeze(value);\n  }\n  return Object.freeze(obj);\n}\n"
+    },
+    {
+      "id": "js-010",
+      "role": "coder",
+      "language": "javascript",
+      "prompt": "Export assertNever(x) that throws TypeError with a message including the unexpected value. Use for exhaustive switch defaults. Return type never.",
+      "constraints": ["no var", "ES modules", "JSDoc"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "/**\n * @param {never} x\n * @returns {never}\n */\nexport function assertNever(x) {\n  throw new TypeError(`Unexpected value: ${String(x)}`);\n}\n"
+    },
+    {
+      "id": "html-001",
+      "role": "coder",
+      "language": "html",
+      "prompt": "Write a minimal accessible button labeled Submit inside a form with method post and action /checkout. No inline scripts.",
+      "constraints": ["semantic HTML5", "no inline styles"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "<form method=\"post\" action=\"/checkout\">\n  <button type=\"submit\">Submit</button>\n</form>\n"
+    },
+    {
+      "id": "html-002",
+      "role": "coder",
+      "language": "html",
+      "prompt": "Write an HTML snippet with a skip link to #main and a main landmark containing a single paragraph. No inline scripts or styles.",
+      "constraints": ["accessibility", "semantic HTML5"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "<a href=\"#main\">Skip to content</a>\n<main id=\"main\">\n  <p>Welcome to the dashboard.</p>\n</main>\n"
+    },
+    {
+      "id": "html-003",
+      "role": "coder",
+      "language": "html",
+      "prompt": "Write a definition list with three terms: Name, Email, Role and matching descriptions Alice, alice@example.com, Editor.",
+      "constraints": ["semantic HTML5", "no inline styles"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "<dl>\n  <dt>Name</dt>\n  <dd>Alice</dd>\n  <dt>Email</dt>\n  <dd>alice@example.com</dd>\n  <dt>Role</dt>\n  <dd>Editor</dd>\n</dl>\n"
+    },
+    {
+      "id": "html-004",
+      "role": "coder",
+      "language": "html",
+      "prompt": "Write a table with caption Inventory, column headers Product and Qty using scope=col, and one data row Widget / 3.",
+      "constraints": ["semantic HTML5", "accessible table"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 160,
+      "gold_code": "<table>\n  <caption>Inventory</caption>\n  <thead>\n    <tr>\n      <th scope=\"col\">Product</th>\n      <th scope=\"col\">Qty</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Widget</td>\n      <td>3</td>\n    </tr>\n  </tbody>\n</table>\n"
+    },
+    {
+      "id": "html-005",
+      "role": "coder",
+      "language": "html",
+      "prompt": "Write a figure with an img (src /images/chart.png, meaningful alt) and a figcaption Monthly revenue.",
+      "constraints": ["media", "alt required"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "<figure>\n  <img src=\"/images/chart.png\" alt=\"Bar chart of monthly revenue\" />\n  <figcaption>Monthly revenue</figcaption>\n</figure>\n"
+    },
+    {
+      "id": "html-006",
+      "role": "coder",
+      "language": "html",
+      "prompt": "Write a nav with three links Home, Orders, Settings. Mark Orders with aria-current=page.",
+      "constraints": ["accessibility", "semantic HTML5"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "<nav aria-label=\"Primary\">\n  <a href=\"/\">Home</a>\n  <a href=\"/orders\" aria-current=\"page\">Orders</a>\n  <a href=\"/settings\">Settings</a>\n</nav>\n"
+    },
+    {
+      "id": "html-007",
+      "role": "coder",
+      "language": "html",
+      "prompt": "Write a fieldset with legend Subscribe? and two radio inputs named subscribe with labels Yes and No, associated via for/id.",
+      "constraints": ["forms", "accessibility"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 160,
+      "gold_code": "<fieldset>\n  <legend>Subscribe?</legend>\n  <input type=\"radio\" id=\"subscribe-yes\" name=\"subscribe\" value=\"yes\" />\n  <label for=\"subscribe-yes\">Yes</label>\n  <input type=\"radio\" id=\"subscribe-no\" name=\"subscribe\" value=\"no\" />\n  <label for=\"subscribe-no\">No</label>\n</fieldset>\n"
+    },
+    {
+      "id": "html-008",
+      "role": "coder",
+      "language": "html",
+      "prompt": "Write an article with a header containing h1 Release notes and one paragraph summarizing v1.0.",
+      "constraints": ["semantic HTML5"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "<article>\n  <header>\n    <h1>Release notes</h1>\n  </header>\n  <p>Version 1.0 ships the local orchestrator MVP.</p>\n</article>\n"
+    },
+    {
+      "id": "html-009",
+      "role": "coder",
+      "language": "html",
+      "prompt": "Write a native dialog containing a form with method=dialog, a Confirm button type=submit, and a Cancel button type=submit with value cancel.",
+      "constraints": ["no inline scripts", "semantic HTML5"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 160,
+      "gold_code": "<dialog open>\n  <form method=\"dialog\">\n    <p>Discard unsaved changes?</p>\n    <button type=\"submit\" value=\"confirm\">Confirm</button>\n    <button type=\"submit\" value=\"cancel\">Cancel</button>\n  </form>\n</dialog>\n"
+    },
+    {
+      "id": "html-010",
+      "role": "coder",
+      "language": "html",
+      "prompt": "Write a breadcrumb as an ordered list of links: Home, Catalog, Item. Last item is plain text (current page), not a link.",
+      "constraints": ["accessibility", "semantic HTML5"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "<nav aria-label=\"Breadcrumb\">\n  <ol>\n    <li><a href=\"/\">Home</a></li>\n    <li><a href=\"/catalog\">Catalog</a></li>\n    <li aria-current=\"page\">Item</li>\n  </ol>\n</nav>\n"
+    },
+    {
+      "id": "ftl-001",
+      "role": "coder",
+      "language": "freemarker",
+      "prompt": "Render an unordered list of product names from a sequence products where each item has a name field. Escape HTML.",
+      "constraints": ["use #list", "use ?html"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "<ul>\n<#list products as product>\n  <li>${product.name?html}</li>\n</#list>\n</ul>\n"
+    },
+    {
+      "id": "ftl-002",
+      "role": "coder",
+      "language": "freemarker",
+      "prompt": "Given boolean user.admin, render a span with text Admin if true else Member. Escape output with ?html.",
+      "constraints": ["use #if", "use ?html"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "<#if user.admin>\n  <span>${\"Admin\"?html}</span>\n<#else>\n  <span>${\"Member\"?html}</span>\n</#if>\n"
+    },
+    {
+      "id": "ftl-003",
+      "role": "coder",
+      "language": "freemarker",
+      "prompt": "Render names from sequence names as a comma-separated list using #list and #sep. Escape each name with ?html.",
+      "constraints": ["use #list", "use #sep", "use ?html"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "<#list names as name>${name?html}<#sep>, </#sep></#list>\n"
+    },
+    {
+      "id": "ftl-004",
+      "role": "coder",
+      "language": "freemarker",
+      "prompt": "Render a price number using string format 0.00 inside a p tag. Variable name: price.",
+      "constraints": ["formatting", "no ?eval"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 64,
+      "gold_code": "<p>${price?string[\"0.00\"]}</p>\n"
+    },
+    {
+      "id": "ftl-005",
+      "role": "coder",
+      "language": "freemarker",
+      "prompt": "Render subtitle if present, otherwise the default text Untitled. Use the missing-value default operator. Escape with ?html.",
+      "constraints": ["use ! default", "use ?html"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 64,
+      "gold_code": "<h2>${(subtitle!\"Untitled\")?html}</h2>\n"
+    },
+    {
+      "id": "ftl-006",
+      "role": "coder",
+      "language": "freemarker",
+      "prompt": "Define a macro pageTitle that takes title and prints an h1 with ?html escaping. Then call it with title Dashboard.",
+      "constraints": ["use #macro", "use ?html"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 160,
+      "gold_code": "<#macro pageTitle title>\n  <h1>${title?html}</h1>\n</#macro>\n<@pageTitle title=\"Dashboard\" />\n"
+    },
+    {
+      "id": "ftl-007",
+      "role": "coder",
+      "language": "freemarker",
+      "prompt": "Given string status, use #switch to print Open, Closed, or Unknown. Escape the label with ?html.",
+      "constraints": ["use #switch", "use ?html"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 160,
+      "gold_code": "<#switch status>\n  <#case \"open\">\n    ${\"Open\"?html}\n    <#break>\n  <#case \"closed\">\n    ${\"Closed\"?html}\n    <#break>\n  <#default>\n    ${\"Unknown\"?html}\n</#switch>\n"
+    },
+    {
+      "id": "ftl-008",
+      "role": "coder",
+      "language": "freemarker",
+      "prompt": "Render an anchor whose href is /item/ plus pathSegment escaped for a URL path, and link text Item escaped with ?html. Variable: pathSegment.",
+      "constraints": ["url escaping", "use ?html"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "<a href=\"/item/${pathSegment?url}\">${\"Item\"?html}</a>\n"
+    },
+    {
+      "id": "ftl-009",
+      "role": "coder",
+      "language": "freemarker",
+      "prompt": "If sequence items is empty, print a paragraph No items. Otherwise list each item name with ?html in an unordered list.",
+      "constraints": ["use #if", "use #list", "use ?html"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 160,
+      "gold_code": "<#if !items?has_content>\n  <p>${\"No items\"?html}</p>\n<#else>\n  <ul>\n  <#list items as item>\n    <li>${item.name?html}</li>\n  </#list>\n  </ul>\n</#if>\n"
+    },
+    {
+      "id": "ftl-010",
+      "role": "coder",
+      "language": "freemarker",
+      "prompt": "Assign fullName by concatenating firstName and lastName with a space, then print it inside a span with ?html.",
+      "constraints": ["use #assign", "use ?html"],
+      "acceptance": ["syntax_valid"],
+      "max_tokens": 128,
+      "gold_code": "<#assign fullName = firstName + \" \" + lastName>\n<span>${fullName?html}</span>\n"
+    }
+  ]
+}
