@@ -453,6 +453,7 @@ make nano-large-site-pro-j    # Copper Lantern (S9 measured+reverted; final S8)
 make nano-large-site-pro-k    # Willow & Whisk (S10 measured+reverted; final S8)
 make nano-large-site-pro-l    # Moss & Stone (S11 measured+reverted; final S8)
 make nano-large-site-pro-m    # Bright Harbor + S12 parallel HTML / CTX8192
+make nano-large-site-pro-n    # Northline Bike + S13 all-slots parallel / CTX10240
 
 # Arena playground — browse out/proposal + schedule runs
 make nano-arena

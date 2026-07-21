@@ -124,6 +124,8 @@ notes: |
   Moss archived; parallel HTML + CTX8192 + np4; workers 5/5 openable 4/4.
   2026-07-21: Pro-site N GREEN — Northline Bike; S13 KEEP (4.83s vs 5.96s, −19%);
   Harbor archived; all-slots parallel + CTX10240 + np5; workers 5/5 openable 4/4.
+  2026-07-21: Pro-site O GREEN — Marble & Rye; S14 REVERT (5.00s red CSS truncate);
+  final under S13 4.98s; Northline archived; workers 5/5 openable 4/4.
 
 pro_site_benchmarks:
   protocol: orchestrator_only_results_no_hand_edit
@@ -195,6 +197,11 @@ pro_site_benchmarks:
       measured_wall_s: 4.83
       delta_s: -1.13
       note: all slots parallel after cold start; CTX=10240 + -np 5
+    S14_tighter_tokens_skip_final_stop:
+      status: reverted
+      baseline_wall_s: 4.83
+      measured_wall_s: 5.00
+      reason: quality_fail_css_truncated_and_not_faster
   A_harbor_coffee:
     status: archived
   B_summit_trail:
@@ -231,11 +238,14 @@ pro_site_benchmarks:
     status: archived
     wall_clock_s: 5.96
   N_northline_bike:
-    status: done
-    schedule: benchmarks/large_site_schedule_pro_n.json
+    status: archived
     wall_clock_s: 4.83
+  O_marble_rye:
+    status: done
+    schedule: benchmarks/large_site_schedule_pro_o.json
+    wall_clock_s: 4.98
     orch: skipped_S5
-    speed: S13
+    speed: S13_after_S14_revert
     workers_passed: "5/5"
     openable_pages: 4
-    report: benchmarks/runs/large_site_schedule_pro_n.json
+    report: benchmarks/runs/large_site_schedule_pro_o.json

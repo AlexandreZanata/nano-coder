@@ -31,6 +31,7 @@
 | S11 | Parallel HTML slots + llama `-np 4` | 9.82 s | **3.05 s** but 0/5 red | red | **REVERT** |
 | S12 | Parallel HTML + `CTX=8192` + `-np 4` | 9.82 s | Site M **5.96 s** | **−3.86 s (−39%)** | **KEEP** |
 | S13 | All 5 slots parallel + `CTX=10240` + `-np 5` | 5.96 s | Site N **4.83 s** | **−1.13 s (−19%)** | **KEEP** |
+| S14 | S13 + tokens 700/440 + `skip_final_stop` | 4.83 s | **5.00 s** red quality | slower / red | **REVERT** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
@@ -43,9 +44,53 @@ S9: `top_k=1` + skip final server stop. Wall slightly faster but `styles_has_for
 S10: disable LLM call logging + llama.cpp `cache_prompt`. Green but slower than S8 best → code restored to S8.  
 S11: ThreadPoolExecutor for HTML slots with `-np 4` at CTX 2048. Styles HTTP 400 (ctx split too small) → REVERT.  
 S12: same parallel path with `CTX=8192` so each `-np` slot has enough context; styles sequential then 4 HTML concurrent.  
-S13: cold-start once then run **all** slots (CSS+HTML) concurrently with `CTX=10240` / `-np 5`. **New best wall.**
+S13: cold-start once then run **all** slots (CSS+HTML) concurrently with `CTX=10240` / `-np 5`. **Best kept wall.**  
+S14: tighter CSS/HTML tokens + skip final stop. Truncated CSS (`styles_has_footer/form=false`) and slower wall → REVERT to S13.
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## O — Marble & Rye Deli (`pro-site-O-marble-rye`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-northline-bike-pro-archived/` @ 2026-07-21T15:59:10Z |
+| Site | Marble & Rye Deli (food retail / sandwich board) |
+| Schedule | [`large_site_schedule_pro_o.json`](large_site_schedule_pro_o.json) |
+| Why this task | New deli domain; measure **S14** vs N **4.83 s** |
+| Speed | S14 **REVERT**; Site O final timed under **S13** |
+| Command | `make nano-large-site-pro-o` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| S14 attempt (red) | 5.00 s — CSS truncated |
+| Final make (S13) | **4.98 s** |
+| Orch O0 | skipped |
+
+| Slot (final S13) | elapsed_s | reused |
+|------------------|-----------|--------|
+| styles | 3.68 | yes |
+| home | 3.01 | yes |
+| menu | 3.02 | yes |
+| about | 2.99 | yes |
+| contact | 3.02 | yes |
+
+### Results
+
+| Check | Value |
+|-------|-------|
+| Orch | skipped (intentional S5) |
+| Workers | **5/5** |
+| Pass bar | **MET** |
+| Openable | **4/4** |
+| Hand edits | **none** |
+| Peak VRAM | **1599 MB** |
+| S14 failed archive | `out/archive/2026-07-21-marble-rye-s14-failed/` |
+| Report | [`runs/large_site_schedule_pro_o.json`](runs/large_site_schedule_pro_o.json) |
 
 ---
 
@@ -59,7 +104,8 @@ First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5
 | Why this task | New co-op retail domain; measure **S13** vs M **5.96 s** |
 | Speed | **S13** (all slots parallel + CTX 10240 + `-np 5`) |
 | Command | `make nano-large-site-pro-n` |
-| Status | **done — GREEN** |
+| Status | **archived** (superseded by O) |
+| Archive path | `out/archive/2026-07-21-northline-bike-pro-archived/` |
 
 ### Timing
 

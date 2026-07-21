@@ -283,6 +283,16 @@ def test_pro_n_schedule_s13_flags() -> None:
     assert data["speed"]["approach"] == "S13_parallel_all_ctx10240_np5"
 
 
+def test_pro_o_schedule_after_s14_revert() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_o.json")
+    assert_schedule_valid(data)
+    assert data["benchmark_id"] == "pro-site-O-marble-rye"
+    assert data["speed"].get("skip_final_stop") is None
+    assert data["slots"][0]["max_tokens"] == 780
+    assert data["speed"]["parallel_all_slots"] is True
+    assert data["speed"]["approach"] == "S13_after_S14_revert"
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 
