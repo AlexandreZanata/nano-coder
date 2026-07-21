@@ -51,3 +51,58 @@ FreeMarker showed the highest syntax validity (80%) despite zero Pass@1 hits —
 ## Suggested next experiment
 
 Run **exp_002 (QLoRA)** at the same profile and dataset version for matched VRAM comparison before scaling to publication dataset.
+
+## Publication profile — M1 dataset (2026-06-21)
+
+**Status:** Completed (real GPU, `publication` profile)  
+**Run IDs:** `train-lora-publication-001` / `bench-lora-publication-001`  
+**Dataset:** `ds-2026-06-21-mixed-m2000-v2` (2,100 examples; 1,500 used for train)
+
+| Metric | Value |
+|--------|-------|
+| Train steps | 500 |
+| Final train loss | 0.436 |
+| Peak VRAM (train) | 2.96 GB |
+| Train wall-clock | 331 s |
+| Pass@1 (aggregate) | **6.7%** |
+| Pass@5 (aggregate) | **13.3%** |
+
+Replay:
+
+```bash
+python3 experiments/exp_001_lora_baseline/run.py \
+  --profile publication \
+  --dataset-version ds-2026-06-21-mixed-m2000-v2 \
+  --real
+```
+
+## Publication profile — Tier-A OSS dataset (2026-06-21)
+
+**Status:** Completed (real GPU, `publication` profile)  
+**Run IDs:** `train-lora-publication-001` / `bench-lora-publication-001` (overwrites checkpoint from M1 run)  
+**Dataset:** `ds-2026-06-21-mixed-tier-a-v1` (5,818 examples: 700 JS + 4,418 HTML + 700 FMT; 1,500 used for train)
+
+Sources: **xlelords/vulcan** + **WebA11yBench** (Zenodo); React/Tailwind filtered out; CSS-only snippets excluded.
+
+| Metric | Value |
+|--------|-------|
+| Train steps | 500 |
+| Final train loss | 0.436 |
+| Peak VRAM (train) | 2.98 GB |
+| Train wall-clock | 507 s |
+| Pass@1 (aggregate) | **0.0%** |
+| Pass@5 (aggregate) | **6.7%** |
+
+**vs M1 mixed (`ds-2026-06-21-mixed-m2000-v2`):** Pass@1 6.7% → **0.0%**; Pass@5 13.3% → **6.7%**.
+
+Likely cause: HTML dominates the mixed set (~76% of published examples) while held-out benchmark is balanced across JS/HTML/FMT — model overfits enterprise HTML/CSS patterns from Vulcan/WebA11y.
+
+Replay:
+
+```bash
+make import-tier-a   # import + publish + train both experiments
+python3 experiments/exp_001_lora_baseline/run.py \
+  --profile publication \
+  --dataset-version ds-2026-06-21-mixed-tier-a-v1 \
+  --real
+```

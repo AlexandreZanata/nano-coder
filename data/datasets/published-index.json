@@ -7,5 +7,67 @@
     "state": "Published",
     "publishedAt": "2026-06-20T21:57:26.483331+00:00",
     "publishedBy": "operator"
+  },
+  {
+    "datasetVersion": "ds-2026-06-21-js-m2000-v2",
+    "draftId": "gen-js-m2000-v2",
+    "targetLanguage": "JavaScript",
+    "exampleCount": 700,
+    "state": "Published",
+    "publishedAt": "2026-06-20T23:51:52.086762+00:00",
+    "publishedBy": "agent-expander"
+  },
+  {
+    "datasetVersion": "ds-2026-06-21-html-m2000-v2",
+    "draftId": "gen-html-m2000-v2",
+    "targetLanguage": "HTML",
+    "exampleCount": 700,
+    "state": "Published",
+    "publishedAt": "2026-06-20T23:51:55.896453+00:00",
+    "publishedBy": "agent-expander"
+  },
+  {
+    "datasetVersion": "ds-2026-06-21-fmt-m2000-v2",
+    "draftId": "gen-fmt-m2000-v2",
+    "targetLanguage": "FreeMarker",
+    "exampleCount": 700,
+    "state": "Published",
+    "publishedAt": "2026-06-20T23:52:00.467709+00:00",
+    "publishedBy": "agent-expander"
+  },
+  {
+    "datasetVersion": "ds-2026-06-21-mixed-m2000-v2",
+    "draftId": "ds-2026-06-21-js-m2000-v2+ds-2026-06-21-html-m2000-v2+ds-2026-06-21-fmt-m2000-v2",
+    "targetLanguages": [
+      "FreeMarker",
+      "HTML",
+      "JavaScript"
+    ],
+    "exampleCount": 2100,
+    "state": "Published",
+    "publishedAt": "2026-06-20T23:52:00.548828+00:00",
+    "publishedBy": "agent-expander"
+  },
+  {
+    "datasetVersion": "ds-2026-06-21-html-tier-a-v1",
+    "draftId": "gen-html-tier-a-v1",
+    "targetLanguage": "HTML",
+    "exampleCount": 4418,
+    "state": "Published",
+    "publishedAt": "2026-06-21T01:55:29.244498+00:00",
+    "publishedBy": "tier-a-importer"
+  },
+  {
+    "datasetVersion": "ds-2026-06-21-mixed-tier-a-v1",
+    "draftId": "ds-2026-06-21-js-m2000-v2+ds-2026-06-21-html-tier-a-v1+ds-2026-06-21-fmt-m2000-v2",
+    "targetLanguages": [
+      "FreeMarker",
+      "HTML",
+      "JavaScript"
+    ],
+    "exampleCount": 5818,
+    "state": "Published",
+    "publishedAt": "2026-06-21T01:55:32.178948+00:00",
+    "publishedBy": "tier-a-importer"
   }
 ]

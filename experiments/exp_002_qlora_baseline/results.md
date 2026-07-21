@@ -55,7 +55,61 @@ Hypothesis expected QLoRA within 2% Pass@1 of LoRA with ≥20% lower VRAM. Obser
 
 At 10 training examples, metric differences are noise — the primary validation is that QLoRA trains and benchmarks end-to-end on RTX 4060.
 
+## Publication profile — M1 dataset (2026-06-21)
+
+**Status:** Completed (real GPU, `publication` profile)  
+**Run IDs:** `train-qlora-publication-001` / `bench-qlora-publication-001`  
+**Dataset:** `ds-2026-06-21-mixed-m2000-v2` (2,100 examples; 1,500 used for train)
+
+| Metric | Value |
+|--------|-------|
+| Train steps | 500 |
+| Final train loss | 0.086 |
+| Peak VRAM (train) | 2.74 GB |
+| Train wall-clock | 477.6 s |
+| Pass@1 (aggregate) | **13.3%** |
+| Pass@5 (aggregate) | **26.7%** |
+
+**vs ci smoke (10 examples):** Pass@1 6.7% → **13.3%** (+6.6 pp).  
+**vs exp_001 LoRA publication (same dataset):** Pass@1 6.7% → **13.3%** (QLoRA higher).
+
+Replay:
+
+```bash
+python3 experiments/exp_002_qlora_baseline/run.py \
+  --profile publication \
+  --dataset-version ds-2026-06-21-mixed-m2000-v2 \
+  --real
+```
+
 **Smoke parallel batch (2026-06-20):** Re-run at `smoke` profile in parallel with LoRA and DoRA (`train-qlora-smoke-001`). Metrics unchanged vs ci: Pass@1 6.7%, Pass@5 26.7%, VRAM 1.245 GB.
+
+## Publication profile — Tier-A OSS dataset (2026-06-21)
+
+**Status:** Completed (real GPU, `publication` profile)  
+**Run IDs:** `train-qlora-publication-001` / `bench-qlora-publication-001`  
+**Dataset:** `ds-2026-06-21-mixed-tier-a-v1` (5,818 examples; 1,500 used for train)
+
+| Metric | Value |
+|--------|-------|
+| Train steps | 500 |
+| Final train loss | 0.463 |
+| Peak VRAM (train) | 2.76 GB |
+| Train wall-clock | 908 s |
+| Pass@1 (aggregate) | **6.7%** |
+| Pass@5 (aggregate) | **20.0%** |
+
+**vs M1 mixed:** Pass@1 13.3% → **6.7%** (−6.6 pp); Pass@5 26.7% → **20.0%** (−6.7 pp).  
+**vs exp_001 LoRA (same Tier-A dataset):** Pass@1 **6.7%** vs 0.0% (QLoRA still ahead).
+
+Replay:
+
+```bash
+python3 experiments/exp_002_qlora_baseline/run.py \
+  --profile publication \
+  --dataset-version ds-2026-06-21-mixed-tier-a-v1 \
+  --real
+```
 
 ## Unexpected finding
 

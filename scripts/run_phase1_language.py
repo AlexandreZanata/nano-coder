@@ -11,6 +11,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from load_project_env import load_project_env  # noqa: E402
+
+load_project_env(ROOT)
+
 from nano_coder.application.phase1_pipeline import (  # noqa: E402
     Phase1Step,
     run_phase1_language_pipeline,
