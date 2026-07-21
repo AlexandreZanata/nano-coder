@@ -206,6 +206,15 @@ def test_pro_f_schedule_skip_orchestrator_flag() -> None:
     assert data["benchmark_id"] == "pro-site-F-fern-field"
 
 
+def test_pro_g_schedule_s6_flags() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_g.json")
+    assert_schedule_valid(data)
+    assert data["benchmark_id"] == "pro-site-G-beacon-dental"
+    assert data["speed"]["skip_orchestrator"] is True
+    assert data["speed"]["approach"] == "S6_skip_duplicate_port_kill_tighter_tokens"
+    assert data["slots"][0]["max_tokens"] == 900
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 

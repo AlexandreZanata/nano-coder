@@ -62,6 +62,11 @@ def start_server(
         stop_server(port, grace_s=stop_grace_s)
     env = os.environ.copy()
     env["PORT"] = str(port)
+    # Python already handled port kill/grace — avoid duplicate sleep in the shell script
+    env["SKIP_PRE_KILL"] = "1"
+    grace = DEFAULT_STOP_GRACE_S if stop_grace_s is None else max(0.0, float(stop_grace_s))
+    env["STOP_SLEEP"] = str(grace)
+    env["HEALTH_SLEEP"] = os.environ.get("NANO_ORCH_HEALTH_SLEEP", "0.2")
     proc = subprocess.run(
         ["bash", str(START_SH), model_id],
         capture_output=True,
@@ -74,9 +79,10 @@ def start_server(
         detail = (proc.stderr or proc.stdout or "").strip()
         return Err(f"start_failed:{detail}")
     adapter = LlamaCppAdapter(f"http://127.0.0.1:{port}", model_id=model_id)
-    for _ in range(60):
+    poll = float(env.get("HEALTH_SLEEP") or 0.2)
+    for _ in range(120):
         health = adapter.health()
         if health.is_ok():
             return Ok(model_id)
-        time.sleep(0.5)
+        time.sleep(max(0.05, poll))
     return Err("start_unhealthy")

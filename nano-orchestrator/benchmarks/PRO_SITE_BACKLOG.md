@@ -23,13 +23,57 @@
 | S3 | S2 + `stop_grace_s=0.2` + `skip_redundant_stop` + `settle_s=0` | 30.04 s | Site D **26.87 s** | **−3.17 s (−11%)** | **KEEP** |
 | S4 | Warm worker on `:8082` during orch (parallel load) | 26.87 s | 27.31 / 31.23 / 32.70 s | not faster | **REVERT** |
 | S5 | `speed.skip_orchestrator` + S3 keep-alive (canonical slots) | 26.87 s | Site F **17.19 s** | **−9.68 s (−36%)** | **KEEP** |
+| S6 | Skip duplicate shell port-kill + `HEALTH_SLEEP=0.2` + tighter `max_tokens` | 17.19 s | Site G **13.00 s** | **−4.19 s (−24%)** | **KEEP** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
 S4: overlapped worker GGUF load with orch decompose (dual-port). Warm OK but wall ≥ baseline → code restored to S3.  
-S5: skip live orch decompose when schedule already has canonical CSS/HTML slots; workers still generate all files via nano-orchestrator. Use when speed matters more than orch-bind telemetry.
+S5: skip live orch decompose when schedule already has canonical CSS/HTML slots; workers still generate all files via nano-orchestrator. Use when speed matters more than orch-bind telemetry.  
+S6: `SKIP_PRE_KILL=1` from Python `start_server` (no second `fuser`+sleep in shell); faster health poll; styles `max_tokens` 900 / HTML 560 (was 1200/700).
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## G — Beacon Dental Care (`pro-site-G-beacon-dental`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-fern-field-pro-archived/` @ 2026-07-21T15:19:11Z |
+| Site | Beacon Dental Care (clinic / services + fees) |
+| Schedule | [`large_site_schedule_pro_g.json`](large_site_schedule_pro_g.json) |
+| Why this task | New healthcare domain; measure **S6** vs F **17.19 s** |
+| Speed | **S6** (on top of S5 keep-alive + skip-orch) |
+| Command | `make nano-large-site-pro-g` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| Full make | **13.00 s** |
+| vs Site F S5 baseline | **−24%** |
+| Orch O0 | skipped |
+
+| Slot | elapsed_s | reused |
+|------|-----------|--------|
+| styles | 3.81 | no |
+| home | 1.81 | yes |
+| menu | 1.79 | yes |
+| about | 3.38 | yes (2 attempts) |
+| contact | 2.03 | yes |
+
+### Results
+
+| Check | Value |
+|-------|-------|
+| Orch | skipped (intentional S5/S6) |
+| Workers | **5/5** |
+| Pass bar | **MET** |
+| Openable | **4/4** |
+| Hand edits | **none** |
+| Peak VRAM | **1581 MB** |
+| Report | [`runs/large_site_schedule_pro_g.json`](runs/large_site_schedule_pro_g.json) |
 
 ---
 
@@ -43,7 +87,8 @@ First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5
 | Why this task | New retail/plants domain; measure S5 skip-orch speed mode |
 | Speed | **S5** (skip orch + S3 keep-alive) |
 | Command | `make nano-large-site-pro-f` |
-| Status | **done — GREEN** |
+| Status | **archived** (superseded by G) |
+| Archive path | `out/archive/2026-07-21-fern-field-pro-archived/` |
 
 ### Timing
 

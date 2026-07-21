@@ -126,8 +126,9 @@ Canonical backlog: [`PRO_SITE_BACKLOG.md`](PRO_SITE_BACKLOG.md).
 | C | Cedar Civic Library | `make nano-large-site-pro-c` | 30.04 s | S2 keep-alive (−44% vs B) |
 | D | Ember & Oak Pottery | `make nano-large-site-pro-d` | **26.87 s** | S3 stop_grace (−11% vs C) |
 | E | Solstice Yoga Collective | `make nano-large-site-pro-e` | 32.02 s | S4 warm REVERT; final under S3 |
-| F | Fern & Field Botanicals | `make nano-large-site-pro-f` | **17.19 s** | S5 skip-orch (−36% vs D) |
+| F | Fern & Field Botanicals | `make nano-large-site-pro-f` | 17.19 s | S5 skip-orch (−36% vs D); archived |
+| G | Beacon Dental Care | `make nano-large-site-pro-g` | **13.00 s** | S6 skip-dup-kill + tighter tokens (−24% vs F) |
 
-Speed: S2 keep-alive · S3 stop_grace · S4 warm REVERT · S5 `speed.skip_orchestrator` (canonical slots; workers still generate results). CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
+Speed: S2 keep-alive · S3 stop_grace · S4 warm REVERT · S5 `speed.skip_orchestrator` · S6 `SKIP_PRE_KILL` + tighter tokens. CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
 
 **Rule:** never hand-edit `out/proposal/` site files; archive before each new site run.

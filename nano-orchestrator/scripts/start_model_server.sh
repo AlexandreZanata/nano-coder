@@ -36,8 +36,15 @@ if [[ ! -x "$BIN" ]]; then
 fi
 
 echo "Stopping anything on :$PORT (keeping :8080 intact)..."
-fuser -k "${PORT}/tcp" 2>/dev/null || true
-sleep 1
+if [[ "${SKIP_PRE_KILL:-0}" != "1" ]]; then
+  fuser -k "${PORT}/tcp" 2>/dev/null || true
+  STOP_SLEEP="${STOP_SLEEP:-1}"
+  if [[ "$STOP_SLEEP" != "0" && "$STOP_SLEEP" != "0.0" ]]; then
+    sleep "$STOP_SLEEP"
+  fi
+else
+  echo "(SKIP_PRE_KILL=1 — caller already freed the port)"
+fi
 
 LOG="$ROOT/nano-orchestrator/logs/llama-${MODEL_ID}-${PORT}.log"
 mkdir -p "$(dirname "$LOG")"
@@ -65,14 +72,15 @@ nohup "$BIN" \
 echo $! >"$ROOT/nano-orchestrator/logs/llama-${PORT}.pid"
 
 echo -n "Waiting for health"
-for _ in $(seq 1 90); do
+HEALTH_SLEEP="${HEALTH_SLEEP:-0.25}"
+for _ in $(seq 1 120); do
   if curl -sf "http://127.0.0.1:${PORT}/health" >/dev/null; then
     echo " OK"
     nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader || true
     exit 0
   fi
   echo -n "."
-  sleep 1
+  sleep "$HEALTH_SLEEP"
 done
 echo
 echo "FAIL: server did not become healthy. See $LOG" >&2
