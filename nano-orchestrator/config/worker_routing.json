@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "notes": "Phase 5 dynamic routing — bake-off Pass@1 from benchmarks/RESULTS.md (2026-07-21). Prefer highest Pass@1 per language; ties break on lower p50.",
+  "debate": {
+    "enabled": false,
+    "acceptance_token": "critical",
+    "cost_multiplier_note": "~2.5x token/latency cost when enabled — keep OFF unless GATE needs it"
+  },
+  "retry": {
+    "max_budget": 2,
+    "high_confidence_min": 0.8,
+    "medium_confidence_min": 0.5
+  },
+  "prefer_fine_tuned": true,
+  "scores": {
+    "javascript": [
+      {"model_id": "qwen25-coder-0.5b", "pass_at_1": 0.9, "p50_ms": 357},
+      {"model_id": "smollm2-360m", "pass_at_1": 0.8, "p50_ms": 299},
+      {"model_id": "qwen3-0.6b", "pass_at_1": 0.5, "p50_ms": 438},
+      {"model_id": "gemma3-270m", "pass_at_1": 0.5, "p50_ms": 305}
+    ],
+    "html": [
+      {"model_id": "qwen25-coder-0.5b", "pass_at_1": 0.9, "p50_ms": 357},
+      {"model_id": "smollm2-360m", "pass_at_1": 0.7, "p50_ms": 299},
+      {"model_id": "qwen3-0.6b", "pass_at_1": 0.4, "p50_ms": 438},
+      {"model_id": "gemma3-270m", "pass_at_1": 0.3, "p50_ms": 305}
+    ],
+    "freemarker": [
+      {"model_id": "smollm2-360m", "pass_at_1": 0.0, "p50_ms": 299},
+      {"model_id": "qwen25-coder-0.5b", "pass_at_1": 0.0, "p50_ms": 357},
+      {"model_id": "qwen3-0.6b", "pass_at_1": 0.0, "p50_ms": 438},
+      {"model_id": "gemma3-270m", "pass_at_1": 0.0, "p50_ms": 305}
+    ]
+  },
+  "fine_tuned_overrides": {
+    "javascript": "qwen25-coder-0.5b-javascript-ft",
+    "html": "qwen25-coder-0.5b-html-ft",
+    "freemarker": "qwen25-coder-0.5b-freemarker-ft"
+  },
+  "fallback_model_id": "qwen25-coder-0.5b"
+}

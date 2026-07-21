@@ -152,6 +152,9 @@ nano-orchestrator/                     # repo root subproject (versioned)
 ├── PROGRESS.yaml                      # live checklist
 ├── package.json                       # html-validate (Judge HTML sandbox)
 ├── .htmlvalidate.json                 # fragment-friendly rules
+├── config/
+│   ├── worker_routing.json            # Phase 5 bake-off routing + debate flag
+│   └── fine_tuned_workers.json        # Phase 3 FT GGUF registry
 ├── pyproject.toml
 ├── src/nano_orchestrator/
 │   ├── domain/                        # pure rules — zero I/O
@@ -297,8 +300,23 @@ Log every call to `logs/llm_calls.jsonl` (local, gitignored pattern under this f
 
 ### Phase 5 — Dynamic orchestration (only after 0–4 work)
 
-- Dynamic worker selection + retry budget  
-- Debate only for critical tasks (~2.5× cost) — not default  
+Config: [`config/worker_routing.json`](config/worker_routing.json)
+
+| Feature | Behavior | Default |
+|---------|----------|---------|
+| Dynamic worker selection | Highest bake-off Pass@1 per language (tie → lower p50); optional FT overrides | **ON** via config |
+| Adaptive retry budget | Confidence ≥0.8 → 0 retries; ≥0.5 → 1; else 2 (hard cap) | **ON** |
+| Debate path | Second generation + pick better Judge score when `acceptance` contains `critical` | **OFF** (~2.5× cost) |
+
+```bash
+# Routing table (edit scores / prefer_fine_tuned / debate.enabled)
+cat config/worker_routing.json
+
+# Smoke uses dynamic routing unless --static-routing
+python scripts/smoke_runner.py --request "..." --fixed-tasks
+```
+
+**Cost note (T-063):** enabling debate multiplies worker generate+judge work by ~**2.5×** for critical tasks. Keep `debate.enabled=false` unless a success gate requires it.
 
 ---
 
@@ -371,9 +389,9 @@ Pass@1 definition for a micro-task: `JudgeVerdict.passed == true` after sandbox 
 
 ### Today (after Phase 3)
 
-**Next task:** [GATE-001 in TASKS.md](TASKS.md) / polish — or Phase 5 only if gates green.
+**Next task:** [GATE-001 in TASKS.md](TASKS.md) — orchestration vs solo 0.5B on gold.
 
-Phase 3 specialized workers are live (JS/HTML/FTL QLoRA → Q4_K_M). See `benchmarks/RESULTS.md` Phase 3 table.
+Phase 5 dynamic orchestration is live (`config/worker_routing.json`). Debate remains **OFF**.
 
 ### Tomorrow
 

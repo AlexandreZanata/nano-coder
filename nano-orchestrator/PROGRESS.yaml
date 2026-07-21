@@ -3,7 +3,7 @@
 # Status values: pending | in_progress | done | blocked | skipped
 
 updated: "2026-07-21"
-current_phase: 3
+current_phase: 5
 mvp_day: 14
 next_task: "GATE-001"
 train_n_min: 50
@@ -69,7 +69,10 @@ phase_3_finetune:
     freemarker: qwen25-coder-0.5b-freemarker-ft
 
 phase_5_dynamic:
-  status: skipped
+  status: done               # unlocked T-060 → implemented T-061…T-063
+  routing_config: done       # T-061 config/worker_routing.json
+  adaptive_retry: done       # T-062
+  debate_default_off: done   # T-063
 
 mvp_gates:
   orchestration_beats_solo_0_5b: pending
@@ -86,6 +89,6 @@ polish:
   readme_final: pending
 
 notes: |
-  2026-07-21: E3 complete (T-050…T-056). train_n_min=50; teacher top-up ≥128/lang;
-  QLoRA smoke peak VRAM ≤1348 MB; GGUF Q4_K_M registered; held_out Pass@1 ≥ base for JS/HTML/FTL.
+  2026-07-21: E5 complete (T-060…T-063). Dynamic routing from bake-off scores with FT
+  overrides; adaptive retry 0–2 by confidence; debate path flag default OFF (~2.5× cost).
   Next: GATE-001 orchestration vs solo baseline on gold set.

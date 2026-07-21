@@ -215,19 +215,23 @@ grep -n '^\- \[ \]' TASKS.md | head -20   # next open tasks
 
 ## E5 — Dynamic orchestration (Phase 5) — only after E2+E4 green
 
-- [ ] **T-060** Unlock Phase 5 in PROGRESS (`phase_5_dynamic.status: pending`)  
-  - **Deps:** T-037, T-044, T-045 · **Effort:** 5 min
+- [x] **T-060** Unlock Phase 5 in PROGRESS (`phase_5_dynamic.status: pending`)  
+  - **Deps:** T-037, T-044, T-045 · **Effort:** 5 min  
+  - **Done:** 2026-07-21
 
-- [ ] **T-061** Dynamic worker selection from bake-off scores (per language)  
+- [x] **T-061** Dynamic worker selection from bake-off scores (per language)  
   - **Deps:** T-060, T-025 · **DoD:** config-driven routing table  
-  - **Effort:** 1 day
+  - **Effort:** 1 day  
+  - **Done:** 2026-07-21 — `config/worker_routing.json` + `dynamic_routing.py`
 
-- [ ] **T-062** Adaptive retry budget (0–2) based on task confidence  
-  - **Deps:** T-061 · **Effort:** 0.5 day
+- [x] **T-062** Adaptive retry budget (0–2) based on task confidence  
+  - **Deps:** T-061 · **Effort:** 0.5 day  
+  - **Done:** 2026-07-21 — `retry_budget()` wired in pipeline
 
-- [ ] **T-063** Optional debate path for `acceptance` containing `critical` — default OFF  
+- [x] **T-063** Optional debate path for `acceptance` containing `critical` — default OFF  
   - **Deps:** T-061 · **DoD:** flag required; cost note in README  
-  - **Effort:** 1 day · **May skip** if GATE already met
+  - **Effort:** 1 day · **May skip** if GATE already met  
+  - **Done:** 2026-07-21 — `debate.enabled=false`; ~2.5× cost documented
 
 ---
 
@@ -296,4 +300,5 @@ T-060… (optional) → T-070…T-075
 | 2026-07-21 | T-030…T-037 | Phase 2 pipeline live; E2E smoke peak VRAM 3547 MB |
 | 2026-07-21 | T-040…T-045 | Phase 4 sandboxes: JS/HTML/FTL + LLM log + secondary-only |
 | 2026-07-21 | T-050…T-056 | Phase 3 specialize: train JSONL N≥50, QLoRA→GGUF, held_out ≥ base |
+| 2026-07-21 | T-060…T-063 | Phase 5 dynamic routing + adaptive retry + debate OFF |
 | | | |

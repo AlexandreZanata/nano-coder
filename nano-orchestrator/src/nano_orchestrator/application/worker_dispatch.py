@@ -4,15 +4,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from nano_orchestrator.application.codegen_prompts import build_worker_prompt, extract_code
 from nano_orchestrator.domain.entities import MicroTask, TargetLanguage, WorkerResponse
 from nano_orchestrator.domain.result import Err, Ok, Result
-from nano_orchestrator.application.codegen_prompts import build_worker_prompt, extract_code
 from nano_orchestrator.infrastructure.llamacpp_adapter import LlamaCppAdapter
 
 
 @dataclass(frozen=True, slots=True)
 class WorkerRouting:
-    """Locked winners from Phase 1 bake-off."""
+    """Locked winners from Phase 1 bake-off (overridable via config)."""
 
     javascript: str = "qwen25-coder-0.5b"
     html: str = "qwen25-coder-0.5b"
@@ -39,6 +39,20 @@ def group_tasks_by_model(
     return grouped
 
 
+def estimate_confidence(raw: str, code: str) -> float:
+    """Heuristic confidence for adaptive retry budget (0–1)."""
+    if not code.strip():
+        return 0.2
+    score = 0.45
+    if "```" in raw:
+        score += 0.25
+    if len(code.strip()) >= 20:
+        score += 0.15
+    if any(token in code for token in ("export ", "<", "<#", "${")):
+        score += 0.1
+    return round(min(1.0, score), 4)
+
+
 class WorkerDispatchUseCase:
     def __init__(self, adapter: LlamaCppAdapter) -> None:
         self._adapter = adapter
@@ -55,7 +69,7 @@ class WorkerDispatchUseCase:
             WorkerResponse(
                 task_id=task.id,
                 code=code,
-                confidence=0.5,
+                confidence=estimate_confidence(result.text, code),
                 notes=None,
                 latency_ms=result.latency_ms,
                 tokens_used=tokens,

@@ -64,11 +64,23 @@ def main() -> int:
     parser.add_argument("--port", type=int, default=8081)
     parser.add_argument("--out-dir", type=Path, default=ROOT / "out")
     parser.add_argument("--orchestrator-model", default="smollm3-3b")
+    parser.add_argument(
+        "--routing-config",
+        type=Path,
+        default=ROOT / "config" / "worker_routing.json",
+        help="Phase 5 dynamic routing table (bake-off scores)",
+    )
+    parser.add_argument(
+        "--static-routing",
+        action="store_true",
+        help="Use hardcoded WorkerRouting winners instead of config",
+    )
     args = parser.parse_args()
 
     config = PipelineConfig(
         orchestrator_model=args.orchestrator_model,
-        routing=WorkerRouting(),
+        routing=WorkerRouting() if args.static_routing else None,
+        routing_config_path=None if args.static_routing else args.routing_config,
         base_url=args.base_url,
         port=args.port,
         out_dir=args.out_dir,
@@ -87,6 +99,7 @@ def main() -> int:
         "package": str(payload.package_path),
         "peak_vram_mb": payload.peak_vram_mb,
         "vram_ok": payload.vram_ok,
+        "routing_used": payload.routing_used,
         "tasks": [t.model_dump(mode="json") for t in payload.tasks],
         "escalate_to_human": payload.escalate,
         "verdicts": {
