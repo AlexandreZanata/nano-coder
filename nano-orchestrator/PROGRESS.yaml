@@ -212,6 +212,11 @@ pro_site_benchmarks:
       baseline_wall_s: 4.83
       measured_wall_s: 4.80
       reason: green_but_within_noise_not_kept
+    S17_styles750_health01_skip_final_stop:
+      status: reverted
+      baseline_wall_s: 4.83
+      measured_wall_s: 4.57
+      reason: quality_fail_styles_has_form
   A_harbor_coffee:
     status: archived
   B_summit_trail:
@@ -257,11 +262,14 @@ pro_site_benchmarks:
     status: archived
     wall_clock_s: 4.79
   Q_tidepool_surf:
-    status: done
-    schedule: benchmarks/large_site_schedule_pro_q.json
+    status: archived
     wall_clock_s: 4.89
+  R_brickhouse_brew:
+    status: done
+    schedule: benchmarks/large_site_schedule_pro_r.json
+    wall_clock_s: 4.90
     orch: skipped_S5
-    speed: S13_after_S16_revert
+    speed: S13_after_S17_revert
     workers_passed: "5/5"
     openable_pages: 4
-    report: benchmarks/runs/large_site_schedule_pro_q.json
+    report: benchmarks/runs/large_site_schedule_pro_r.json

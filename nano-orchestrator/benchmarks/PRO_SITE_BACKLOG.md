@@ -34,6 +34,7 @@
 | S14 | S13 + tokens 700/440 + `skip_final_stop` | 4.83 s | **5.00 s** red quality | slower / red | **REVERT** |
 | S15 | S13 + `-fa on` + `-kvu` (unified KV) | 4.83 s | **4.83 s** green (tie) | 0.00 s | **REVERT** |
 | S16 | S13 + `-b 4096` + `-ub 1024` (larger prefill batch) | 4.83 s | **4.80 s** green (noise) | −0.03 s | **REVERT** |
+| S17 | styles `max_tokens=750` + `health_sleep=0.1` + `skip_final_stop` | 4.83 s | **4.57 s** red (`styles_has_form`) | faster / red | **REVERT** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
@@ -50,8 +51,50 @@ S13: cold-start once then run **all** slots (CSS+HTML) concurrently with `CTX=10
 S14: tighter CSS/HTML tokens + skip final stop. Truncated CSS (`styles_has_footer/form=false`) and slower wall → REVERT to S13.
 S15: force Flash Attention on + unified KV (`-kvu`) with `-np 5`. Green but wall tied N **4.83 s** (no speedup) → REVERT harness; Site P final under S13.
 S16: larger `-b 4096` / `-ub 1024` for multi-slot prefill. Green **4.80 s** but within noise of S13 (~4.8 s) → REVERT; Site Q final under S13.
+S17: styles `max_tokens=750` + `health_sleep=0.1` + `skip_final_stop`. Faster wall but CSS truncated before form rules → REVERT; Site R final under S13.
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## R — Brickhouse Brewing Co. (`pro-site-R-brickhouse-brew`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-tidepool-surf-pro-archived/` @ 2026-07-21T16:16:49Z |
+| Site | Brickhouse Brewing Co. (taproom / tap list) |
+| Schedule | [`large_site_schedule_pro_r.json`](large_site_schedule_pro_r.json) |
+| Why this task | New brewery domain; measure **S17** (styles750 + health 0.1 + skip_final_stop) vs N **4.83 s** |
+| Speed | S17 **REVERT** (CSS form truncated); Site R final timed under **S13** |
+| Command | `make nano-large-site-pro-r` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| S17 attempt (red) | **4.57 s** — `styles_has_form=false`; archived `out/archive/2026-07-21-brickhouse-s17-failed/` |
+| Final make (S13) | **4.90 s** |
+| Orch O0 | skipped |
+
+| Slot (final S13) | elapsed_s | reused |
+|------------------|-----------|--------|
+| styles | 3.61 | yes |
+| home | 2.93 | yes |
+| menu | 2.92 | yes |
+| about | 2.92 | yes |
+| contact | 2.92 | yes |
+
+### Quality
+
+- Pass bar: **5/5** · quality_ok · openable **4/4**
+- Peak VRAM: ~1601 MB
+- Report: [`runs/large_site_schedule_pro_r.json`](runs/large_site_schedule_pro_r.json)
+
+### Notes
+
+- No hand edits to `out/proposal/`
+- Confirms styles still need **780** tokens under S13 parallel_all (750 truncates form CSS)
 
 ---
 
