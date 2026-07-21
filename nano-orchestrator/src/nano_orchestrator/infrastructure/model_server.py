@@ -55,6 +55,8 @@ def start_server(
     port: int = 8081,
     force_stop: bool = True,
     stop_grace_s: float | None = None,
+    ctx_size: int | None = None,
+    trust_start_health: bool = False,
 ) -> Result[str, str]:
     if not START_SH.is_file():
         return Err("start_script_missing")
@@ -67,6 +69,8 @@ def start_server(
     grace = DEFAULT_STOP_GRACE_S if stop_grace_s is None else max(0.0, float(stop_grace_s))
     env["STOP_SLEEP"] = str(grace)
     env["HEALTH_SLEEP"] = os.environ.get("NANO_ORCH_HEALTH_SLEEP", "0.2")
+    if ctx_size is not None and int(ctx_size) > 0:
+        env["CTX"] = str(int(ctx_size))
     proc = subprocess.run(
         ["bash", str(START_SH), model_id],
         capture_output=True,
@@ -78,6 +82,9 @@ def start_server(
     if proc.returncode != 0:
         detail = (proc.stderr or proc.stdout or "").strip()
         return Err(f"start_failed:{detail}")
+    # Shell already polled /health — optional trust avoids a second poll loop
+    if trust_start_health:
+        return Ok(model_id)
     adapter = LlamaCppAdapter(f"http://127.0.0.1:{port}", model_id=model_id)
     poll = float(env.get("HEALTH_SLEEP") or 0.2)
     for _ in range(120):

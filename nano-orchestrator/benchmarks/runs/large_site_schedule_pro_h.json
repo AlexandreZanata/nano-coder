@@ -1,0 +1,196 @@
+{
+  "ts": "2026-07-21T15:24:28.153061+00:00",
+  "schedule": "benchmarks/large_site_schedule_pro_h.json",
+  "kind": "pro_site",
+  "request": "Build Atlas Climbing Gym site: styles.css + index/menu/about/contact HTML. Task ids styles,home,menu,about,contact.",
+  "orchestrator": {
+    "ok": null,
+    "skipped": true,
+    "reason": "speed.skip_orchestrator"
+  },
+  "orch_bind": {
+    "bound": 0,
+    "mode": "skipped"
+  },
+  "models_monitored": {
+    "orchestrator": null,
+    "workers": [
+      "qwen25-coder-0.5b-html-ft"
+    ],
+    "unique_worker_count": 1
+  },
+  "slots": [
+    {
+      "slot_id": "styles",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "css",
+      "ok": true,
+      "latency_ms": 2669,
+      "tokens_used": 900,
+      "vram_mb": 1501,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 3.8366761159995804,
+      "attempts": 1,
+      "quality_ok": true,
+      "server_reused": false,
+      "server_kept_alive": true
+    },
+    {
+      "slot_id": "home",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 1599,
+      "tokens_used": 560,
+      "vram_mb": 1503,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 1.8206061079999927,
+      "attempts": 1,
+      "quality_ok": true,
+      "server_reused": true,
+      "server_kept_alive": true
+    },
+    {
+      "slot_id": "menu",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 1591,
+      "tokens_used": 560,
+      "vram_mb": 1503,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 1.7904372699995292,
+      "attempts": 1,
+      "quality_ok": true,
+      "server_reused": true,
+      "server_kept_alive": true
+    },
+    {
+      "slot_id": "about",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 1587,
+      "tokens_used": 560,
+      "vram_mb": 1503,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 1.793096458999571,
+      "attempts": 1,
+      "quality_ok": true,
+      "server_reused": true,
+      "server_kept_alive": true
+    },
+    {
+      "slot_id": "contact",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "ok": true,
+      "latency_ms": 1586,
+      "tokens_used": 560,
+      "vram_mb": 1503,
+      "passed": true,
+      "score": 0.9,
+      "error": null,
+      "elapsed_s": 2.031435065000551,
+      "attempts": 1,
+      "quality_ok": true,
+      "server_reused": true,
+      "server_kept_alive": false
+    }
+  ],
+  "passed_count": 5,
+  "slot_count": 5,
+  "peak_vram_mb": 1503,
+  "vram_ok": true,
+  "package": "/data/dev/projects/webstorm/nano-coder/nano-orchestrator/out/proposal/package.json",
+  "openable": {
+    "pages": {
+      "about.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      },
+      "contact.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      },
+      "index.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      },
+      "menu.html": {
+        "linked_styles": true,
+        "missing_links": [],
+        "opens": true
+      }
+    },
+    "openable": [
+      "about.html",
+      "contact.html",
+      "index.html",
+      "menu.html"
+    ],
+    "archive_candidates": [],
+    "has_styles": true
+  },
+  "archive": {
+    "ok": true,
+    "archive": "2026-07-21-pro-site-non-openable",
+    "kept": [
+      "about.html",
+      "contact.html",
+      "index.html",
+      "menu.html",
+      "styles.css"
+    ],
+    "moved": []
+  },
+  "quality": {
+    "styles_complete": true,
+    "styles_has_root": true,
+    "styles_has_nav": true,
+    "styles_has_hero": true,
+    "styles_has_footer": true,
+    "styles_has_form": true,
+    "index_complete_html": true,
+    "index_links_css": true,
+    "index_has_nav": true,
+    "menu_complete_html": true,
+    "menu_links_css": true,
+    "menu_has_nav": true,
+    "about_complete_html": true,
+    "about_links_css": true,
+    "about_has_nav": true,
+    "contact_complete_html": true,
+    "contact_links_css": true,
+    "contact_has_nav": true,
+    "menu_has_prices": true,
+    "contact_has_form": true
+  },
+  "quality_ok": true,
+  "speed": {
+    "keep_alive_same_model": true,
+    "settle_s": 0.0,
+    "stop_grace_s": 0.15,
+    "skip_redundant_stop": true,
+    "skip_orchestrator": true,
+    "ctx_size": 2048,
+    "trust_start_health": true,
+    "slots_reused": 4,
+    "slots_kept_alive": 4
+  },
+  "pass_bar": {
+    "min_passed": 5,
+    "met": true
+  }
+}

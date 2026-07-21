@@ -215,6 +215,16 @@ def test_pro_g_schedule_s6_flags() -> None:
     assert data["slots"][0]["max_tokens"] == 900
 
 
+def test_pro_h_schedule_s7_flags() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_h.json")
+    assert_schedule_valid(data)
+    assert data["benchmark_id"] == "pro-site-H-atlas-climbing"
+    assert data["speed"]["skip_orchestrator"] is True
+    assert data["speed"]["ctx_size"] == 2048
+    assert data["speed"]["trust_start_health"] is True
+    assert data["speed"]["approach"] == "S7_ctx2048_trust_start_health"
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 

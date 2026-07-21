@@ -24,14 +24,58 @@
 | S4 | Warm worker on `:8082` during orch (parallel load) | 26.87 s | 27.31 / 31.23 / 32.70 s | not faster | **REVERT** |
 | S5 | `speed.skip_orchestrator` + S3 keep-alive (canonical slots) | 26.87 s | Site F **17.19 s** | **−9.68 s (−36%)** | **KEEP** |
 | S6 | Skip duplicate shell port-kill + `HEALTH_SLEEP=0.2` + tighter `max_tokens` | 17.19 s | Site G **13.00 s** | **−4.19 s (−24%)** | **KEEP** |
+| S7 | `CTX=2048` + `trust_start_health` (skip Python re-poll after shell OK) | 13.00 s | Site H **11.43 s** | **−1.57 s (−12%)** | **KEEP** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
 S4: overlapped worker GGUF load with orch decompose (dual-port). Warm OK but wall ≥ baseline → code restored to S3.  
 S5: skip live orch decompose when schedule already has canonical CSS/HTML slots; workers still generate all files via nano-orchestrator. Use when speed matters more than orch-bind telemetry.  
-S6: `SKIP_PRE_KILL=1` from Python `start_server` (no second `fuser`+sleep in shell); faster health poll; styles `max_tokens` 900 / HTML 560 (was 1200/700).
+S6: `SKIP_PRE_KILL=1` from Python `start_server` (no second `fuser`+sleep in shell); faster health poll; styles `max_tokens` 900 / HTML 560 (was 1200/700).  
+S7: worker `CTX=2048` (vs default 8192) + trust shell `/health` success (no second Python poll loop). Peak VRAM also dropped (~1503 MB).
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## H — Atlas Climbing Gym (`pro-site-H-atlas-climbing`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-beacon-dental-pro-archived/` @ 2026-07-21T15:22:52Z |
+| Site | Atlas Climbing Gym (recreation / day passes) |
+| Schedule | [`large_site_schedule_pro_h.json`](large_site_schedule_pro_h.json) |
+| Why this task | New recreation domain; measure **S7** vs G **13.00 s** |
+| Speed | **S7** (on top of S5/S6) |
+| Command | `make nano-large-site-pro-h` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| Full make | **11.43 s** |
+| vs Site G S6 baseline | **−12%** |
+| Orch O0 | skipped |
+
+| Slot | elapsed_s | reused |
+|------|-----------|--------|
+| styles | 3.84 | no |
+| home | 1.82 | yes |
+| menu | 1.79 | yes |
+| about | 1.79 | yes |
+| contact | 2.03 | yes |
+
+### Results
+
+| Check | Value |
+|-------|-------|
+| Orch | skipped (intentional S5) |
+| Workers | **5/5** |
+| Pass bar | **MET** |
+| Openable | **4/4** |
+| Hand edits | **none** |
+| Peak VRAM | **1503 MB** |
+| Report | [`runs/large_site_schedule_pro_h.json`](runs/large_site_schedule_pro_h.json) |
 
 ---
 
@@ -45,7 +89,8 @@ First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5
 | Why this task | New healthcare domain; measure **S6** vs F **17.19 s** |
 | Speed | **S6** (on top of S5 keep-alive + skip-orch) |
 | Command | `make nano-large-site-pro-g` |
-| Status | **done — GREEN** |
+| Status | **archived** (superseded by H) |
+| Archive path | `out/archive/2026-07-21-beacon-dental-pro-archived/` |
 
 ### Timing
 

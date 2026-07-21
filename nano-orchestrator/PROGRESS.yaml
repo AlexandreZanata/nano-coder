@@ -110,6 +110,8 @@ notes: |
   Solstice archived; workers 5/5 openable 4/4.
   2026-07-21: Pro-site G GREEN — Beacon Dental; S6 KEEP (13.00s vs 17.19s, −24%);
   Fern archived; skip duplicate port-kill + tighter tokens; workers 5/5 openable 4/4.
+  2026-07-21: Pro-site H GREEN — Atlas Climbing; S7 KEEP (11.43s vs 13.00s, −12%);
+  Beacon archived; CTX=2048 + trust_start_health; workers 5/5 openable 4/4.
 
 pro_site_benchmarks:
   protocol: orchestrator_only_results_no_hand_edit
@@ -142,6 +144,12 @@ pro_site_benchmarks:
       measured_wall_s: 13.00
       delta_s: -4.19
       note: SKIP_PRE_KILL + HEALTH_SLEEP=0.2 + max_tokens 900/560
+    S7_ctx2048_trust_start_health:
+      status: kept
+      baseline_wall_s: 13.00
+      measured_wall_s: 11.43
+      delta_s: -1.57
+      note: CTX=2048 + trust shell health; peak_vram ~1503MB
   A_harbor_coffee:
     status: archived
   B_summit_trail:
@@ -157,11 +165,14 @@ pro_site_benchmarks:
     status: archived
     wall_clock_s: 17.19
   G_beacon_dental:
-    status: done
-    schedule: benchmarks/large_site_schedule_pro_g.json
+    status: archived
     wall_clock_s: 13.00
+  H_atlas_climbing:
+    status: done
+    schedule: benchmarks/large_site_schedule_pro_h.json
+    wall_clock_s: 11.43
     orch: skipped_S5
-    speed: S6
+    speed: S7
     workers_passed: "5/5"
     openable_pages: 4
-    report: benchmarks/runs/large_site_schedule_pro_g.json
+    report: benchmarks/runs/large_site_schedule_pro_h.json

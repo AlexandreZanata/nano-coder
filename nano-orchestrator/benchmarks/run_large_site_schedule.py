@@ -83,11 +83,18 @@ def run_orchestrator_slot(
     port: int,
     base_url: str,
     stop_grace_s: float = 1.0,
+    ctx_size: int | None = None,
+    trust_start_health: bool = False,
 ) -> dict:
     started_at = time.perf_counter()
     peak = vram_used_mb()
     started = start_server(
-        model_id, port=port, force_stop=True, stop_grace_s=stop_grace_s
+        model_id,
+        port=port,
+        force_stop=True,
+        stop_grace_s=stop_grace_s,
+        ctx_size=ctx_size,
+        trust_start_health=trust_start_health,
     )
     if started.is_err():
         return {
@@ -138,6 +145,8 @@ def run_worker_slot(
     settle_s: float = 0.5,
     force_stop: bool = True,
     stop_grace_s: float = 1.0,
+    ctx_size: int | None = None,
+    trust_start_health: bool = False,
 ) -> tuple[SlotResult, WorkerResponse | None, JudgeVerdict | None]:
     t0 = time.perf_counter()
     peak = vram_used_mb()
@@ -154,6 +163,8 @@ def run_worker_slot(
             port=port,
             force_stop=force_stop,
             stop_grace_s=stop_grace_s,
+            ctx_size=ctx_size,
+            trust_start_health=trust_start_health,
         )
         if started.is_err():
             return (
@@ -317,6 +328,9 @@ def main() -> int:
     skip_orchestrator = bool(args.skip_orchestrator) or bool(
         speed_cfg.get("skip_orchestrator", False)
     )
+    ctx_raw = speed_cfg.get("ctx_size")
+    ctx_size = int(ctx_raw) if ctx_raw is not None else None
+    trust_start_health = bool(speed_cfg.get("trust_start_health", False))
     json_out = args.json_out or (
         ROOT / "benchmarks" / "runs" / f"{args.schedule.stem}.json"
     )
@@ -326,6 +340,7 @@ def main() -> int:
         f"schedule={args.schedule.name} unique_models={schedule.get('require_unique_models')}"
         f" keep_alive={keep_alive} settle_s={settle_s} stop_grace_s={stop_grace_s}"
         f" skip_orchestrator={skip_orchestrator}"
+        f" ctx_size={ctx_size} trust_start_health={trust_start_health}"
     )
     orch_report: dict
     orch_bind_meta: dict = {"bound": 0, "mode": "skipped"}
@@ -340,6 +355,8 @@ def main() -> int:
             port=args.port,
             base_url=args.base_url,
             stop_grace_s=stop_grace_s,
+            ctx_size=ctx_size,
+            trust_start_health=trust_start_health,
         )
         print(
             json.dumps(
@@ -405,6 +422,8 @@ def main() -> int:
             settle_s=settle_s,
             force_stop=force_stop,
             stop_grace_s=stop_grace_s,
+            ctx_size=ctx_size,
+            trust_start_health=trust_start_health,
         )
         if result.server_kept_alive:
             loaded_model = model_id
@@ -488,6 +507,8 @@ def main() -> int:
             "stop_grace_s": stop_grace_s,
             "skip_redundant_stop": skip_redundant_stop,
             "skip_orchestrator": skip_orchestrator,
+            "ctx_size": ctx_size,
+            "trust_start_health": trust_start_health,
             "slots_reused": sum(1 for s in slot_results if s.server_reused),
             "slots_kept_alive": sum(1 for s in slot_results if s.server_kept_alive),
         },
