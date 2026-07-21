@@ -28,6 +28,7 @@
 | S8 | `temperature=0` + `stop_grace_s=0` + tighter tokens (750/480) | 11.43 s | Site I **9.82 s** | **−1.61 s (−14%)** | **KEEP** |
 | S9 | `top_k=1` + `skip_final_stop` (leave server up after last slot) | 9.82 s | **9.60 s** but quality fail | −0.22 s / red | **REVERT** |
 | S10 | `log_calls=false` + `cache_prompt=true` | 9.82 s | **10.43 s** (green) | +0.61 s | **REVERT** |
+| S11 | Parallel HTML slots + llama `-np 4` | 9.82 s | **3.05 s** but 0/5 red | red | **REVERT** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
@@ -37,9 +38,53 @@ S6: `SKIP_PRE_KILL=1` from Python `start_server` (no second `fuser`+sleep in she
 S7: worker `CTX=2048` (vs default 8192) + trust shell `/health` success (no second Python poll loop). Peak VRAM also dropped (~1503 MB).  
 S8: greedy decode (`temperature=0`), zero stop grace, styles/HTML `max_tokens` 750/480 (was 900/560).  
 S9: `top_k=1` + skip final server stop. Wall slightly faster but `styles_has_form=false` → pass bar failed → code restored to S8.  
-S10: disable LLM call logging + llama.cpp `cache_prompt`. Green but slower than S8 best → code restored to S8.
+S10: disable LLM call logging + llama.cpp `cache_prompt`. Green but slower than S8 best → code restored to S8.  
+S11: ThreadPoolExecutor for HTML slots with `-np 4`. Styles hit HTTP 400 (CTX 2048 split across parallel slots too small); HTML junk → code restored to S8.
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## L — Moss & Stone Garden (`pro-site-L-moss-stone`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-willow-whisk-pro-archived/` @ 2026-07-21T15:37:16Z |
+| Site | Moss & Stone Garden Center (nursery / prices) |
+| Schedule | [`large_site_schedule_pro_l.json`](large_site_schedule_pro_l.json) |
+| Why this task | New garden-retail domain; measure **S11** vs I **9.82 s** |
+| Speed | S11 **REVERT**; Site L final timed under **S8** |
+| Command | `make nano-large-site-pro-l` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| S11 attempt (red) | 3.05 s — 0/5 pass |
+| Final make (S8) | **10.01 s** |
+| Orch O0 | skipped |
+
+| Slot (final S8) | elapsed_s | reused |
+|-----------------|-----------|--------|
+| styles | 3.43 | no |
+| home | 1.59 | yes |
+| menu | 1.57 | yes |
+| about | 1.58 | yes |
+| contact | 1.67 | yes |
+
+### Results
+
+| Check | Value |
+|-------|-------|
+| Orch | skipped (intentional S5) |
+| Workers | **5/5** |
+| Pass bar | **MET** |
+| Openable | **4/4** |
+| Hand edits | **none** |
+| Peak VRAM | **1503 MB** |
+| S11 failed archive | `out/archive/2026-07-21-moss-stone-s11-failed/` |
+| Report | [`runs/large_site_schedule_pro_l.json`](runs/large_site_schedule_pro_l.json) |
 
 ---
 
@@ -53,7 +98,8 @@ First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5
 | Why this task | New bakery domain; measure **S10** vs I **9.82 s** |
 | Speed | S10 **REVERT**; Site K final timed under **S8** |
 | Command | `make nano-large-site-pro-k` |
-| Status | **done — GREEN** |
+| Status | **archived** (superseded by L) |
+| Archive path | `out/archive/2026-07-21-willow-whisk-pro-archived/` |
 
 ### Timing
 

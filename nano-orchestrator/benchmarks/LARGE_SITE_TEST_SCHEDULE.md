@@ -131,8 +131,9 @@ Canonical backlog: [`PRO_SITE_BACKLOG.md`](PRO_SITE_BACKLOG.md).
 | H | Atlas Climbing Gym | `make nano-large-site-pro-h` | 11.43 s | S7 CTX=2048 + trust health (−12% vs G); archived |
 | I | Lumen Photo Studio | `make nano-large-site-pro-i` | **9.82 s** | S8 temp0 + tighter tokens (−14% vs H); archived |
 | J | Copper Lantern Bookstore | `make nano-large-site-pro-j` | 10.07 s | S9 REVERT; final under S8; archived |
-| K | Willow & Whisk Bakery | `make nano-large-site-pro-k` | 10.02 s | S10 REVERT (slower); final under S8 |
+| K | Willow & Whisk Bakery | `make nano-large-site-pro-k` | 10.02 s | S10 REVERT; final under S8; archived |
+| L | Moss & Stone Garden | `make nano-large-site-pro-l` | 10.01 s | S11 REVERT (parallel red); final under S8 |
 
-Speed: S2–S8 kept stack · S4/S9/S10 REVERT. Best wall still Site I **9.82 s** (S8). CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
+Speed: S2–S8 kept · S4/S9/S10/S11 REVERT. Best wall still Site I **9.82 s** (S8). CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
 
 **Rule:** never hand-edit `out/proposal/` site files; archive before each new site run.

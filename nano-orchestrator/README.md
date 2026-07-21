@@ -451,6 +451,7 @@ make nano-large-site-pro-h    # Atlas Climbing + S7 CTX=2048 / trust health
 make nano-large-site-pro-i    # Lumen Photo + S8 temp0 / tighter tokens
 make nano-large-site-pro-j    # Copper Lantern (S9 measured+reverted; final S8)
 make nano-large-site-pro-k    # Willow & Whisk (S10 measured+reverted; final S8)
+make nano-large-site-pro-l    # Moss & Stone (S11 measured+reverted; final S8)
 
 # Arena playground — browse out/proposal + schedule runs
 make nano-arena

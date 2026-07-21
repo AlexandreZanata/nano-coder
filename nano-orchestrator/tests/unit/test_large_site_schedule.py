@@ -254,6 +254,15 @@ def test_pro_k_schedule_after_s10_revert() -> None:
     assert data["speed"]["approach"] == "S8_after_S10_revert"
 
 
+def test_pro_l_schedule_after_s11_revert() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_l.json")
+    assert_schedule_valid(data)
+    assert data["benchmark_id"] == "pro-site-L-moss-stone"
+    assert data["speed"].get("parallel_same_model_slots") is None
+    assert data["speed"].get("n_parallel") is None
+    assert data["speed"]["approach"] == "S8_after_S11_revert"
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 
