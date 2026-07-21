@@ -10,6 +10,7 @@ import argparse
 import json
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -148,6 +149,7 @@ def run_worker_slot(
     ctx_size: int | None = None,
     trust_start_health: bool = False,
     temperature: float = 0.2,
+    n_parallel: int | None = None,
 ) -> tuple[SlotResult, WorkerResponse | None, JudgeVerdict | None]:
     t0 = time.perf_counter()
     peak = vram_used_mb()
@@ -166,6 +168,7 @@ def run_worker_slot(
             stop_grace_s=stop_grace_s,
             ctx_size=ctx_size,
             trust_start_health=trust_start_health,
+            n_parallel=n_parallel,
         )
         if started.is_err():
             return (
@@ -333,6 +336,11 @@ def main() -> int:
     ctx_size = int(ctx_raw) if ctx_raw is not None else None
     trust_start_health = bool(speed_cfg.get("trust_start_health", False))
     temperature = float(speed_cfg.get("temperature", 0.2))
+    parallel_same_model = bool(speed_cfg.get("parallel_same_model_slots", False))
+    n_parallel_raw = speed_cfg.get("n_parallel")
+    n_parallel = int(n_parallel_raw) if n_parallel_raw is not None else None
+    if parallel_same_model and n_parallel is None:
+        n_parallel = max(1, len(slots) - 1)
     json_out = args.json_out or (
         ROOT / "benchmarks" / "runs" / f"{args.schedule.stem}.json"
     )
@@ -343,7 +351,7 @@ def main() -> int:
         f" keep_alive={keep_alive} settle_s={settle_s} stop_grace_s={stop_grace_s}"
         f" skip_orchestrator={skip_orchestrator}"
         f" ctx_size={ctx_size} trust_start_health={trust_start_health}"
-        f" temperature={temperature}"
+        f" temperature={temperature} parallel={parallel_same_model} n_parallel={n_parallel}"
     )
     orch_report: dict
     orch_bind_meta: dict = {"bound": 0, "mode": "skipped"}
@@ -394,22 +402,48 @@ def main() -> int:
     loaded_model: str | None = None
     port_clear_after_orch = (not skip_orchestrator) and skip_redundant_stop
 
-    for idx, slot in enumerate(slots, start=1):
+    same_model = len({str(s["model_id"]) for s in slots}) == 1
+    use_parallel = (
+        parallel_same_model and keep_alive and same_model and len(slots) >= 2
+    )
+
+    def _record(
+        result: SlotResult,
+        response: WorkerResponse | None,
+        verdict: JudgeVerdict | None,
+        task: MicroTask,
+    ) -> None:
+        nonlocal peak_all, loaded_model
+        slot_results.append(result)
+        print(json.dumps(asdict(result), indent=None))
+        if response is not None and verdict is not None:
+            tasks.append(task)
+            responses[task.id] = response
+            verdicts[task.id] = verdict
+            escalate[task.id] = not (verdict.passed and bool(result.quality_ok))
+        peak_all = _peak(peak_all, result.vram_mb)
+        if result.server_kept_alive:
+            loaded_model = result.model_id
+        else:
+            loaded_model = None
+
+    def _run_one(
+        *,
+        idx: int,
+        slot: dict,
+        reuse: bool,
+        keep_after: bool,
+        force_stop: bool,
+    ) -> tuple[MicroTask, SlotResult, WorkerResponse | None, JudgeVerdict | None]:
         task = slot_to_task(slot)
         model_id = str(slot["model_id"])
-        models_used.append(model_id)
         orch_note = slot.get("orch_task_id")
-        reuse = should_reuse_server(loaded_model, model_id, keep_alive=keep_alive)
-        keep_after = keep_alive and next_slot_same_model(slots, idx - 1)
-        force_stop = True
-        if (not reuse) and port_clear_after_orch and idx == 1:
-            force_stop = False
-            port_clear_after_orch = False
         print(
             f"[W{idx}] {task.id} → {model_id} ({task.language.value})"
             + (f" orch={orch_note}" if orch_note else "")
             + (" reuse" if reuse else " cold")
             + (" keep" if keep_after else " stop")
+            + (" parallel" if use_parallel and idx > 1 else "")
             + (" nostop" if not force_stop and not reuse else "")
             + "…"
         )
@@ -428,19 +462,69 @@ def main() -> int:
             ctx_size=ctx_size,
             trust_start_health=trust_start_health,
             temperature=temperature,
+            n_parallel=n_parallel,
         )
-        if result.server_kept_alive:
-            loaded_model = model_id
-        else:
-            loaded_model = None
-        slot_results.append(result)
-        print(json.dumps(asdict(result), indent=None))
-        if response is not None and verdict is not None:
-            tasks.append(task)
-            responses[task.id] = response
-            verdicts[task.id] = verdict
-            escalate[task.id] = not (verdict.passed and bool(result.quality_ok))
-        peak_all = _peak(peak_all, result.vram_mb)
+        return task, result, response, verdict
+
+    if use_parallel:
+        first = slots[0]
+        models_used.append(str(first["model_id"]))
+        force_stop = True
+        if port_clear_after_orch:
+            force_stop = False
+            port_clear_after_orch = False
+        task, result, response, verdict = _run_one(
+            idx=1,
+            slot=first,
+            reuse=False,
+            keep_after=True,
+            force_stop=force_stop,
+        )
+        _record(result, response, verdict, task)
+
+        rest = list(enumerate(slots[1:], start=2))
+        for _, slot in rest:
+            models_used.append(str(slot["model_id"]))
+        with ThreadPoolExecutor(max_workers=max(1, len(rest))) as pool:
+            futs = [
+                pool.submit(
+                    _run_one,
+                    idx=idx,
+                    slot=slot,
+                    reuse=True,
+                    keep_after=True,
+                    force_stop=True,
+                )
+                for idx, slot in rest
+            ]
+            by_idx: dict[int, tuple] = {}
+            for fut in as_completed(futs):
+                task, result, response, verdict = fut.result()
+                idx = next(
+                    i for i, s in enumerate(slots, start=1) if s["id"] == task.id
+                )
+                by_idx[idx] = (task, result, response, verdict)
+            for idx in sorted(by_idx):
+                task, result, response, verdict = by_idx[idx]
+                _record(result, response, verdict, task)
+    else:
+        for idx, slot in enumerate(slots, start=1):
+            model_id = str(slot["model_id"])
+            models_used.append(model_id)
+            reuse = should_reuse_server(loaded_model, model_id, keep_alive=keep_alive)
+            keep_after = keep_alive and next_slot_same_model(slots, idx - 1)
+            force_stop = True
+            if (not reuse) and port_clear_after_orch and idx == 1:
+                force_stop = False
+                port_clear_after_orch = False
+            task, result, response, verdict = _run_one(
+                idx=idx,
+                slot=slot,
+                reuse=reuse,
+                keep_after=keep_after,
+                force_stop=force_stop,
+            )
+            _record(result, response, verdict, task)
 
     if loaded_model is not None:
         stop_server(args.port, grace_s=stop_grace_s)
@@ -514,6 +598,8 @@ def main() -> int:
             "ctx_size": ctx_size,
             "trust_start_health": trust_start_health,
             "temperature": temperature,
+            "parallel_same_model_slots": use_parallel,
+            "n_parallel": n_parallel,
             "slots_reused": sum(1 for s in slot_results if s.server_reused),
             "slots_kept_alive": sum(1 for s in slot_results if s.server_kept_alive),
         },

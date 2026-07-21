@@ -57,6 +57,7 @@ def start_server(
     stop_grace_s: float | None = None,
     ctx_size: int | None = None,
     trust_start_health: bool = False,
+    n_parallel: int | None = None,
 ) -> Result[str, str]:
     if not START_SH.is_file():
         return Err("start_script_missing")
@@ -71,6 +72,8 @@ def start_server(
     env["HEALTH_SLEEP"] = os.environ.get("NANO_ORCH_HEALTH_SLEEP", "0.2")
     if ctx_size is not None and int(ctx_size) > 0:
         env["CTX"] = str(int(ctx_size))
+    if n_parallel is not None and int(n_parallel) > 0:
+        env["N_PARALLEL"] = str(int(n_parallel))
     proc = subprocess.run(
         ["bash", str(START_SH), model_id],
         capture_output=True,

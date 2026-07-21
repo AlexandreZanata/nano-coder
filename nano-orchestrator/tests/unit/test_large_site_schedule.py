@@ -263,6 +263,16 @@ def test_pro_l_schedule_after_s11_revert() -> None:
     assert data["speed"]["approach"] == "S8_after_S11_revert"
 
 
+def test_pro_m_schedule_s12_flags() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_m.json")
+    assert_schedule_valid(data)
+    assert data["benchmark_id"] == "pro-site-M-bright-harbor"
+    assert data["speed"]["parallel_same_model_slots"] is True
+    assert data["speed"]["n_parallel"] == 4
+    assert data["speed"]["ctx_size"] == 8192
+    assert data["speed"]["approach"] == "S12_parallel_html_ctx8192_np4"
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 

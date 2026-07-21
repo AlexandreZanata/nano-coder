@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "kind": "pro_site",
+  "site_name": "Bright Harbor Marina",
+  "benchmark_id": "pro-site-M-bright-harbor",
+  "require_unique_models": false,
+  "prefer_orch_plan": false,
+  "speed": {
+    "keep_alive_same_model": true,
+    "settle_s": 0.0,
+    "stop_grace_s": 0.0,
+    "skip_redundant_stop": true,
+    "skip_orchestrator": true,
+    "ctx_size": 8192,
+    "trust_start_health": true,
+    "temperature": 0.0,
+    "parallel_same_model_slots": true,
+    "n_parallel": 4,
+    "approach": "S12_parallel_html_ctx8192_np4"
+  },
+  "request": "Build Bright Harbor Marina site: styles.css + index/menu/about/contact HTML. Task ids styles,home,menu,about,contact.",
+  "orchestrator_model": "smollm3-3b",
+  "min_passed": 5,
+  "max_retries_per_slot": 2,
+  "slots": [
+    {
+      "id": "styles",
+      "filename": "styles.css",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "css",
+      "prompt": "Copy this CSS exactly. Output ONLY CSS. No HTML. No markdown.\n:root{--bg:#0b1520;--surface:#142433;--text:#e8f1f8;--muted:#9bb0c0;--accent:#2a9d8f;--accent-2:#48c9b0;--line:#243746;--max:1100px;--font:\"Segoe UI\",system-ui,sans-serif;--display:Georgia,\"Times New Roman\",serif}\n*{box-sizing:border-box}\nbody{margin:0;font-family:var(--font);color:var(--text);background:radial-gradient(ellipse at top,#163044 0%,var(--bg) 55%);line-height:1.6}\na{color:var(--accent-2);text-decoration:none}a:hover{color:var(--accent)}\n.site-header{border-bottom:1px solid var(--line);background:rgba(11,21,32,.94);position:sticky;top:0;z-index:10}\n.nav-inner{max-width:var(--max);margin:0 auto;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}\n.brand{font-family:var(--display);font-size:1.3rem;color:var(--text)}\n.nav-links{display:flex;gap:1.2rem;flex-wrap:wrap}.nav-links a{color:var(--muted)}\n.nav-links a:hover,.nav-links a[aria-current=page]{color:var(--accent)}\n.hero{max-width:var(--max);margin:0 auto;padding:4rem 1.25rem 3rem}\n.hero h1{font-family:var(--display);font-size:clamp(2.1rem,5vw,3.2rem);line-height:1.15;margin:0 0 1rem}\n.hero p{color:var(--muted);max-width:38rem;font-size:1.08rem}\n.btn{display:inline-block;margin-top:1.4rem;padding:.75rem 1.2rem;background:var(--accent);color:#0b1520;border-radius:4px;font-weight:600}\n.section{max-width:var(--max);margin:0 auto;padding:2rem 1.25rem 3rem}\n.section h2{font-family:var(--display);font-size:1.75rem}\n.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}\n.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1.2rem}\n.card h3{margin-top:0;font-family:var(--display)}.price{color:var(--accent-2);font-weight:700}\n.menu-list{list-style:none;padding:0;margin:0}\n.menu-list li{display:flex;justify-content:space-between;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--line)}\n.site-footer{border-top:1px solid var(--line);margin-top:2rem;padding:2rem 1.25rem;color:var(--muted);text-align:center}\nform{display:grid;gap:.85rem;max-width:28rem}\nlabel{display:grid;gap:.35rem;color:var(--muted);font-size:.9rem}\ninput,textarea,select{padding:.7rem .8rem;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit}\nbutton[type=submit]{justify-self:start;padding:.75rem 1.2rem;border:0;border-radius:4px;background:var(--accent);color:#0b1520;font-weight:600;cursor:pointer}\n@media (max-width:640px){.nav-inner{flex-direction:column;align-items:flex-start}}\n",
+      "constraints": [
+        "valid CSS",
+        "no HTML"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 780
+    },
+    {
+      "id": "home",
+      "filename": "index.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. No markdown.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Bright Harbor Marina \u2014 Home</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Bright Harbor Marina</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\" aria-current=\"page\">Home</a><a href=\"menu.html\">Slips</a><a href=\"about.html\">Facilities</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<section class=\"hero\">\n<h1>Deep water. Quiet nights.</h1>\n<p>Bright Harbor Marina offers seasonal slips, fuel, and haul-out service on a protected inlet.</p>\n<a class=\"btn\" href=\"menu.html\">View slip rates</a>\n</section>\n<section class=\"section\">\n<h2>On the dock</h2>\n<div class=\"grid\">\n<article class=\"card\"><h3>30/50 amp power</h3><p>Metered shore power on every finger pier.</p></article>\n<article class=\"card\"><h3>Fuel dock</h3><p>Diesel and gas open daily until dusk.</p></article>\n<article class=\"card\"><h3>Pump-out</h3><p>Free weekly pump-out for seasonal tenants.</p></article>\n</div>\n</section>\n<footer class=\"site-footer\"><p>1 Breakwater Rd \u00b7 Daily \u00b7 (555) 013-9900</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "complete document"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 480
+    },
+    {
+      "id": "menu",
+      "filename": "menu.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep every dollar price.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Slips \u2014 Bright Harbor Marina</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Bright Harbor Marina</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\" aria-current=\"page\">Slips</a><a href=\"about.html\">Facilities</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Slips &amp; services</h1>\n<ul class=\"menu-list\">\n<li><span>Seasonal Slip (up to 30 ft)</span><span class=\"price\">$3200.00</span></li>\n<li><span>Seasonal Slip (31\u201340 ft)</span><span class=\"price\">$4100.00</span></li>\n<li><span>Transient Night</span><span class=\"price\">$2.50</span></li>\n<li><span>Diesel (per gallon)</span><span class=\"price\">$4.85</span></li>\n<li><span>Haul-Out (per foot)</span><span class=\"price\">$12.00</span></li>\n<li><span>Winter Storage</span><span class=\"price\">$45.00</span></li>\n</ul>\n</main>\n<footer class=\"site-footer\"><p>Bright Harbor Marina \u00b7 Prices in USD \u00b7 Power billed monthly</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "dollar prices"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 480
+    },
+    {
+      "id": "about",
+      "filename": "about.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Facilities \u2014 Bright Harbor Marina</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Bright Harbor Marina</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Slips</a><a href=\"about.html\" aria-current=\"page\">Facilities</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Facilities</h1>\n<p>Bright Harbor sits behind a stone breakwater with 120 slips and a travel lift rated to 35 tons.</p>\n<p>Showers, laundry, and a small ships store stay open for tenants year-round.</p>\n<div class=\"grid\">\n<article class=\"card\"><h3>Travel lift</h3><p>Haul-outs scheduled Tue\u2013Sat with bottom-paint staging.</p></article>\n<article class=\"card\"><h3>Ships store</h3><p>Lines, filters, charts, and ice near the fuel dock.</p></article>\n</div>\n</main>\n<footer class=\"site-footer\"><p>Bright Harbor Marina \u00b7 Mooring since 1972</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 480
+    },
+    {
+      "id": "contact",
+      "filename": "contact.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep the contact form fields.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Contact \u2014 Bright Harbor Marina</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Bright Harbor Marina</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Slips</a><a href=\"about.html\">Facilities</a><a href=\"contact.html\" aria-current=\"page\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Contact</h1>\n<p>Request a slip hold, fuel delivery, or haul-out window.</p>\n<form method=\"post\" action=\"/contact\">\n<label>Name<input type=\"text\" name=\"name\" required /></label>\n<label>Email<input type=\"email\" name=\"email\" required /></label>\n<label>Message<textarea name=\"message\" rows=\"5\" required></textarea></label>\n<button type=\"submit\">Send message</button>\n</form>\n</main>\n<footer class=\"site-footer\"><p>1 Breakwater Rd \u00b7 (555) 013-9900 \u00b7 dock@brightharbor.example</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "contact form"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 480
+    }
+  ]
+}

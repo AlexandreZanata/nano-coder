@@ -67,7 +67,7 @@ nohup "$BIN" \
   --port "$PORT" \
   -c "$CTX" \
   -ngl "$NGL" \
-  -np 1 \
+  -np "${N_PARALLEL:-1}" \
   >"$LOG" 2>&1 &
 echo $! >"$ROOT/nano-orchestrator/logs/llama-${PORT}.pid"
 
