@@ -245,6 +245,15 @@ def test_pro_j_schedule_after_s9_revert() -> None:
     assert data["speed"]["approach"] == "S8_after_S9_revert"
 
 
+def test_pro_k_schedule_after_s10_revert() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_k.json")
+    assert_schedule_valid(data)
+    assert data["benchmark_id"] == "pro-site-K-willow-whisk"
+    assert data["speed"].get("log_calls") is None
+    assert data["speed"].get("cache_prompt") is None
+    assert data["speed"]["approach"] == "S8_after_S10_revert"
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 

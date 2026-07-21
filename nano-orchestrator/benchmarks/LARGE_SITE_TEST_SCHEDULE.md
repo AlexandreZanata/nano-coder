@@ -130,8 +130,9 @@ Canonical backlog: [`PRO_SITE_BACKLOG.md`](PRO_SITE_BACKLOG.md).
 | G | Beacon Dental Care | `make nano-large-site-pro-g` | 13.00 s | S6 skip-dup-kill (−24% vs F); archived |
 | H | Atlas Climbing Gym | `make nano-large-site-pro-h` | 11.43 s | S7 CTX=2048 + trust health (−12% vs G); archived |
 | I | Lumen Photo Studio | `make nano-large-site-pro-i` | **9.82 s** | S8 temp0 + tighter tokens (−14% vs H); archived |
-| J | Copper Lantern Bookstore | `make nano-large-site-pro-j` | 10.07 s | S9 REVERT (red quality); final under S8 |
+| J | Copper Lantern Bookstore | `make nano-large-site-pro-j` | 10.07 s | S9 REVERT; final under S8; archived |
+| K | Willow & Whisk Bakery | `make nano-large-site-pro-k` | 10.02 s | S10 REVERT (slower); final under S8 |
 
-Speed: S2 keep-alive · S3 stop_grace · S4 warm REVERT · S5 `speed.skip_orchestrator` · S6 `SKIP_PRE_KILL` · S7 `ctx_size` + `trust_start_health` · S8 `temperature` + tighter tokens · S9 top_k/skip_final REVERT. CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
+Speed: S2–S8 kept stack · S4/S9/S10 REVERT. Best wall still Site I **9.82 s** (S8). CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
 
 **Rule:** never hand-edit `out/proposal/` site files; archive before each new site run.

@@ -1,4 +1,4 @@
-.PHONY: check lint lint-fix test coverage docs-check hypothesis-check harness-smoke paper-build paper-sync clean install health health-gpu check-real reviewer-repro nano-test nano-smoke nano-bakeoff nano-gates nano-validate-schema nano-large-site nano-large-site-all nano-large-site-pro nano-large-site-pro-b nano-large-site-pro-c nano-large-site-pro-d nano-large-site-pro-e nano-large-site-pro-f nano-large-site-pro-g nano-large-site-pro-h nano-large-site-pro-i nano-large-site-pro-j nano-arena
+.PHONY: check lint lint-fix test coverage docs-check hypothesis-check harness-smoke paper-build paper-sync clean install health health-gpu check-real reviewer-repro nano-test nano-smoke nano-bakeoff nano-gates nano-validate-schema nano-large-site nano-large-site-all nano-large-site-pro nano-large-site-pro-b nano-large-site-pro-c nano-large-site-pro-d nano-large-site-pro-e nano-large-site-pro-f nano-large-site-pro-g nano-large-site-pro-h nano-large-site-pro-i nano-large-site-pro-j nano-large-site-pro-k nano-arena
 
 PYTHON ?= $(shell test -x .venv/bin/python && echo .venv/bin/python || echo python3)
 # Absolute path: targets `cd` into NANO_DIR before invoking Python.
@@ -147,6 +147,9 @@ nano-large-site-pro-i:
 
 nano-large-site-pro-j:
 	cd $(NANO_DIR) && NANO_ORCH_HTML_VALIDATE=1 $(NANO_PYTHON) -m nano_orchestrator large-site --schedule benchmarks/large_site_schedule_pro_j.json
+
+nano-large-site-pro-k:
+	cd $(NANO_DIR) && NANO_ORCH_HTML_VALIDATE=1 $(NANO_PYTHON) -m nano_orchestrator large-site --schedule benchmarks/large_site_schedule_pro_k.json
 
 nano-arena:
 	cd $(NANO_DIR) && $(NANO_PYTHON) -m nano_orchestrator arena --host 127.0.0.1 --port $(or $(PORT),8765)
