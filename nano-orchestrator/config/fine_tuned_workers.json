@@ -1,0 +1,19 @@
+{
+  "fine_tuned_workers": {
+    "javascript": {
+      "model_id": "qwen25-coder-0.5b-javascript-ft",
+      "gguf_path": "/data/dev/projects/webstorm/nano-coder/.local/models/qwen25-coder-0.5b-javascript-ft/qwen25-coder-0.5b-javascript-ft-Q4_K_M.gguf",
+      "base": "qwen25-coder-0.5b"
+    },
+    "html": {
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "gguf_path": "/data/dev/projects/webstorm/nano-coder/.local/models/qwen25-coder-0.5b-html-ft/qwen25-coder-0.5b-html-ft-Q4_K_M.gguf",
+      "base": "qwen25-coder-0.5b"
+    },
+    "freemarker": {
+      "model_id": "qwen25-coder-0.5b-freemarker-ft",
+      "gguf_path": "/data/dev/projects/webstorm/nano-coder/.local/models/qwen25-coder-0.5b-freemarker-ft/qwen25-coder-0.5b-freemarker-ft-Q4_K_M.gguf",
+      "base": "qwen25-coder-0.5b"
+    }
+  }
+}

@@ -178,31 +178,38 @@ grep -n '^\- \[ \]' TASKS.md | head -20   # next open tasks
 
 ## E3 — Specialize workers (Phase 3)
 
-- [ ] **T-050** Export Judge-approved pairs from Phase 1–2 logs → train JSONL (per language)  
+- [x] **T-050** Export Judge-approved pairs from Phase 1–2 logs → train JSONL (per language)  
   - **Deps:** T-037, T-014 · **DoD:** ≥N examples/language (define N in PROGRESS; suggest ≥50 after teacher distill)  
-  - **Effort:** 1 day
+  - **Effort:** 1 day  
+  - **Done:** 2026-07-21 — `scripts/export_train_jsonl.py`; N=`train_n_min: 50`
 
-- [ ] **T-051** Teacher distillation batch (parent nano-coder pipeline) for micro-tasks if logs thin  
+- [x] **T-051** Teacher distillation batch (parent nano-coder pipeline) for micro-tasks if logs thin  
   - **Deps:** T-050 · **DoD:** dataset size meets N; no held_out leakage  
-  - **Effort:** 1–3 days (depends on teacher)
+  - **Effort:** 1–3 days (depends on teacher)  
+  - **Done:** 2026-07-21 — `import_teacher_distill.py`; ≥128/lang; leak filter on
 
-- [ ] **T-052** Unsloth QLoRA smoke on winner worker (one language first, e.g. JS)  
+- [x] **T-052** Unsloth QLoRA smoke on winner worker (one language first, e.g. JS)  
   - **Deps:** T-050 · **DoD:** train completes without OOM on 8 GB  
-  - **PROGRESS:** `unsloth_smoke` · **Effort:** 1 day
+  - **PROGRESS:** `unsloth_smoke` · **Effort:** 1 day  
+  - **Done:** 2026-07-21 — HF PEFT QLoRA JS; peak VRAM ~1348 MB
 
-- [ ] **T-053** Export GGUF Q4_K_M + register in `.local/bonsai-chat/models.json` or orchestrator config  
+- [x] **T-053** Export GGUF Q4_K_M + register in `.local/bonsai-chat/models.json` or orchestrator config  
   - **Deps:** T-052 · **DoD:** llama-server loads adapter/merged GGUF  
-  - **PROGRESS:** `gguf_export` · **Effort:** 0.5 day
+  - **PROGRESS:** `gguf_export` · **Effort:** 0.5 day  
+  - **Done:** 2026-07-21 — registered `qwen25-coder-0.5b-javascript-ft`
 
-- [ ] **T-054** Score fine-tuned worker on `held_out.json` — Pass@1 ≥ base  
+- [x] **T-054** Score fine-tuned worker on `held_out.json` — Pass@1 ≥ base  
   - **Deps:** T-053, T-013 · **DoD:** RESULTS.md before/after table  
-  - **PROGRESS:** `held_out_pass_not_worse`
+  - **PROGRESS:** `held_out_pass_not_worse`  
+  - **Done:** 2026-07-21 — JS held_out 0.50 → 0.50 PASS
 
-- [ ] **T-055** Repeat T-052–T-054 for HTML worker  
-  - **Deps:** T-054 · **Effort:** 1–2 days
+- [x] **T-055** Repeat T-052–T-054 for HTML worker  
+  - **Deps:** T-054 · **Effort:** 1–2 days  
+  - **Done:** 2026-07-21 — HTML held_out 1.00 → 1.00 PASS
 
-- [ ] **T-056** Repeat T-052–T-054 for FreeMarker worker  
-  - **Deps:** T-055 · **Effort:** 1–2 days
+- [x] **T-056** Repeat T-052–T-054 for FreeMarker worker  
+  - **Deps:** T-055 · **Effort:** 1–2 days  
+  - **Done:** 2026-07-21 — FTL held_out 1.00 → 1.00 PASS
 
 ---
 
@@ -275,7 +282,7 @@ T-050 → T-052 → T-053 → T-054 → T-055 → T-056
 T-060… (optional) → T-070…T-075
 ```
 
-**Next action right now:** **T-050** (export Judge-approved pairs) — Phase 3 specialize workers.
+**Next action right now:** **GATE-001** (orchestration vs solo 0.5B on gold) or polish T-070+.
 
 ---
 
@@ -288,4 +295,5 @@ T-060… (optional) → T-070…T-075
 | 2026-07-21 | T-020…T-025 | Bake-off measured; winners locked (qwen25 / smollm2 / smollm3) |
 | 2026-07-21 | T-030…T-037 | Phase 2 pipeline live; E2E smoke peak VRAM 3547 MB |
 | 2026-07-21 | T-040…T-045 | Phase 4 sandboxes: JS/HTML/FTL + LLM log + secondary-only |
+| 2026-07-21 | T-050…T-056 | Phase 3 specialize: train JSONL N≥50, QLoRA→GGUF, held_out ≥ base |
 | | | |

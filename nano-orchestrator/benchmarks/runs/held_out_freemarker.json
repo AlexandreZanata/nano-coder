@@ -1,0 +1,44 @@
+{
+  "language": "freemarker",
+  "base": {
+    "model_id": "qwen25-coder-0.5b",
+    "pass_at_1": 1.0,
+    "passed": 2,
+    "total": 2,
+    "rows": [
+      {
+        "task_id": "ho-ftl-001",
+        "language": "freemarker",
+        "passed": true,
+        "score": 0.9
+      },
+      {
+        "task_id": "ho-ftl-002",
+        "language": "freemarker",
+        "passed": true,
+        "score": 0.9
+      }
+    ]
+  },
+  "ft": {
+    "model_id": "qwen25-coder-0.5b-freemarker-ft",
+    "pass_at_1": 1.0,
+    "passed": 2,
+    "total": 2,
+    "rows": [
+      {
+        "task_id": "ho-ftl-001",
+        "language": "freemarker",
+        "passed": true,
+        "score": 0.9
+      },
+      {
+        "task_id": "ho-ftl-002",
+        "language": "freemarker",
+        "passed": true,
+        "score": 0.9
+      }
+    ]
+  },
+  "gate_pass_at_1_not_worse": true
+}

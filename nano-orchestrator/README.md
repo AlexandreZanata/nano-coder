@@ -135,8 +135,8 @@ python scripts/validate_schema.py
 | Optional alternate | Ollama (`keep_alive`) | Faster pull for bake-off; same GGUF family |
 | Language | Python 3.11+ | Aligns with nano-coder train / Unsloth path |
 | Contracts | Pydantic v2 | Schema tests already scaffolded |
-| Fine-tune (Phase 3) | Unsloth QLoRA | Same path validated on Qwen2.5-Coder |
-| Export | GGUF Q4_K_M | llama-server / Ollama |
+| Fine-tune (Phase 3) | HF PEFT QLoRA (Unsloth optional) | Proven on RTX 4060 8 GB in this repo |
+| Export | GGUF Q4_K_M via `convert_hf_to_gguf` + `llama-quantize` | llama-server / Ollama |
 | Sandbox JS | `node --check` + optional `exec_ok` → `vm` timeout | Zero extra deps for syntax |
 | Sandbox HTML | `html-validate` via local `package.json` (`NANO_ORCH_HTML_VALIDATE=1`) | Offline after `npm install` |
 | Sandbox FreeMarker | `scripts/ftl_parser_spike` JVM jar | See §10 — only mature parser |
@@ -256,16 +256,27 @@ AND active workers ≤ 5
 
 ### Phase 3 — Specialize workers (nano-coder core)
 
-- One LoRA/QLoRA per `TargetLanguage` via Unsloth  
-- Train on Judge-approved logs from Phases 1–2 (+ teacher distillation)  
-- Export GGUF Q4_K_M → llama-server  
-- Held-out set stays out of training  
+- One QLoRA adapter per `TargetLanguage` (HF PEFT; Unsloth optional when available)  
+- Train on Judge-approved logs + teacher distillation (`data/train/<lang>/train.jsonl`)  
+- Export GGUF Q4_K_M → llama-server (registered in `.local/bonsai-chat/models.json` + `config/fine_tuned_workers.json`)  
+- Held-out set stays out of training (`held_out_leak` filter)
 
 ```gherkin
 GIVEN a fine-tuned worker exported Q4_K_M
 WHEN scored on held_out.json
 THEN pass@1 ≥ base model
 AND VRAM footprint does not grow vs base
+```
+
+```bash
+# Build train sets (N≥50/language)
+python scripts/export_train_jsonl.py
+python scripts/import_teacher_distill.py
+
+# Smoke QLoRA + GGUF + held_out gate (GPU venv)
+../.venv-gpu/bin/python scripts/run_phase3_language.py --language javascript
+../.venv-gpu/bin/python scripts/run_phase3_language.py --language html
+../.venv-gpu/bin/python scripts/run_phase3_language.py --language freemarker
 ```
 
 ---
@@ -304,7 +315,7 @@ Update [PROGRESS.yaml](PROGRESS.yaml) as you go.
 | **8** | FTL spike | Build `scripts/ftl_parser_spike` (Java) | Parse OK + ParseException → bool |
 | **9–11** | Worker bake-off | `benchmarks/worker_bakeoff.py` | RESULTS.md filled (measured) |
 | **12** | Pick winners | Document choice in PROGRESS.yaml | 2 workers + 1 orchestrator locked |
-| **13–14** | LoRA smoke | Unsloth QLoRA on best 0.5B worker | Export GGUF; pass@1 not worse than base |
+| **13–14** | LoRA smoke | QLoRA on best 0.5B worker + GGUF export | held_out Pass@1 ≥ base |
 
 **MVP success:** orchestration ≥ solo Qwen2.5-Coder-0.5B on gold set under §0 gates.
 
@@ -358,28 +369,11 @@ Pass@1 definition for a micro-task: `JudgeVerdict.passed == true` after sandbox 
 
 ## 11. Immediate next steps
 
-### Today (Phase 4 sandboxes)
+### Today (after Phase 3)
 
-**Next task:** [T-050 in TASKS.md](TASKS.md) — specialize workers (export Judge-approved pairs).
+**Next task:** [GATE-001 in TASKS.md](TASKS.md) / polish — or Phase 5 only if gates green.
 
-Phase 4 Judge sandboxes are live:
-
-```bash
-cd nano-orchestrator
-npm install                          # local html-validate (see package.json)
-cd scripts/ftl_parser_spike && ./build.sh && cd ../..
-python -m pytest tests/unit -q
-NANO_ORCH_HTML_VALIDATE=1 python scripts/validate_gold_code.py
-```
-
-Smoke (Phase 2):
-
-```bash
-python scripts/smoke_runner.py \
-  --request "Create a JS clamp helper and an HTML checkout submit form"
-# Review out/proposal/ (human gate). Peak VRAM notes: benchmarks/PHASE2_VRAM.md
-# LLM calls append to logs/llm_calls.jsonl (gitignored)
-```
+Phase 3 specialized workers are live (JS/HTML/FTL QLoRA → Q4_K_M). See `benchmarks/RESULTS.md` Phase 3 table.
 
 ### Tomorrow
 

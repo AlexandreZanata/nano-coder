@@ -4,8 +4,9 @@
 
 updated: "2026-07-21"
 current_phase: 3
-mvp_day: 9
-next_task: "T-050"
+mvp_day: 14
+next_task: "GATE-001"
+train_n_min: 50
 
 phase_0_contract:
   entities_py: done
@@ -52,13 +53,20 @@ phase_4_judge:
   llm_call_log: done         # T-045
 
 phase_3_finetune:
-  train_jsonl: pending
-  teacher_distill: pending
-  unsloth_smoke: pending
-  gguf_export: pending
-  held_out_pass_not_worse: pending
-  worker_html_ft: pending
-  worker_ftl_ft: pending
+  train_jsonl: done          # T-050 — N=50 min; actual ≥128/lang
+  teacher_distill: done      # T-051
+  unsloth_smoke: done        # T-052 — HF PEFT QLoRA (Unsloth optional)
+  gguf_export: done          # T-053
+  held_out_pass_not_worse: done  # T-054
+  worker_html_ft: done       # T-055
+  worker_ftl_ft: done        # T-056
+  peak_vram_mb_js: 1347.6
+  peak_vram_mb_html: 1340.1
+  peak_vram_mb_ftl: 1061.7
+  ft_models:
+    javascript: qwen25-coder-0.5b-javascript-ft
+    html: qwen25-coder-0.5b-html-ft
+    freemarker: qwen25-coder-0.5b-freemarker-ft
 
 phase_5_dynamic:
   status: skipped
@@ -78,6 +86,6 @@ polish:
   readme_final: pending
 
 notes: |
-  2026-07-21: E4 complete (T-040…T-045). JS node --check + exec_ok vm; html-validate local;
-  FTL jar built via scripts/ftl_parser_spike; gold FTL 10/10 syntax; LLM secondary-only tests;
-  logs/llm_calls.jsonl from LlamaCppAdapter. Next: T-050 Phase 3 train JSONL.
+  2026-07-21: E3 complete (T-050…T-056). train_n_min=50; teacher top-up ≥128/lang;
+  QLoRA smoke peak VRAM ≤1348 MB; GGUF Q4_K_M registered; held_out Pass@1 ≥ base for JS/HTML/FTL.
+  Next: GATE-001 orchestration vs solo baseline on gold set.

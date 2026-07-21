@@ -1,0 +1,15 @@
+{
+  "n_min": 50,
+  "counts": {
+    "javascript": 128,
+    "html": 128,
+    "freemarker": 130
+  },
+  "meets_n": true,
+  "held_out_leak_check": true,
+  "teacher_sources": {
+    "javascript": "/data/dev/projects/webstorm/nano-coder/data/datasets/ds-2026-06-21-js-m2000-v2/examples.jsonl",
+    "html": "/data/dev/projects/webstorm/nano-coder/data/datasets/ds-2026-06-21-html-m2000-v2/examples.jsonl",
+    "freemarker": "/data/dev/projects/webstorm/nano-coder/data/datasets/ds-2026-06-21-fmt-m2000-v2/examples.jsonl"
+  }
+}

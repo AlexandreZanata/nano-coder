@@ -17,6 +17,7 @@ from nano_orchestrator.application.worker_dispatch import (
 from nano_orchestrator.domain.entities import JudgeVerdict, MicroTask, WorkerResponse
 from nano_orchestrator.domain.result import Err, Ok, Result
 from nano_orchestrator.domain.rubric import MAX_RETRIES
+from nano_orchestrator.infrastructure.judge_approved_log import append_judge_approved
 from nano_orchestrator.infrastructure.llamacpp_adapter import LlamaCppAdapter
 from nano_orchestrator.infrastructure.model_server import (
     start_server,
@@ -155,6 +156,14 @@ class OrchestrationPipeline:
             verdict = judged.value  # type: ignore[union-attr]
             last_response, last_verdict = response, verdict
             if verdict.passed:
+                append_judge_approved(
+                    task_id=task.id,
+                    language=task.language.value,
+                    instruction=task.prompt,
+                    code=response.code,
+                    score=verdict.score,
+                    metadata={"retry": attempt},
+                )
                 return Ok((response, verdict, False))
             if not should_retry(verdict, attempt):
                 break

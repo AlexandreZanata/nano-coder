@@ -11,3 +11,5 @@ benchmarks/runs/*.log
 target/
 node_modules/
 scripts/ftl_parser_spike/lib/
+data/checkpoints/
+data/gguf/

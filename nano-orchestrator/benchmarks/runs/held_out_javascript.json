@@ -1,0 +1,44 @@
+{
+  "language": "javascript",
+  "base": {
+    "model_id": "qwen25-coder-0.5b",
+    "pass_at_1": 0.5,
+    "passed": 1,
+    "total": 2,
+    "rows": [
+      {
+        "task_id": "ho-js-001",
+        "language": "javascript",
+        "passed": false,
+        "score": 0.3
+      },
+      {
+        "task_id": "ho-js-002",
+        "language": "javascript",
+        "passed": true,
+        "score": 0.9
+      }
+    ]
+  },
+  "ft": {
+    "model_id": "qwen25-coder-0.5b-javascript-ft",
+    "pass_at_1": 0.5,
+    "passed": 1,
+    "total": 2,
+    "rows": [
+      {
+        "task_id": "ho-js-001",
+        "language": "javascript",
+        "passed": false,
+        "score": 0.3
+      },
+      {
+        "task_id": "ho-js-002",
+        "language": "javascript",
+        "passed": true,
+        "score": 0.9
+      }
+    ]
+  },
+  "gate_pass_at_1_not_worse": true
+}
