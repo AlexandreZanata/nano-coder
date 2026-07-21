@@ -1,17 +1,35 @@
-# FreeMarker parser spike (Day 8)
+# FreeMarker parser spike (Phase 4 / T-042)
 
-Minimal JVM wrapper: read template from stdin, try `new Template(...)`, exit 0 on success / 1 on `ParseException`.
+Minimal JVM wrapper: read template from stdin, construct `new Template(...)`, exit **0** on success / **1** on `ParseException`.
 
-## Build (when you reach Day 8)
+## Prerequisites
+
+- JDK **17+** (`javac`, `jar`, `java`)
+- `curl` (downloads FreeMarker 2.3.34 from Maven Central once into `lib/`)
+
+## Build
 
 ```bash
-# Requires JDK 17+ and Maven OR javac + freemarker.jar on classpath
+cd nano-orchestrator/scripts/ftl_parser_spike
 ./build.sh
-echo '<#list items as i>${i}</#list>' | java -jar target/ftl-parser-spike.jar
 ```
 
-Until the jar exists, `ftl_sandbox.py` reports `syntax=false` + `ftl_spike_missing` — honest, not fake green.
+Produces `target/ftl-parser-spike.jar` (+ `target/freemarker-2.3.34.jar` on Class-Path).
 
-## Why Java
+## Examples
 
-There is no mature FreeMarker parser outside the JVM. Node wrappers still shell out to Java.
+```bash
+# Pass
+echo '<#list items as i>${i}</#list>' | java -jar target/ftl-parser-spike.jar
+echo $?   # 0
+
+# Fail (unclosed list)
+echo '<#list items as i>${i}' | java -jar target/ftl-parser-spike.jar
+echo $?   # 1
+```
+
+## Integration
+
+`ftl_sandbox.py` shells out to this jar. Until `./build.sh` succeeds, checks report `syntax=false` and `ftl_spike_missing=false` (honest — never fake green).
+
+`lib/` and `target/` are gitignored; rebuild after clone.

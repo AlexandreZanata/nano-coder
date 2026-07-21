@@ -137,9 +137,9 @@ python scripts/validate_schema.py
 | Contracts | Pydantic v2 | Schema tests already scaffolded |
 | Fine-tune (Phase 3) | Unsloth QLoRA | Same path validated on Qwen2.5-Coder |
 | Export | GGUF Q4_K_M | llama-server / Ollama |
-| Sandbox JS | `node --check` + `vm` timeout | Zero extra deps for syntax |
-| Sandbox HTML | `html-validate` (npm, offline) | No Java, no network |
-| Sandbox FreeMarker | Minimal JVM wrapper on `freemarker.jar` | See §10 — only mature parser |
+| Sandbox JS | `node --check` + optional `exec_ok` → `vm` timeout | Zero extra deps for syntax |
+| Sandbox HTML | `html-validate` via local `package.json` (`NANO_ORCH_HTML_VALIDATE=1`) | Offline after `npm install` |
+| Sandbox FreeMarker | `scripts/ftl_parser_spike` JVM jar | See §10 — only mature parser |
 | Tests | pytest + GIVEN/WHEN/THEN names | Project BDD style |
 
 ---
@@ -150,12 +150,14 @@ python scripts/validate_schema.py
 nano-orchestrator/                     # repo root subproject (versioned)
 ├── README.md                          # THIS FILE (normative)
 ├── PROGRESS.yaml                      # live checklist
+├── package.json                       # html-validate (Judge HTML sandbox)
+├── .htmlvalidate.json                 # fragment-friendly rules
 ├── pyproject.toml
 ├── src/nano_orchestrator/
 │   ├── domain/                        # pure rules — zero I/O
 │   ├── application/                   # orchestration use cases
 │   ├── ports/                         # Protocol interfaces
-│   └── infrastructure/                # Ollama / llama.cpp / sandboxes
+│   └── infrastructure/                # Ollama / llama.cpp / sandboxes / llm_call_log
 ├── tests/
 │   ├── unit/
 │   ├── integration/                   # requires running llama-server
@@ -169,8 +171,9 @@ nano-orchestrator/                     # repo root subproject (versioned)
 ├── scripts/
 │   ├── setup_models.sh
 │   ├── validate_schema.py
+│   ├── validate_gold_code.py
 │   ├── smoke_runner.py
-│   └── ftl_parser_spike/              # Phase 1 risk spike
+│   └── ftl_parser_spike/              # FreeMarker JVM syntax spike (T-042)
 └── docs/
     ├── CODE-QUALITY-STANDARD.md
     └── ADR-DRAFT-multi-nano-orchestration.md
@@ -272,8 +275,8 @@ AND VRAM footprint does not grow vs base
 | Check | Tool | Gate |
 |-------|------|------|
 | JS syntax | `node --check` | must pass |
-| JS optional exec | `vm` + timeout | if `acceptance` asks |
-| HTML | `html-validate` CLI | must pass |
+| JS optional exec | `vm` + timeout when `acceptance` contains `exec_ok` | optional |
+| HTML | local `html-validate` (`NANO_ORCH_HTML_VALIDATE=1`) | must pass when enabled |
 | FreeMarker | JVM wrapper (`ftl_parser_spike`) | must pass |
 | LLM secondary | Orchestrator 3B | never sole pass |
 
@@ -355,18 +358,27 @@ Pass@1 definition for a micro-task: `JudgeVerdict.passed == true` after sandbox 
 
 ## 11. Immediate next steps
 
-### Today (Phase 0 kickoff)
+### Today (Phase 4 sandboxes)
 
-**Next task:** [T-040 in TASKS.md](TASKS.md) — Phase 4 sandbox hardening (JS / HTML / FTL).
+**Next task:** [T-050 in TASKS.md](TASKS.md) — specialize workers (export Judge-approved pairs).
 
-Phase 2 pipeline **live**. Smoke:
+Phase 4 Judge sandboxes are live:
 
 ```bash
 cd nano-orchestrator
+npm install                          # local html-validate (see package.json)
+cd scripts/ftl_parser_spike && ./build.sh && cd ../..
 python -m pytest tests/unit -q
+NANO_ORCH_HTML_VALIDATE=1 python scripts/validate_gold_code.py
+```
+
+Smoke (Phase 2):
+
+```bash
 python scripts/smoke_runner.py \
   --request "Create a JS clamp helper and an HTML checkout submit form"
 # Review out/proposal/ (human gate). Peak VRAM notes: benchmarks/PHASE2_VRAM.md
+# LLM calls append to logs/llm_calls.jsonl (gitignored)
 ```
 
 ### Tomorrow
@@ -378,8 +390,8 @@ python scripts/smoke_runner.py \
 
 ```bash
 ./scripts/setup_models.sh   # pulls bake-off candidates (Ollama path)
-# FTL spike:
-cd scripts/ftl_parser_spike && ./build.sh   # after spike skeleton exists (Day 8)
+# FTL spike (required for gold FTL Pass@1):
+cd scripts/ftl_parser_spike && ./build.sh
 ```
 
 ### Explicit choice deferred
@@ -397,16 +409,20 @@ cd nano-orchestrator
 # Install (editable)
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
+npm install   # html-validate for Judge (NANO_ORCH_HTML_VALIDATE=1)
 
-# Phase 0
+# Phase 0 + Phase 4 sandboxes
 pytest tests/unit -q
 python scripts/validate_schema.py
+cd scripts/ftl_parser_spike && ./build.sh && cd ../..
+NANO_ORCH_HTML_VALIDATE=1 python scripts/validate_gold_code.py
 
 # Start baseline worker (reuse existing GGUF — example)
 # ../.local/llama-prism-cuda/llama-server -m ../.local/models/qwen25-coder-0.5b/*.gguf -ngl 99 -c 8192 --port 8081
 
-# Smoke (Phase 2 — stub until wired)
+# Smoke (Phase 2)
 python scripts/smoke_runner.py --request "Create a FreeMarker list item and a JS filter helper"
+# Structured LLM log: logs/llm_calls.jsonl (prompt_hash, latency_ms, model_id)
 ```
 
 Human gate: smoke_runner prints proposed files to stdout / `out/proposal/` — **operator copies manually**. Never auto-commit generated code.

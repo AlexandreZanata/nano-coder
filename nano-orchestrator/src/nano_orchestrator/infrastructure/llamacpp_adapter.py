@@ -1,4 +1,4 @@
-"""llama.cpp server adapter with latency + token metadata."""
+"""llama.cpp server adapter with latency + token metadata + call log."""
 
 from __future__ import annotations
 
@@ -7,8 +7,10 @@ import time
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
+from pathlib import Path
 
 from nano_orchestrator.domain.result import Err, Ok, Result
+from nano_orchestrator.infrastructure.llm_call_log import append_llm_call
 
 DEFAULT_STOP = (
     "</s>",
@@ -36,14 +38,20 @@ class LlamaCppAdapter:
         self,
         base_url: str = "http://127.0.0.1:8081",
         *,
+        model_id: str = "unknown",
         timeout_s: float = 180.0,
         temperature: float = 0.2,
         stop: tuple[str, ...] = DEFAULT_STOP,
+        log_calls: bool = True,
+        log_path: Path | None = None,
     ) -> None:
         self._base_url = base_url.rstrip("/")
+        self._model_id = model_id
         self._timeout_s = timeout_s
         self._temperature = temperature
         self._stop = list(stop)
+        self._log_calls = log_calls
+        self._log_path = log_path
 
     def health(self) -> Result[bool, str]:
         try:
@@ -87,16 +95,25 @@ class LlamaCppAdapter:
             with urllib.request.urlopen(req, timeout=self._timeout_s) as resp:
                 body = json.loads(resp.read().decode("utf-8"))
         except urllib.error.HTTPError as exc:
+            latency_ms = int((time.perf_counter() - started) * 1000)
+            self._maybe_log(prompt, latency_ms, ok=False, error=f"llamacpp_http:{exc.code}")
             return Err(f"llamacpp_http:{exc.code}")
         except urllib.error.URLError as exc:
+            latency_ms = int((time.perf_counter() - started) * 1000)
+            self._maybe_log(prompt, latency_ms, ok=False, error=f"llamacpp_unreachable:{exc}")
             return Err(f"llamacpp_unreachable:{exc}")
         except TimeoutError:
+            latency_ms = int((time.perf_counter() - started) * 1000)
+            self._maybe_log(prompt, latency_ms, ok=False, error="llamacpp_timeout")
             return Err("llamacpp_timeout")
         except json.JSONDecodeError:
+            latency_ms = int((time.perf_counter() - started) * 1000)
+            self._maybe_log(prompt, latency_ms, ok=False, error="llamacpp_bad_json")
             return Err("llamacpp_bad_json")
         latency_ms = int((time.perf_counter() - started) * 1000)
         content = body.get("content")
         if not isinstance(content, str):
+            self._maybe_log(prompt, latency_ms, ok=False, error="llamacpp_bad_response")
             return Err("llamacpp_bad_response")
         tokens = int(body.get("tokens_predicted") or body.get("completion_tokens") or 0)
         tps = None
@@ -106,6 +123,7 @@ class LlamaCppAdapter:
                 tps = float(pred)
         elif tokens > 0 and latency_ms > 0:
             tps = tokens / (latency_ms / 1000.0)
+        self._maybe_log(prompt, latency_ms, ok=True, tokens_predicted=tokens)
         return Ok(
             GenerationResult(
                 text=content,
@@ -113,4 +131,25 @@ class LlamaCppAdapter:
                 tokens_predicted=tokens,
                 tokens_per_sec=tps,
             )
+        )
+
+    def _maybe_log(
+        self,
+        prompt: str,
+        latency_ms: int,
+        *,
+        ok: bool,
+        tokens_predicted: int | None = None,
+        error: str | None = None,
+    ) -> None:
+        if not self._log_calls:
+            return
+        append_llm_call(
+            model_id=self._model_id,
+            prompt=prompt,
+            latency_ms=latency_ms,
+            ok=ok,
+            tokens_predicted=tokens_predicted,
+            error=error,
+            log_path=self._log_path,
         )

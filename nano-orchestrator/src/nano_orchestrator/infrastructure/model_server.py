@@ -63,7 +63,7 @@ def start_server(model_id: str, *, port: int = 8081) -> Result[str, str]:
     if proc.returncode != 0:
         detail = (proc.stderr or proc.stdout or "").strip()
         return Err(f"start_failed:{detail}")
-    adapter = LlamaCppAdapter(f"http://127.0.0.1:{port}")
+    adapter = LlamaCppAdapter(f"http://127.0.0.1:{port}", model_id=model_id)
     for _ in range(60):
         health = adapter.health()
         if health.is_ok():

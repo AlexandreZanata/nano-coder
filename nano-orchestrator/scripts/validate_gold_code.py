@@ -1,57 +1,60 @@
 #!/usr/bin/env python3
-"""Validate gold_code snippets with real tools (node --check + HTML heuristics)."""
+"""Validate gold_code snippets via Phase 4 sandboxes."""
 
 from __future__ import annotations
 
 import json
-import shutil
-import subprocess
+import os
 import sys
-import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from nano_orchestrator.infrastructure.sandbox import ftl_sandbox, html_sandbox, js_sandbox  # noqa: E402
+
 FILES = [
     ROOT / "tests" / "golden" / "gold_set.json",
     ROOT / "tests" / "golden" / "held_out.json",
 ]
 
 
-def _check_js(code: str, task_id: str) -> str | None:
-    if not shutil.which("node"):
-        return f"{task_id}: node not found"
-    with tempfile.TemporaryDirectory() as tmp:
-        path = Path(tmp) / f"{task_id}.mjs"
-        path.write_text(code, encoding="utf-8")
-        proc = subprocess.run(
-            ["node", "--check", str(path)],
-            capture_output=True,
-            text=True,
-            timeout=10,
-            check=False,
-        )
-        if proc.returncode != 0:
-            return f"{task_id}: node --check failed: {proc.stderr.strip()}"
+def _fail(task_id: str, detail: str) -> str:
+    return f"{task_id}: {detail}"
+
+
+def _check_js(code: str, acceptance: list[str], task_id: str) -> str | None:
+    result = js_sandbox.check(code, acceptance)
+    if result.is_err():
+        return _fail(task_id, str(result.error))
+    checks = result.value  # type: ignore[union-attr]
+    if checks.get("syntax") is False:
+        return _fail(task_id, "js syntax failed")
     return None
 
 
-def _check_html(code: str, task_id: str) -> str | None:
-    if "<" not in code or ">" not in code:
-        return f"{task_id}: HTML missing tags"
-    forbidden = ("onclick=", "<script", "javascript:")
-    lower = code.lower()
-    for token in forbidden:
-        if token in lower:
-            return f"{task_id}: forbidden HTML token {token}"
+def _check_html(code: str, acceptance: list[str], task_id: str) -> str | None:
+    # Prefer real html-validate when installed; else heuristic path.
+    if (ROOT / "node_modules" / ".bin" / "html-validate").is_file():
+        os.environ["NANO_ORCH_HTML_VALIDATE"] = "1"
+    result = html_sandbox.check(code, acceptance)
+    if result.is_err():
+        return _fail(task_id, str(result.error))
+    checks = result.value  # type: ignore[union-attr]
+    if checks.get("syntax") is not True:
+        return _fail(task_id, f"html syntax failed ({checks})")
     return None
 
 
-def _check_ftl(code: str, task_id: str) -> str | None:
-    # Structural sanity until JVM spike (T-042) is wired.
-    if "<#" not in code and "${" not in code:
-        return f"{task_id}: FreeMarker missing directives or interpolations"
-    if "?eval" in code:
-        return f"{task_id}: ?eval forbidden"
+def _check_ftl(code: str, acceptance: list[str], task_id: str) -> str | None:
+    if not ftl_sandbox.jar_ready():
+        return _fail(task_id, f"FTL spike missing — {ftl_sandbox.build_hint()}")
+    result = ftl_sandbox.check(code, acceptance)
+    if result.is_err():
+        return _fail(task_id, str(result.error))
+    checks = result.value  # type: ignore[union-attr]
+    if checks.get("syntax") is not True:
+        return _fail(task_id, f"ftl syntax failed ({checks})")
     return None
 
 
@@ -64,14 +67,15 @@ def main() -> int:
             task_id = task["id"]
             code = task["gold_code"]
             lang = task["language"]
+            acceptance = list(task.get("acceptance") or ["syntax_valid"])
             if lang == "javascript":
-                err = _check_js(code, task_id)
+                err = _check_js(code, acceptance, task_id)
             elif lang == "html":
-                err = _check_html(code, task_id)
+                err = _check_html(code, acceptance, task_id)
             elif lang == "freemarker":
-                err = _check_ftl(code, task_id)
+                err = _check_ftl(code, acceptance, task_id)
             else:
-                err = f"{task_id}: unknown language {lang}"
+                err = _fail(task_id, f"unknown language {lang}")
             if err:
                 errors.append(err)
             checked += 1
@@ -82,7 +86,7 @@ def main() -> int:
         print(f"FAIL: {len(errors)}/{checked} snippet(s)", file=sys.stderr)
         return 1
 
-    print(f"OK: {checked} gold_code snippet(s) passed tool checks")
+    print(f"OK: {checked} gold_code snippet(s) passed sandbox checks")
     return 0
 
 

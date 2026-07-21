@@ -1,4 +1,4 @@
-"""FreeMarker sandbox — JVM wrapper spike (Phase 4 / Day 8)."""
+"""FreeMarker sandbox — JVM wrapper on ftl-parser-spike.jar."""
 
 from __future__ import annotations
 
@@ -8,13 +8,9 @@ from pathlib import Path
 
 from nano_orchestrator.domain.result import Err, Ok, Result
 
-SPIKE_JAR = (
-    Path(__file__).resolve().parents[4]
-    / "scripts"
-    / "ftl_parser_spike"
-    / "target"
-    / "ftl-parser-spike.jar"
-)
+_SPIKE_ROOT = Path(__file__).resolve().parents[4] / "scripts" / "ftl_parser_spike"
+SPIKE_JAR = _SPIKE_ROOT / "target" / "ftl-parser-spike.jar"
+_BUILD_SH = _SPIKE_ROOT / "build.sh"
 
 
 def check(code: str, acceptance: list[str]) -> Result[dict[str, bool], str]:
@@ -22,7 +18,6 @@ def check(code: str, acceptance: list[str]) -> Result[dict[str, bool], str]:
     if "syntax_valid" not in acceptance and acceptance:
         return Ok(checks)
     if not SPIKE_JAR.is_file():
-        # Honest stub: do not pretend FTL is validated.
         checks["syntax"] = False
         checks["ftl_spike_missing"] = False
         return Ok(checks)
@@ -35,6 +30,15 @@ def check(code: str, acceptance: list[str]) -> Result[dict[str, bool], str]:
         text=True,
         timeout=15,
         check=False,
+        cwd=str(SPIKE_JAR.parent),
     )
     checks["syntax"] = proc.returncode == 0
     return Ok(checks)
+
+
+def jar_ready() -> bool:
+    return SPIKE_JAR.is_file()
+
+
+def build_hint() -> str:
+    return f"Run: {_BUILD_SH}"

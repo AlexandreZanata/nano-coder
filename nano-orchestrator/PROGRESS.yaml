@@ -3,9 +3,9 @@
 # Status values: pending | in_progress | done | blocked | skipped
 
 updated: "2026-07-21"
-current_phase: 4
-mvp_day: 8
-next_task: "T-040"
+current_phase: 3
+mvp_day: 9
+next_task: "T-050"
 
 phase_0_contract:
   entities_py: done
@@ -44,12 +44,12 @@ phase_2_runner:
   smoke_e2e: done            # T-037
 
 phase_4_judge:
-  js_sandbox: pending        # T-040
-  html_validate: pending     # T-041
-  ftl_jvm_spike: pending     # T-042
-  ftl_wired: pending
-  llm_secondary_only: pending
-  llm_call_log: pending
+  js_sandbox: done           # T-040
+  html_validate: done        # T-041
+  ftl_jvm_spike: done        # T-042
+  ftl_wired: done            # T-043
+  llm_secondary_only: done   # T-044
+  llm_call_log: done         # T-045
 
 phase_3_finetune:
   train_jsonl: pending
@@ -78,5 +78,6 @@ polish:
   readme_final: pending
 
 notes: |
-  2026-07-21: E2 complete. Full smoke: smollm3 decompose → qwen25 workers → judge → out/proposal.
-  Peak VRAM 3547 MB (≤6000). Next: T-040 Phase 4 sandboxes (FTL spike unblocks gold FTL Pass@1).
+  2026-07-21: E4 complete (T-040…T-045). JS node --check + exec_ok vm; html-validate local;
+  FTL jar built via scripts/ftl_parser_spike; gold FTL 10/10 syntax; LLM secondary-only tests;
+  logs/llm_calls.jsonl from LlamaCppAdapter. Next: T-050 Phase 3 train JSONL.

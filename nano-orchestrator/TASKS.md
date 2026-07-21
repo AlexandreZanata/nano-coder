@@ -144,29 +144,35 @@ grep -n '^\- \[ \]' TASKS.md | head -20   # next open tasks
 
 > Prefer completing sandboxes before claiming bake-off Pass@1 is final.
 
-- [ ] **T-040** JS sandbox: `node --check` stable + optional `vm` exec when acceptance asks  
+- [x] **T-040** JS sandbox: `node --check` stable + optional `vm` exec when acceptance asks  
   - **Deps:** none · **DoD:** unit tests with good/bad snippets  
-  - **PROGRESS:** `js_sandbox` · **Effort:** 0.5 day
+  - **PROGRESS:** `js_sandbox` · **Effort:** 0.5 day  
+  - **Done:** 2026-07-21 — `exec_ok` → node `vm` with 1s timeout
 
-- [ ] **T-041** Install local `html-validate` (project `package.json` or documented npx pin) — no hang  
+- [x] **T-041** Install local `html-validate` (project `package.json` or documented npx pin) — no hang  
   - **Deps:** none · **DoD:** `NANO_ORCH_HTML_VALIDATE=1` works &lt;5s after warm  
-  - **PROGRESS:** `html_validate` · **Effort:** 0.5 day
+  - **PROGRESS:** `html_validate` · **Effort:** 0.5 day  
+  - **Done:** 2026-07-21 — `package.json` + `.htmlvalidate.json`; warm ~0.15s
 
-- [ ] **T-042** FreeMarker JVM spike: `scripts/ftl_parser_spike` builds jar; stdin template → exit 0/1  
+- [x] **T-042** FreeMarker JVM spike: `scripts/ftl_parser_spike` builds jar; stdin template → exit 0/1  
   - **Deps:** JDK available · **DoD:** `./build.sh` + README examples pass/fail  
-  - **PROGRESS:** `ftl_jvm_spike` · **Effort:** 1 day (risk spike)
+  - **PROGRESS:** `ftl_jvm_spike` · **Effort:** 1 day (risk spike)  
+  - **Done:** 2026-07-21
 
-- [ ] **T-043** Wire FTL jar into `ftl_sandbox.py`; remove “missing spike” false path for CI local  
+- [x] **T-043** Wire FTL jar into `ftl_sandbox.py`; remove “missing spike” false path for CI local  
   - **Deps:** T-042 · **DoD:** gold FTL `gold_code` all `syntax: true`  
-  - **Effort:** 0.5 day
+  - **Effort:** 0.5 day  
+  - **Done:** 2026-07-21 — gold FTL 10/10 syntax true after `./build.sh`
 
-- [ ] **T-044** LLM-as-judge secondary only — never sole pass; document in rubric tests  
+- [x] **T-044** LLM-as-judge secondary only — never sole pass; document in rubric tests  
   - **Deps:** T-033 · **DoD:** test where sandbox fails + LLM=1.0 still `passed=false`  
-  - **PROGRESS:** `llm_secondary_only` · **Effort:** 0.5 day
+  - **PROGRESS:** `llm_secondary_only` · **Effort:** 0.5 day  
+  - **Done:** 2026-07-21 — `tests/unit/test_rubric_llm_secondary.py`
 
-- [ ] **T-045** Structured LLM call log → `logs/llm_calls.jsonl` (gitignored)  
+- [x] **T-045** Structured LLM call log → `logs/llm_calls.jsonl` (gitignored)  
   - **Deps:** T-030 · **DoD:** each generate appends prompt hash, latency, model id  
-  - **Effort:** 0.5 day
+  - **Effort:** 0.5 day  
+  - **Done:** 2026-07-21 — `llm_call_log.py` wired in `LlamaCppAdapter`
 
 ---
 
@@ -269,7 +275,7 @@ T-050 → T-052 → T-053 → T-054 → T-055 → T-056
 T-060… (optional) → T-070…T-075
 ```
 
-**Next action right now:** **T-040** (JS sandbox polish) or **T-042** (FTL JVM spike) — Phase 4 judge hardening.
+**Next action right now:** **T-050** (export Judge-approved pairs) — Phase 3 specialize workers.
 
 ---
 
@@ -281,4 +287,5 @@ T-060… (optional) → T-070…T-075
 | 2026-07-21 | T-010…T-014 | Gold v1 frozen (30+6); schema + node checks green |
 | 2026-07-21 | T-020…T-025 | Bake-off measured; winners locked (qwen25 / smollm2 / smollm3) |
 | 2026-07-21 | T-030…T-037 | Phase 2 pipeline live; E2E smoke peak VRAM 3547 MB |
+| 2026-07-21 | T-040…T-045 | Phase 4 sandboxes: JS/HTML/FTL + LLM log + secondary-only |
 | | | |

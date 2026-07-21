@@ -1,4 +1,4 @@
-"""Pure scoring rubric — sandbox first, LLM last."""
+"""Pure scoring rubric — sandbox first, LLM last (never sole pass)."""
 
 from __future__ import annotations
 

@@ -1,0 +1,14 @@
+{
+  "name": "nano-orchestrator-sandboxes",
+  "private": true,
+  "description": "Local HTML validate tooling for nano-orchestrator Judge sandboxes",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "html-validate": "9.7.1"
+  },
+  "scripts": {
+    "html-validate": "html-validate"
+  }
+}

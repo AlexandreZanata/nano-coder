@@ -59,7 +59,9 @@ class OrchestrationPipeline:
         fixed_tasks: list[MicroTask] | None = None,
     ) -> Result[PipelineResult, str]:
         peak = vram_used_mb()
-        adapter = LlamaCppAdapter(self._cfg.base_url)
+        adapter = LlamaCppAdapter(
+            self._cfg.base_url, model_id=self._cfg.orchestrator_model
+        )
 
         # --- Decompose (orchestrator resident) ---
         if fixed_tasks is not None:
@@ -96,6 +98,7 @@ class OrchestrationPipeline:
                 started = start_server(model_id, port=self._cfg.port)
                 if started.is_err():
                     return Err(started.error)  # type: ignore[union-attr]
+            adapter = LlamaCppAdapter(self._cfg.base_url, model_id=model_id)
             dispatch = WorkerDispatchUseCase(adapter)
             for task in model_tasks:
                 result = self._run_with_retries(dispatch, judge, task)

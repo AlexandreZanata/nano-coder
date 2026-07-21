@@ -76,7 +76,7 @@ def run_worker_bakeoff(
     base_url: str,
     limit: int | None,
 ) -> BakeoffSummary:
-    adapter = LlamaCppAdapter(base_url)
+    adapter = LlamaCppAdapter(base_url, model_id=model_id)
     health = adapter.health()
     if health.is_err():
         raise RuntimeError(health.error)
@@ -150,7 +150,7 @@ def run_orchestrator_bakeoff(
     base_url: str,
     limit: int | None,
 ) -> BakeoffSummary:
-    adapter = LlamaCppAdapter(base_url)
+    adapter = LlamaCppAdapter(base_url, model_id=model_id)
     health = adapter.health()
     if health.is_err():
         raise RuntimeError(health.error)
