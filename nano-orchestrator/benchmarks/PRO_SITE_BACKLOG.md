@@ -30,6 +30,7 @@
 | S10 | `log_calls=false` + `cache_prompt=true` | 9.82 s | **10.43 s** (green) | +0.61 s | **REVERT** |
 | S11 | Parallel HTML slots + llama `-np 4` | 9.82 s | **3.05 s** but 0/5 red | red | **REVERT** |
 | S12 | Parallel HTML + `CTX=8192` + `-np 4` | 9.82 s | Site M **5.96 s** | **−3.86 s (−39%)** | **KEEP** |
+| S13 | All 5 slots parallel + `CTX=10240` + `-np 5` | 5.96 s | Site N **4.83 s** | **−1.13 s (−19%)** | **KEEP** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
@@ -41,9 +42,52 @@ S8: greedy decode (`temperature=0`), zero stop grace, styles/HTML `max_tokens` 7
 S9: `top_k=1` + skip final server stop. Wall slightly faster but `styles_has_form=false` → pass bar failed → code restored to S8.  
 S10: disable LLM call logging + llama.cpp `cache_prompt`. Green but slower than S8 best → code restored to S8.  
 S11: ThreadPoolExecutor for HTML slots with `-np 4` at CTX 2048. Styles HTTP 400 (ctx split too small) → REVERT.  
-S12: same parallel path with `CTX=8192` so each `-np` slot has enough context; styles sequential then 4 HTML concurrent. **New best wall.**
+S12: same parallel path with `CTX=8192` so each `-np` slot has enough context; styles sequential then 4 HTML concurrent.  
+S13: cold-start once then run **all** slots (CSS+HTML) concurrently with `CTX=10240` / `-np 5`. **New best wall.**
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## N — Northline Bike Co-op (`pro-site-N-northline-bike`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-bright-harbor-pro-archived/` @ 2026-07-21T15:46:57Z |
+| Site | Northline Bike Co-op (shop / tune-up rates) |
+| Schedule | [`large_site_schedule_pro_n.json`](large_site_schedule_pro_n.json) |
+| Why this task | New co-op retail domain; measure **S13** vs M **5.96 s** |
+| Speed | **S13** (all slots parallel + CTX 10240 + `-np 5`) |
+| Command | `make nano-large-site-pro-n` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| Full make | **4.83 s** |
+| vs Site M S12 baseline | **−19%** |
+| Orch O0 | skipped |
+
+| Slot | elapsed_s | reused | note |
+|------|-----------|--------|------|
+| styles | 3.63 | yes | all-parallel |
+| home | 2.96 | yes | all-parallel |
+| menu | 2.97 | yes | all-parallel |
+| about | 2.96 | yes | all-parallel |
+| contact | 2.96 | yes | all-parallel |
+
+### Results
+
+| Check | Value |
+|-------|-------|
+| Orch | skipped (intentional S5) |
+| Workers | **5/5** |
+| Pass bar | **MET** |
+| Openable | **4/4** |
+| Hand edits | **none** |
+| Peak VRAM | **1599 MB** |
+| Report | [`runs/large_site_schedule_pro_n.json`](runs/large_site_schedule_pro_n.json) |
 
 ---
 
@@ -57,7 +101,8 @@ First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5
 | Why this task | New marina domain; measure **S12** vs I **9.82 s** |
 | Speed | **S12** (parallel HTML + CTX 8192 + `-np 4`) |
 | Command | `make nano-large-site-pro-m` |
-| Status | **done — GREEN** |
+| Status | **archived** (superseded by N) |
+| Archive path | `out/archive/2026-07-21-bright-harbor-pro-archived/` |
 
 ### Timing
 

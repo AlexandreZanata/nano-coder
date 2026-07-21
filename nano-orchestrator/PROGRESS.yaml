@@ -122,6 +122,8 @@ notes: |
   final under S8 10.01s; Willow archived; workers 5/5 openable 4/4.
   2026-07-21: Pro-site M GREEN — Bright Harbor; S12 KEEP (5.96s vs 9.82s, −39%);
   Moss archived; parallel HTML + CTX8192 + np4; workers 5/5 openable 4/4.
+  2026-07-21: Pro-site N GREEN — Northline Bike; S13 KEEP (4.83s vs 5.96s, −19%);
+  Harbor archived; all-slots parallel + CTX10240 + np5; workers 5/5 openable 4/4.
 
 pro_site_benchmarks:
   protocol: orchestrator_only_results_no_hand_edit
@@ -187,6 +189,12 @@ pro_site_benchmarks:
       measured_wall_s: 5.96
       delta_s: -3.86
       note: parallel HTML after styles; CTX=8192 + -np 4
+    S13_parallel_all_ctx10240_np5:
+      status: kept
+      baseline_wall_s: 5.96
+      measured_wall_s: 4.83
+      delta_s: -1.13
+      note: all slots parallel after cold start; CTX=10240 + -np 5
   A_harbor_coffee:
     status: archived
   B_summit_trail:
@@ -220,11 +228,14 @@ pro_site_benchmarks:
     status: archived
     wall_clock_s: 10.01
   M_bright_harbor:
-    status: done
-    schedule: benchmarks/large_site_schedule_pro_m.json
+    status: archived
     wall_clock_s: 5.96
+  N_northline_bike:
+    status: done
+    schedule: benchmarks/large_site_schedule_pro_n.json
+    wall_clock_s: 4.83
     orch: skipped_S5
-    speed: S12
+    speed: S13
     workers_passed: "5/5"
     openable_pages: 4
-    report: benchmarks/runs/large_site_schedule_pro_m.json
+    report: benchmarks/runs/large_site_schedule_pro_n.json

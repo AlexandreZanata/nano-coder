@@ -337,9 +337,12 @@ def main() -> int:
     trust_start_health = bool(speed_cfg.get("trust_start_health", False))
     temperature = float(speed_cfg.get("temperature", 0.2))
     parallel_same_model = bool(speed_cfg.get("parallel_same_model_slots", False))
+    parallel_all = bool(speed_cfg.get("parallel_all_slots", False))
     n_parallel_raw = speed_cfg.get("n_parallel")
     n_parallel = int(n_parallel_raw) if n_parallel_raw is not None else None
-    if parallel_same_model and n_parallel is None:
+    if parallel_all and n_parallel is None:
+        n_parallel = max(1, len(slots))
+    elif parallel_same_model and n_parallel is None:
         n_parallel = max(1, len(slots) - 1)
     json_out = args.json_out or (
         ROOT / "benchmarks" / "runs" / f"{args.schedule.stem}.json"
@@ -351,7 +354,8 @@ def main() -> int:
         f" keep_alive={keep_alive} settle_s={settle_s} stop_grace_s={stop_grace_s}"
         f" skip_orchestrator={skip_orchestrator}"
         f" ctx_size={ctx_size} trust_start_health={trust_start_health}"
-        f" temperature={temperature} parallel={parallel_same_model} n_parallel={n_parallel}"
+        f" temperature={temperature} parallel={parallel_same_model}"
+        f" parallel_all={parallel_all} n_parallel={n_parallel}"
     )
     orch_report: dict
     orch_bind_meta: dict = {"bound": 0, "mode": "skipped"}
@@ -406,6 +410,7 @@ def main() -> int:
     use_parallel = (
         parallel_same_model and keep_alive and same_model and len(slots) >= 2
     )
+    use_parallel_all = parallel_all and keep_alive and same_model and len(slots) >= 2
 
     def _record(
         result: SlotResult,
@@ -443,7 +448,7 @@ def main() -> int:
             + (f" orch={orch_note}" if orch_note else "")
             + (" reuse" if reuse else " cold")
             + (" keep" if keep_after else " stop")
-            + (" parallel" if use_parallel and idx > 1 else "")
+            + (" parallel" if (use_parallel or use_parallel_all) else "")
             + (" nostop" if not force_stop and not reuse else "")
             + "…"
         )
@@ -466,7 +471,51 @@ def main() -> int:
         )
         return task, result, response, verdict
 
-    if use_parallel:
+    if use_parallel_all:
+        model_id = str(slots[0]["model_id"])
+        force_stop = True
+        if port_clear_after_orch:
+            force_stop = False
+            port_clear_after_orch = False
+        print(f"[S13] cold start {model_id} n_parallel={n_parallel} then all slots…")
+        started = start_server(
+            model_id,
+            port=args.port,
+            force_stop=force_stop,
+            stop_grace_s=stop_grace_s,
+            ctx_size=ctx_size,
+            trust_start_health=trust_start_health,
+            n_parallel=n_parallel,
+        )
+        if started.is_err():
+            print(json.dumps({"ok": False, "error": str(started.error)}))
+            return 1
+        loaded_model = model_id
+        for slot in slots:
+            models_used.append(str(slot["model_id"]))
+        with ThreadPoolExecutor(max_workers=max(1, len(slots))) as pool:
+            futs = [
+                pool.submit(
+                    _run_one,
+                    idx=idx,
+                    slot=slot,
+                    reuse=True,
+                    keep_after=True,
+                    force_stop=True,
+                )
+                for idx, slot in enumerate(slots, start=1)
+            ]
+            by_idx: dict[int, tuple] = {}
+            for fut in as_completed(futs):
+                task, result, response, verdict = fut.result()
+                idx = next(
+                    i for i, s in enumerate(slots, start=1) if s["id"] == task.id
+                )
+                by_idx[idx] = (task, result, response, verdict)
+            for idx in sorted(by_idx):
+                task, result, response, verdict = by_idx[idx]
+                _record(result, response, verdict, task)
+    elif use_parallel:
         first = slots[0]
         models_used.append(str(first["model_id"]))
         force_stop = True
@@ -497,7 +546,7 @@ def main() -> int:
                 )
                 for idx, slot in rest
             ]
-            by_idx: dict[int, tuple] = {}
+            by_idx = {}
             for fut in as_completed(futs):
                 task, result, response, verdict = fut.result()
                 idx = next(
@@ -599,6 +648,7 @@ def main() -> int:
             "trust_start_health": trust_start_health,
             "temperature": temperature,
             "parallel_same_model_slots": use_parallel,
+            "parallel_all_slots": use_parallel_all,
             "n_parallel": n_parallel,
             "slots_reused": sum(1 for s in slot_results if s.server_reused),
             "slots_kept_alive": sum(1 for s in slot_results if s.server_kept_alive),

@@ -133,8 +133,9 @@ Canonical backlog: [`PRO_SITE_BACKLOG.md`](PRO_SITE_BACKLOG.md).
 | J | Copper Lantern Bookstore | `make nano-large-site-pro-j` | 10.07 s | S9 REVERT; final under S8; archived |
 | K | Willow & Whisk Bakery | `make nano-large-site-pro-k` | 10.02 s | S10 REVERT; final under S8; archived |
 | L | Moss & Stone Garden | `make nano-large-site-pro-l` | 10.01 s | S11 REVERT; final under S8; archived |
-| M | Bright Harbor Marina | `make nano-large-site-pro-m` | **5.96 s** | S12 parallel HTML + CTX8192 (−39% vs I) |
+| M | Bright Harbor Marina | `make nano-large-site-pro-m` | 5.96 s | S12 parallel HTML (−39% vs I); archived |
+| N | Northline Bike Co-op | `make nano-large-site-pro-n` | **4.83 s** | S13 all-slots parallel (−19% vs M) |
 
-Speed: S2–S8 + **S12 parallel** kept · S4/S9/S10/S11 REVERT. Best wall Site M **5.96 s**. CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
+Speed: S2–S8 + S12/S13 parallel kept · S4/S9/S10/S11 REVERT. Best wall Site N **4.83 s**. CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
 
 **Rule:** never hand-edit `out/proposal/` site files; archive before each new site run.
