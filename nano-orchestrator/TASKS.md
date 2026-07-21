@@ -237,17 +237,21 @@ grep -n '^\- \[ \]' TASKS.md | head -20   # next open tasks
 
 ## EG — Success gates
 
-- [ ] **GATE-001** Orchestration Pass@1 ≥ solo Qwen2.5-Coder-0.5B on full gold set  
-  - **Deps:** T-037, T-023, T-040–T-043 · **PROGRESS:** `orchestration_beats_solo_0_5b`
+- [x] **GATE-001** Orchestration Pass@1 ≥ solo Qwen2.5-Coder-0.5B on full gold set  
+  - **Deps:** T-037, T-023, T-040–T-043 · **PROGRESS:** `orchestration_beats_solo_0_5b`  
+  - **Result:** **FAIL** 2026-07-21 — orch 0.7333 &lt; solo 0.8667 (see GATE-NEG)
 
-- [ ] **GATE-002** Peak resident VRAM ≤ 6000 MB for full cycle  
-  - **Deps:** T-036 · **PROGRESS:** `vram_peak_mb_le_6000`
+- [x] **GATE-002** Peak resident VRAM ≤ 6000 MB for full cycle  
+  - **Deps:** T-036 · **PROGRESS:** `vram_peak_mb_le_6000`  
+  - **Result:** **PASS** — peak 1577 MB
 
-- [ ] **GATE-003** Latency p50 ≤ Phase-1 target (update target after T-023)  
-  - **Deps:** T-023, T-037 · **PROGRESS:** `p50_latency_ms_le_target`
+- [x] **GATE-003** Latency p50 ≤ Phase-1 target (update target after T-023)  
+  - **Deps:** T-023, T-037 · **PROGRESS:** `p50_latency_ms_le_target`  
+  - **Result:** **PASS** — p50 323 ms ≤ 2000 ms target
 
-- [ ] **GATE-NEG** If GATE-001 fails: write negative-result note under `experiments/` or `nano-orchestrator/docs/NEGATIVE-RESULT.md` and stop stacking features  
-  - **Deps:** GATE-001 failed · **DoD:** documented decision “keep solo 0.5B”
+- [x] **GATE-NEG** If GATE-001 fails: write negative-result note under `experiments/` or `nano-orchestrator/docs/NEGATIVE-RESULT.md` and stop stacking features  
+  - **Deps:** GATE-001 failed · **DoD:** documented decision “keep solo 0.5B”  
+  - **Done:** 2026-07-21 — [`docs/NEGATIVE-RESULT.md`](docs/NEGATIVE-RESULT.md)
 
 ---
 
@@ -286,7 +290,7 @@ T-050 → T-052 → T-053 → T-054 → T-055 → T-056
 T-060… (optional) → T-070…T-075
 ```
 
-**Next action right now:** **GATE-001** (orchestration vs solo 0.5B on gold) or polish T-070+.
+**Next action right now:** Polish **T-070+** (ADR / CLI / security) or stop — MVP quality gate closed via GATE-NEG.
 
 ---
 
@@ -301,4 +305,5 @@ T-060… (optional) → T-070…T-075
 | 2026-07-21 | T-040…T-045 | Phase 4 sandboxes: JS/HTML/FTL + LLM log + secondary-only |
 | 2026-07-21 | T-050…T-056 | Phase 3 specialize: train JSONL N≥50, QLoRA→GGUF, held_out ≥ base |
 | 2026-07-21 | T-060…T-063 | Phase 5 dynamic routing + adaptive retry + debate OFF |
+| 2026-07-21 | GATE-001…003 + GATE-NEG | Orch Pass@1 FAIL vs solo; VRAM/p50 PASS; keep solo 0.5B |
 | | | |

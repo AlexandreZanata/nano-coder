@@ -36,3 +36,15 @@
 | javascript | qwen25-coder-0.5b | 0.50 | qwen25-coder-0.5b-javascript-ft | 0.50 | PASS |
 | html | qwen25-coder-0.5b | 1.00 | qwen25-coder-0.5b-html-ft | 1.00 | PASS |
 | freemarker | qwen25-coder-0.5b | 1.00 | qwen25-coder-0.5b-freemarker-ft | 1.00 | PASS |
+
+## Success gates (EG)
+
+| Gate | Metric | Threshold | Result |
+|------|--------|-----------|--------|
+| GATE-001 Pass@1 orch ≥ solo | 0.7333 | ≥ 0.8667 | FAIL |
+| GATE-002 peak VRAM ≤ 6000 MB | 1577 | ≤ 6000 | PASS |
+| GATE-003 p50 ≤ 2000 ms | 323 | ≤ 2000 | PASS |
+
+- Solo overall Pass@1: **0.8667** (26/30)
+- Orch overall Pass@1: **0.7333** (22/30)
+- Orch worker p50: **323 ms**; peak VRAM: **1577 MB**

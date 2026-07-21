@@ -5,8 +5,9 @@
 updated: "2026-07-21"
 current_phase: 5
 mvp_day: 14
-next_task: "GATE-001"
+next_task: "T-070"
 train_n_min: 50
+p50_latency_target_ms: 2000
 
 phase_0_contract:
   entities_py: done
@@ -75,10 +76,15 @@ phase_5_dynamic:
   debate_default_off: done   # T-063
 
 mvp_gates:
-  orchestration_beats_solo_0_5b: pending
-  vram_peak_mb_le_6000: pending
-  p50_latency_ms_le_target: pending
-  negative_result_documented: pending
+  orchestration_beats_solo_0_5b: failed   # GATE-001 — orch 0.7333 < solo 0.8667
+  vram_peak_mb_le_6000: done              # GATE-002 — 1577 MB
+  p50_latency_ms_le_target: done          # GATE-003 — 323 ms ≤ 2000
+  negative_result_documented: done        # GATE-NEG
+  solo_pass_at_1: 0.8667
+  orch_pass_at_1: 0.7333
+  gate_peak_vram_mb: 1577
+  gate_orch_p50_ms: 323
+  decision: keep_solo_qwen25_coder_0_5b
 
 polish:
   adr_promoted: pending
@@ -89,6 +95,7 @@ polish:
   readme_final: pending
 
 notes: |
-  2026-07-21: E5 complete (T-060…T-063). Dynamic routing from bake-off scores with FT
-  overrides; adaptive retry 0–2 by confidence; debate path flag default OFF (~2.5× cost).
-  Next: GATE-001 orchestration vs solo baseline on gold set.
+  2026-07-21: EG gates measured via benchmarks/run_success_gates.py.
+  GATE-001 FAIL (orch 22/30 < solo 26/30) — JS FT regression dominant.
+  GATE-002/003 PASS. GATE-NEG: docs/NEGATIVE-RESULT.md — keep solo 0.5B.
+  Next: optional polish T-070+; do not stack orchestration features for quality.

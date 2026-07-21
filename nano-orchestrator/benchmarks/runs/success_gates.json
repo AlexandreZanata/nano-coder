@@ -1,0 +1,534 @@
+{
+  "measured_at": "2026-07-21",
+  "p50_target_ms": 2000,
+  "vram_limit_mb": 6000,
+  "solo": {
+    "model_id": "qwen25-coder-0.5b",
+    "pass_at_1": 0.8667,
+    "passed": 26,
+    "total": 30,
+    "p50_ms": 356,
+    "peak_vram_mb": 1579,
+    "by_lang": {
+      "javascript": {
+        "pass_at_1": 0.9,
+        "passed": 9,
+        "total": 10
+      },
+      "html": {
+        "pass_at_1": 0.8,
+        "passed": 8,
+        "total": 10
+      },
+      "freemarker": {
+        "pass_at_1": 0.9,
+        "passed": 9,
+        "total": 10
+      }
+    },
+    "rows": [
+      {
+        "task_id": "js-001",
+        "language": "javascript",
+        "passed": true,
+        "latency_ms": 728
+      },
+      {
+        "task_id": "js-002",
+        "language": "javascript",
+        "passed": true,
+        "latency_ms": 394
+      },
+      {
+        "task_id": "js-003",
+        "language": "javascript",
+        "passed": true,
+        "latency_ms": 584
+      },
+      {
+        "task_id": "js-004",
+        "language": "javascript",
+        "passed": true,
+        "latency_ms": 588
+      },
+      {
+        "task_id": "js-005",
+        "language": "javascript",
+        "passed": true,
+        "latency_ms": 706
+      },
+      {
+        "task_id": "js-006",
+        "language": "javascript",
+        "passed": false,
+        "latency_ms": 881
+      },
+      {
+        "task_id": "js-007",
+        "language": "javascript",
+        "passed": true,
+        "latency_ms": 296
+      },
+      {
+        "task_id": "js-008",
+        "language": "javascript",
+        "passed": true,
+        "latency_ms": 433
+      },
+      {
+        "task_id": "js-009",
+        "language": "javascript",
+        "passed": true,
+        "latency_ms": 477
+      },
+      {
+        "task_id": "js-010",
+        "language": "javascript",
+        "passed": true,
+        "latency_ms": 132
+      },
+      {
+        "task_id": "html-001",
+        "language": "html",
+        "passed": true,
+        "latency_ms": 354
+      },
+      {
+        "task_id": "html-002",
+        "language": "html",
+        "passed": true,
+        "latency_ms": 355
+      },
+      {
+        "task_id": "html-003",
+        "language": "html",
+        "passed": false,
+        "latency_ms": 356
+      },
+      {
+        "task_id": "html-004",
+        "language": "html",
+        "passed": true,
+        "latency_ms": 442
+      },
+      {
+        "task_id": "html-005",
+        "language": "html",
+        "passed": false,
+        "latency_ms": 356
+      },
+      {
+        "task_id": "html-006",
+        "language": "html",
+        "passed": true,
+        "latency_ms": 353
+      },
+      {
+        "task_id": "html-007",
+        "language": "html",
+        "passed": true,
+        "latency_ms": 444
+      },
+      {
+        "task_id": "html-008",
+        "language": "html",
+        "passed": true,
+        "latency_ms": 356
+      },
+      {
+        "task_id": "html-009",
+        "language": "html",
+        "passed": true,
+        "latency_ms": 442
+      },
+      {
+        "task_id": "html-010",
+        "language": "html",
+        "passed": true,
+        "latency_ms": 355
+      },
+      {
+        "task_id": "ftl-001",
+        "language": "freemarker",
+        "passed": true,
+        "latency_ms": 355
+      },
+      {
+        "task_id": "ftl-002",
+        "language": "freemarker",
+        "passed": true,
+        "latency_ms": 354
+      },
+      {
+        "task_id": "ftl-003",
+        "language": "freemarker",
+        "passed": true,
+        "latency_ms": 46
+      },
+      {
+        "task_id": "ftl-004",
+        "language": "freemarker",
+        "passed": true,
+        "latency_ms": 143
+      },
+      {
+        "task_id": "ftl-005",
+        "language": "freemarker",
+        "passed": true,
+        "latency_ms": 62
+      },
+      {
+        "task_id": "ftl-006",
+        "language": "freemarker",
+        "passed": false,
+        "latency_ms": 440
+      },
+      {
+        "task_id": "ftl-007",
+        "language": "freemarker",
+        "passed": true,
+        "latency_ms": 441
+      },
+      {
+        "task_id": "ftl-008",
+        "language": "freemarker",
+        "passed": true,
+        "latency_ms": 205
+      },
+      {
+        "task_id": "ftl-009",
+        "language": "freemarker",
+        "passed": true,
+        "latency_ms": 442
+      },
+      {
+        "task_id": "ftl-010",
+        "language": "freemarker",
+        "passed": true,
+        "latency_ms": 355
+      }
+    ]
+  },
+  "orchestration": {
+    "pass_at_1": 0.7333,
+    "passed": 22,
+    "total": 30,
+    "p50_ms": 323,
+    "peak_vram_mb": 1577,
+    "wall_ms": 31552,
+    "vram_ok": true,
+    "routing_used": {
+      "js-001": "qwen25-coder-0.5b-javascript-ft",
+      "js-002": "qwen25-coder-0.5b-javascript-ft",
+      "js-003": "qwen25-coder-0.5b-javascript-ft",
+      "js-004": "qwen25-coder-0.5b-javascript-ft",
+      "js-005": "qwen25-coder-0.5b-javascript-ft",
+      "js-006": "qwen25-coder-0.5b-javascript-ft",
+      "js-007": "qwen25-coder-0.5b-javascript-ft",
+      "js-008": "qwen25-coder-0.5b-javascript-ft",
+      "js-009": "qwen25-coder-0.5b-javascript-ft",
+      "js-010": "qwen25-coder-0.5b-javascript-ft",
+      "html-001": "qwen25-coder-0.5b-html-ft",
+      "html-002": "qwen25-coder-0.5b-html-ft",
+      "html-003": "qwen25-coder-0.5b-html-ft",
+      "html-004": "qwen25-coder-0.5b-html-ft",
+      "html-005": "qwen25-coder-0.5b-html-ft",
+      "html-006": "qwen25-coder-0.5b-html-ft",
+      "html-007": "qwen25-coder-0.5b-html-ft",
+      "html-008": "qwen25-coder-0.5b-html-ft",
+      "html-009": "qwen25-coder-0.5b-html-ft",
+      "html-010": "qwen25-coder-0.5b-html-ft",
+      "ftl-001": "qwen25-coder-0.5b-freemarker-ft",
+      "ftl-002": "qwen25-coder-0.5b-freemarker-ft",
+      "ftl-003": "qwen25-coder-0.5b-freemarker-ft",
+      "ftl-004": "qwen25-coder-0.5b-freemarker-ft",
+      "ftl-005": "qwen25-coder-0.5b-freemarker-ft",
+      "ftl-006": "qwen25-coder-0.5b-freemarker-ft",
+      "ftl-007": "qwen25-coder-0.5b-freemarker-ft",
+      "ftl-008": "qwen25-coder-0.5b-freemarker-ft",
+      "ftl-009": "qwen25-coder-0.5b-freemarker-ft",
+      "ftl-010": "qwen25-coder-0.5b-freemarker-ft"
+    },
+    "by_lang": {
+      "javascript": {
+        "pass_at_1": 0.5,
+        "passed": 5,
+        "total": 10
+      },
+      "html": {
+        "pass_at_1": 1.0,
+        "passed": 10,
+        "total": 10
+      },
+      "freemarker": {
+        "pass_at_1": 0.7,
+        "passed": 7,
+        "total": 10
+      }
+    },
+    "rows": [
+      {
+        "task_id": "js-001",
+        "language": "javascript",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-javascript-ft",
+        "latency_ms": 678,
+        "score": 0.9
+      },
+      {
+        "task_id": "js-002",
+        "language": "javascript",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-javascript-ft",
+        "latency_ms": 706,
+        "score": 0.9
+      },
+      {
+        "task_id": "js-003",
+        "language": "javascript",
+        "passed": false,
+        "model_id": "qwen25-coder-0.5b-javascript-ft",
+        "latency_ms": 709,
+        "score": 0.3
+      },
+      {
+        "task_id": "js-004",
+        "language": "javascript",
+        "passed": false,
+        "model_id": "qwen25-coder-0.5b-javascript-ft",
+        "latency_ms": 709,
+        "score": 0.3
+      },
+      {
+        "task_id": "js-005",
+        "language": "javascript",
+        "passed": false,
+        "model_id": "qwen25-coder-0.5b-javascript-ft",
+        "latency_ms": 713,
+        "score": 0.3
+      },
+      {
+        "task_id": "js-006",
+        "language": "javascript",
+        "passed": false,
+        "model_id": "qwen25-coder-0.5b-javascript-ft",
+        "latency_ms": 889,
+        "score": 0.3
+      },
+      {
+        "task_id": "js-007",
+        "language": "javascript",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-javascript-ft",
+        "latency_ms": 133,
+        "score": 0.9
+      },
+      {
+        "task_id": "js-008",
+        "language": "javascript",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-javascript-ft",
+        "latency_ms": 716,
+        "score": 0.9
+      },
+      {
+        "task_id": "js-009",
+        "language": "javascript",
+        "passed": false,
+        "model_id": "qwen25-coder-0.5b-javascript-ft",
+        "latency_ms": 714,
+        "score": 0.3
+      },
+      {
+        "task_id": "js-010",
+        "language": "javascript",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-javascript-ft",
+        "latency_ms": 69,
+        "score": 0.9
+      },
+      {
+        "task_id": "html-001",
+        "language": "html",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "latency_ms": 232,
+        "score": 0.9
+      },
+      {
+        "task_id": "html-002",
+        "language": "html",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "latency_ms": 268,
+        "score": 0.9
+      },
+      {
+        "task_id": "html-003",
+        "language": "html",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "latency_ms": 293,
+        "score": 0.9
+      },
+      {
+        "task_id": "html-004",
+        "language": "html",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "latency_ms": 364,
+        "score": 0.9
+      },
+      {
+        "task_id": "html-005",
+        "language": "html",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "latency_ms": 365,
+        "score": 0.9
+      },
+      {
+        "task_id": "html-006",
+        "language": "html",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "latency_ms": 354,
+        "score": 0.9
+      },
+      {
+        "task_id": "html-007",
+        "language": "html",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "latency_ms": 370,
+        "score": 0.9
+      },
+      {
+        "task_id": "html-008",
+        "language": "html",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "latency_ms": 201,
+        "score": 0.9
+      },
+      {
+        "task_id": "html-009",
+        "language": "html",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "latency_ms": 438,
+        "score": 0.9
+      },
+      {
+        "task_id": "html-010",
+        "language": "html",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-html-ft",
+        "latency_ms": 275,
+        "score": 0.9
+      },
+      {
+        "task_id": "ftl-001",
+        "language": "freemarker",
+        "passed": false,
+        "model_id": "qwen25-coder-0.5b-freemarker-ft",
+        "latency_ms": 74,
+        "score": 0.3
+      },
+      {
+        "task_id": "ftl-002",
+        "language": "freemarker",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-freemarker-ft",
+        "latency_ms": 84,
+        "score": 0.9
+      },
+      {
+        "task_id": "ftl-003",
+        "language": "freemarker",
+        "passed": false,
+        "model_id": "qwen25-coder-0.5b-freemarker-ft",
+        "latency_ms": 272,
+        "score": 0.3
+      },
+      {
+        "task_id": "ftl-004",
+        "language": "freemarker",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-freemarker-ft",
+        "latency_ms": 54,
+        "score": 0.9
+      },
+      {
+        "task_id": "ftl-005",
+        "language": "freemarker",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-freemarker-ft",
+        "latency_ms": 180,
+        "score": 0.9
+      },
+      {
+        "task_id": "ftl-006",
+        "language": "freemarker",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-freemarker-ft",
+        "latency_ms": 85,
+        "score": 0.9
+      },
+      {
+        "task_id": "ftl-007",
+        "language": "freemarker",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-freemarker-ft",
+        "latency_ms": 193,
+        "score": 0.9
+      },
+      {
+        "task_id": "ftl-008",
+        "language": "freemarker",
+        "passed": false,
+        "model_id": "qwen25-coder-0.5b-freemarker-ft",
+        "latency_ms": 119,
+        "score": 0.3
+      },
+      {
+        "task_id": "ftl-009",
+        "language": "freemarker",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-freemarker-ft",
+        "latency_ms": 443,
+        "score": 0.9
+      },
+      {
+        "task_id": "ftl-010",
+        "language": "freemarker",
+        "passed": true,
+        "model_id": "qwen25-coder-0.5b-freemarker-ft",
+        "latency_ms": 356,
+        "score": 0.9
+      }
+    ]
+  },
+  "gates": {
+    "GATE-001": {
+      "passed": false,
+      "metric": 0.7333,
+      "threshold": 0.8667,
+      "detail": "orch Pass@1=0.7333 < solo Pass@1=0.8667"
+    },
+    "GATE-002": {
+      "passed": true,
+      "metric": 1577.0,
+      "threshold": 6000,
+      "detail": "peak VRAM=1577 MB \u2264 6000 MB"
+    },
+    "GATE-003": {
+      "passed": true,
+      "metric": 323.0,
+      "threshold": 2000.0,
+      "detail": "p50=323 ms \u2264 target 2000 ms"
+    }
+  },
+  "all_pass": false,
+  "gate_neg_required": true
+}

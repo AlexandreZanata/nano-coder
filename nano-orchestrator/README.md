@@ -1,10 +1,11 @@
 # Nano-Orchestrator — Execution Plan (README-as-Spec)
 
-> **Status:** approved for execution · **Location:** `nano-orchestrator/` (tracked in repo)  
+> **Status:** **stopped (negative on GATE-001)** — keep solo `Qwen2.5-Coder-0.5B` · **Location:** `nano-orchestrator/` (tracked in repo)  
 > **Complements:** `docs/adr/ADR-002-student-model-selection.md`, UC-004, `docs/EVALUATION-METHOD.md`  
 > **Hardware target:** RTX 4060 laptop, **8 GB VRAM**  
 > **Local runtime (gitignored):** `.local/models/`, `.local/llama-prism-cuda/`, `.local/bonsai-chat/`  
-> **Rules loaded:** AGENT-CORE-PRINCIPLES, token-economy, anti-hallucination, OWASP-AGENTIC-2026 (ASI02 / ASI07 / ASI08)
+> **Rules loaded:** AGENT-CORE-PRINCIPLES, token-economy, anti-hallucination, OWASP-AGENTIC-2026 (ASI02 / ASI07 / ASI08)  
+> **Gate note:** see [`docs/NEGATIVE-RESULT.md`](docs/NEGATIVE-RESULT.md) (2026-07-21)
 
 This README is the **normative spec** for the subproject. Code that contradicts this file is wrong until the README is updated first.
 
@@ -389,9 +390,9 @@ Pass@1 definition for a micro-task: `JudgeVerdict.passed == true` after sandbox 
 
 ### Today (after Phase 3)
 
-**Next task:** [GATE-001 in TASKS.md](TASKS.md) — orchestration vs solo 0.5B on gold.
+**Next task:** optional polish [T-070+](TASKS.md) — quality MVP closed via [GATE-NEG](docs/NEGATIVE-RESULT.md) (keep solo 0.5B).
 
-Phase 5 dynamic orchestration is live (`config/worker_routing.json`). Debate remains **OFF**.
+Measured EG (2026-07-21): orch Pass@1 **0.733** &lt; solo **0.867**; VRAM **1577 MB**; p50 **323 ms**.
 
 ### Tomorrow
 
