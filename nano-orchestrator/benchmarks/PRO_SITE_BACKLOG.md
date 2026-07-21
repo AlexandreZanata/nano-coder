@@ -39,6 +39,7 @@
 | S19 | S13 + `CTX=9216` (smaller KV vs 10240, keep `-np 5`) | 4.83 s | **4.81 s** green (noise) | −0.02 s | **REVERT** |
 | S20 | Compact CSS (form early) + styles `max_tokens=720` | 4.83 s | **4.56 s** red (`styles_has_footer`) | faster / red | **REVERT** |
 | S21 | Ultra-compact CSS (footer+form early) + styles `max_tokens=700` | 4.83 s | **6.26 s** red (menu judge 4/5; styles CSS OK) | slower / red | **REVERT** |
+| S22 | Retry styles `max_tokens=700` + early footer/form (booking track) | 4.83 s | **6.47 s** green | +1.64 s | **REVERT** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
@@ -60,6 +61,7 @@ S18: `stop_extra=["<<<END>>>"]` in prompts. Model echoed meta-instructions and s
 S19: `CTX=9216` with `-np 5`. Green **4.81 s** but within noise of S13 (~4.8 s) → REVERT to CTX 10240; Site T final under S13.
 S20: compact CSS + styles `max_tokens=720`. Faster but truncated before `.site-footer` → REVERT; Site U final under S13 (780).
 S21: ultra-compact CSS with footer+form early + `max_tokens=700`. Styles quality green (footer+form present) but menu judge failed (4/5) and wall slower → REVERT tokens to 780; Site V final under S13. Note: host `:8081` was occupied by docker-proxy — measured on `:8082`.
+S22: retry styles `max_tokens=700` early footer/form on Harborline. **Green** pass bar (styles footer+form OK) but wall **6.47 s** vs S13 best **4.83 s** (cold-start/env slower this session) → REVERT tokens to 780; keep early-footer CSS layout.
 
 ### Lovable direction (project-type expansion)
 
@@ -69,14 +71,55 @@ S21: ultra-compact CSS with footer+form early + `max_tokens=700`. Styles quality
 |-------|------------|--------|
 | Retail / local biz | A–T | done series |
 | SaaS landing | U Brightfolio | archived |
-| Portfolio / agency | **V Fieldwork Studio** | done |
-| Booking / services | planned | next |
+| Portfolio / agency | V Fieldwork Studio | archived |
+| Booking / services | **W Harborline Escape** | done |
 | Chat → full system | planned | text prompt → orch decompose → workers (no hand edits) |
 
 Invariant: **result HTML/CSS only from workers** — no hand edits to `out/proposal/`.  
-Speed ceiling today: **S13 ~4.8 s**. Lesson: early footer+form in CSS can survive lower `max_tokens`, but pass bar still needs all 5 judges green.
+Speed ceiling today: **S13 ~4.8 s** (best kept). S22 proved styles700 can stay green with early footer/form, but wall must beat 4.83 before KEEP.
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## W — Harborline Escape Rooms (`pro-site-W-harborline-escape`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-fieldwork-agency-pro-archived/` @ 2026-07-21T16:58:00Z |
+| Site | Harborline Escape Rooms (booking / services + room rates) |
+| Schedule | [`large_site_schedule_pro_w.json`](large_site_schedule_pro_w.json) |
+| Why this task | **Booking Lovable track**; measure **S22** styles700 retry |
+| Speed | S22 **REVERT** (green but slower wall); Site W final under **S13** on `:8082` |
+| Command | `NANO_PORT=8082 make nano-large-site-pro-w` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| S22 attempt (green, slow) | **6.47 s** — styles tok=700 OK; archived `out/archive/2026-07-21-harborline-s22-slow/` |
+| Final make (S13 @8082) | **6.75 s** (env slower vs historical 4.8 s) |
+| Orch O0 | skipped |
+
+| Slot (final S13) | elapsed_s | reused |
+|------------------|-----------|--------|
+| styles | 3.62 | yes |
+| home | 2.95 | yes |
+| menu | 2.94 | yes |
+| about | 2.99 | yes |
+| contact | 2.94 | yes |
+
+### Quality
+
+- Pass bar: **5/5** · quality_ok · openable **4/4**
+- Peak VRAM: ~656 MB (smi sample; parallel load)
+- Report: [`runs/large_site_schedule_pro_w.json`](runs/large_site_schedule_pro_w.json)
+
+### Notes
+
+- No hand edits to `out/proposal/`
+- Booking track complete in Lovable expansion table
 
 ---
 

@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "kind": "pro_site",
+  "site_name": "Harborline Escape Rooms",
+  "benchmark_id": "pro-site-W-harborline-escape",
+  "require_unique_models": false,
+  "prefer_orch_plan": false,
+  "speed": {
+    "keep_alive_same_model": true,
+    "settle_s": 0.0,
+    "stop_grace_s": 0.0,
+    "skip_redundant_stop": true,
+    "skip_orchestrator": true,
+    "ctx_size": 10240,
+    "trust_start_health": true,
+    "temperature": 0.0,
+    "parallel_all_slots": true,
+    "n_parallel": 5,
+    "approach": "S13_after_S22_revert"
+  },
+  "request": "Build Harborline Escape Rooms site: styles.css + index/menu/about/contact HTML. Task ids styles,home,menu,about,contact.",
+  "orchestrator_model": "smollm3-3b",
+  "min_passed": 5,
+  "max_retries_per_slot": 2,
+  "slots": [
+    {
+      "id": "styles",
+      "filename": "styles.css",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "css",
+      "prompt": "Copy this CSS exactly. Output ONLY CSS. No HTML. No markdown.\n:root{--bg:#0c1018;--surface:#151b28;--text:#eef2ff;--muted:#9aa6c2;--accent:#22c55e;--accent-2:#4ade80;--line:#273247;--max:1100px;--font:system-ui,sans-serif;--display:Georgia,serif}\n*{box-sizing:border-box}body{margin:0;font-family:var(--font);color:var(--text);background:radial-gradient(ellipse at top,#182033 0%,var(--bg) 55%);line-height:1.55}\na{color:var(--accent-2);text-decoration:none}a:hover{color:var(--accent)}\n.site-header{border-bottom:1px solid var(--line);background:rgba(12,16,24,.94);position:sticky;top:0;z-index:10}\n.nav-inner{max-width:var(--max);margin:0 auto;padding:.85rem 1rem;display:flex;justify-content:space-between;gap:.75rem;align-items:center}\n.brand{font-family:var(--display);font-size:1.2rem}.nav-links{display:flex;gap:.9rem;flex-wrap:wrap}.nav-links a{color:var(--muted)}\n.nav-links a:hover,.nav-links a[aria-current=page]{color:var(--accent)}\n.hero{max-width:var(--max);margin:0 auto;padding:3rem 1rem 2rem}.hero h1{font-family:var(--display);font-size:clamp(1.9rem,4.5vw,2.8rem);margin:0 0 .75rem;line-height:1.12}\n.hero p{color:var(--muted);max-width:34rem}.btn{display:inline-block;margin-top:1rem;padding:.65rem 1rem;background:var(--accent);color:#0c1018;border-radius:4px;font-weight:600}\n.site-footer{border-top:1px solid var(--line);margin-top:1.5rem;padding:1.4rem 1rem;color:var(--muted);text-align:center}\nform{display:grid;gap:.7rem;max-width:28rem}label{display:grid;gap:.25rem;color:var(--muted);font-size:.9rem}\ninput,textarea,select{padding:.6rem .7rem;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit}\nbutton[type=submit]{justify-self:start;padding:.65rem 1rem;border:0;border-radius:4px;background:var(--accent);color:#0c1018;font-weight:600;cursor:pointer}\n.section{max-width:var(--max);margin:0 auto;padding:1.5rem 1rem 2rem}.section h2{font-family:var(--display);font-size:1.5rem}\n.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}\n.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1rem}.card h3{margin-top:0;font-family:var(--display)}\n.price{color:var(--accent-2);font-weight:700}.menu-list{list-style:none;padding:0;margin:0}\n.menu-list li{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--line)}\n@media (max-width:640px){.nav-inner{flex-direction:column;align-items:flex-start}}\n",
+      "constraints": [
+        "valid CSS",
+        "no HTML"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 780
+    },
+    {
+      "id": "home",
+      "filename": "index.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. No markdown.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Harborline Escape Rooms \u2014 Home</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Harborline Escape Rooms</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\" aria-current=\"page\">Home</a><a href=\"menu.html\">Rooms</a><a href=\"about.html\">Story</a><a href=\"contact.html\">Book</a></nav></div></header>\n<section class=\"hero\">\n<h1>Sixty minutes. One door out.</h1>\n<p>Harborline Escape Rooms runs cinematic puzzles on the waterfront \u2014 book a private room and race the clock.</p>\n<a class=\"btn\" href=\"menu.html\">See room rates</a>\n</section>\n<section class=\"section\">\n<h2>Why groups return</h2>\n<div class=\"grid\">\n<article class=\"card\"><h3>Private bookings</h3><p>Your team only \u2014 no mixed strangers.</p></article>\n<article class=\"card\"><h3>Live game masters</h3><p>Hints when you need them, silence when you do not.</p></article>\n<article class=\"card\"><h3>Photo finish</h3><p>Victory shot included with every clear.</p></article>\n</div>\n</section>\n<footer class=\"site-footer\"><p>Harborline Escape Rooms \u00b7 Waterfront bookings daily</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "complete document"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 480
+    },
+    {
+      "id": "menu",
+      "filename": "menu.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep every dollar price.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Rooms \u2014 Harborline Escape Rooms</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Harborline Escape Rooms</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\" aria-current=\"page\">Rooms</a><a href=\"about.html\">Story</a><a href=\"contact.html\">Book</a></nav></div></header>\n<main class=\"section\">\n<h1>Rooms</h1>\n<ul class=\"menu-list\">\n<li><span>Cargo Hold (2\u20136 players)</span><span class=\"price\">$36.00</span></li>\n<li><span>Lighthouse Keep (2\u20135)</span><span class=\"price\">$38.00</span></li>\n<li><span>Smuggler Vault (3\u20137)</span><span class=\"price\">$40.00</span></li>\n<li><span>Private Buyout</span><span class=\"price\">$220.00</span></li>\n<li><span>Team Building Block</span><span class=\"price\">$480.00</span></li>\n<li><span>Gift Card</span><span class=\"price\">$40.00</span></li>\n</ul>\n</main>\n<footer class=\"site-footer\"><p>Harborline Escape Rooms \u00b7 Prices per person in USD unless noted</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "dollar prices"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 480
+    },
+    {
+      "id": "about",
+      "filename": "about.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Story \u2014 Harborline Escape Rooms</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Harborline Escape Rooms</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Rooms</a><a href=\"about.html\" aria-current=\"page\">Story</a><a href=\"contact.html\">Book</a></nav></div></header>\n<main class=\"section\">\n<h1>Story</h1>\n<p>Harborline started as a warehouse theater troupe and rebuilt three docks into puzzle rooms with real props.</p>\n<p>Every room is reset by hand and stress-tested before the first booking of the day.</p>\n<div class=\"grid\">\n<article class=\"card\"><h3>Design desk</h3><p>Writers and builders share one floor.</p></article>\n<article class=\"card\"><h3>Safety first</h3><p>Emergency exits and live monitoring on every clock.</p></article>\n</div>\n</main>\n<footer class=\"site-footer\"><p>Harborline Escape Rooms \u00b7 Opened 2018</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 480
+    },
+    {
+      "id": "contact",
+      "filename": "contact.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep the contact form fields.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Book \u2014 Harborline Escape Rooms</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Harborline Escape Rooms</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Rooms</a><a href=\"about.html\">Story</a><a href=\"contact.html\" aria-current=\"page\">Book</a></nav></div></header>\n<main class=\"section\">\n<h1>Book</h1>\n<p>Request a time slot, group size, and preferred room. We confirm within one hour during open days.</p>\n<form method=\"post\" action=\"/contact\">\n<label>Name<input type=\"text\" name=\"name\" required /></label>\n<label>Email<input type=\"email\" name=\"email\" required /></label>\n<label>Message<textarea name=\"message\" rows=\"5\" required></textarea></label>\n<button type=\"submit\">Send message</button>\n</form>\n</main>\n<footer class=\"site-footer\"><p>12 Pier Alley \u00b7 (555) 021-8800 \u00b7 book@harborlineescape.example</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "contact form"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 480
+    }
+  ]
+}

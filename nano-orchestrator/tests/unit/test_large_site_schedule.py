@@ -383,6 +383,20 @@ def test_pro_v_schedule_after_s21_revert() -> None:
     assert css_prompt.index("site-footer") < css_prompt.index(".card")
 
 
+def test_pro_w_schedule_after_s22_revert() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_w.json")
+    assert_schedule_valid(data)
+    assert data["benchmark_id"] == "pro-site-W-harborline-escape"
+    assert data["speed"]["ctx_size"] == 10240
+    assert data["speed"]["parallel_all_slots"] is True
+    assert data["speed"]["n_parallel"] == 5
+    assert data["slots"][0]["max_tokens"] == 780
+    assert data["speed"]["approach"] == "S13_after_S22_revert"
+    assert "Harborline" in data["site_name"]
+    css_prompt = data["slots"][0]["prompt"]
+    assert css_prompt.index("site-footer") < css_prompt.index(".card")
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 

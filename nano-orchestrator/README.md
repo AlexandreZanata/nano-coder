@@ -464,6 +464,7 @@ make nano-large-site-pro-s    # Northwind Kayak (S18 measured+reverted; final S1
 make nano-large-site-pro-t    # Quill & Copper (S19 measured+reverted; final S13)
 make nano-large-site-pro-u    # Brightfolio SaaS (S20 measured+reverted; final S13; Lovable track)
 make nano-large-site-pro-v    # Fieldwork Studio agency (S21 measured+reverted; final S13; Lovable track)
+make nano-large-site-pro-w    # Harborline Escape (S22 measured+reverted; final S13; Lovable booking)
 
 # Arena playground — browse out/proposal + schedule runs
 make nano-arena

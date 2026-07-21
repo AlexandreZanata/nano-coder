@@ -142,7 +142,8 @@ Canonical backlog: [`PRO_SITE_BACKLOG.md`](PRO_SITE_BACKLOG.md).
 | S | Northwind Kayak Outfitters | `make nano-large-site-pro-s` | 4.91 s | S18 REVERT (END stop 0/5); final under S13; archived |
 | T | Quill & Copper Stationery | `make nano-large-site-pro-t` | 4.88 s | S19 REVERT (CTX9216 noise); final under S13; archived |
 | U | Brightfolio (SaaS) | `make nano-large-site-pro-u` | **4.83 s** | S20 REVERT (CSS footer truncate); final under S13; archived |
-| V | Fieldwork Studio (agency) | `NANO_PORT=8082 make nano-large-site-pro-v` | **4.76 s** | S21 REVERT (menu judge); final S13; Lovable agency track |
+| V | Fieldwork Studio (agency) | `NANO_PORT=8082 make nano-large-site-pro-v` | **4.76 s** | S21 REVERT (menu judge); final S13; archived |
+| W | Harborline Escape Rooms | `NANO_PORT=8082 make nano-large-site-pro-w` | 6.75 s | S22 REVERT (green but slower wall); final S13; Lovable booking track |
 
 Speed: S2–S8 + S12/S13 parallel kept · S4/S9/S10/S11/S14 REVERT. Best wall Site N **4.83 s**. CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
 

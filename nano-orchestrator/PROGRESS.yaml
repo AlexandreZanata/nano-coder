@@ -237,6 +237,11 @@ pro_site_benchmarks:
       baseline_wall_s: 4.83
       measured_wall_s: 6.26
       reason: quality_fail_menu_judge_4_of_5_and_slower
+    S22_styles700_early_footer_form:
+      status: reverted
+      baseline_wall_s: 4.83
+      measured_wall_s: 6.47
+      reason: green_but_slower_wall_vs_s13_best
   A_harbor_coffee:
     status: archived
   B_summit_trail:
@@ -298,13 +303,17 @@ pro_site_benchmarks:
     wall_clock_s: 4.83
     track: lovable_saas_landing
   V_fieldwork_agency:
-    status: done
-    schedule: benchmarks/large_site_schedule_pro_v.json
+    status: archived
     wall_clock_s: 4.76
+    track: lovable_portfolio_agency
+  W_harborline_escape:
+    status: done
+    schedule: benchmarks/large_site_schedule_pro_w.json
+    wall_clock_s: 6.75
     orch: skipped_S5
-    speed: S13_after_S21_revert
+    speed: S13_after_S22_revert
     workers_passed: "5/5"
     openable_pages: 4
-    track: lovable_portfolio_agency
+    track: lovable_booking_services
     port_note: "8082 (8081 docker-proxy busy)"
-    report: benchmarks/runs/large_site_schedule_pro_v.json
+    report: benchmarks/runs/large_site_schedule_pro_w.json
