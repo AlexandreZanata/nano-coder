@@ -199,6 +199,13 @@ def test_primary_worker_model() -> None:
     assert primary_worker_model([]) is None
 
 
+def test_pro_f_schedule_skip_orchestrator_flag() -> None:
+    data = load_schedule(ROOT / "benchmarks" / "large_site_schedule_pro_f.json")
+    assert_schedule_valid(data)
+    assert data["speed"]["skip_orchestrator"] is True
+    assert data["benchmark_id"] == "pro-site-F-fern-field"
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 

@@ -126,7 +126,8 @@ Canonical backlog: [`PRO_SITE_BACKLOG.md`](PRO_SITE_BACKLOG.md).
 | C | Cedar Civic Library | `make nano-large-site-pro-c` | 30.04 s | S2 keep-alive (−44% vs B) |
 | D | Ember & Oak Pottery | `make nano-large-site-pro-d` | **26.87 s** | S3 stop_grace (−11% vs C) |
 | E | Solstice Yoga Collective | `make nano-large-site-pro-e` | 32.02 s | S4 warm REVERT; final under S3 |
+| F | Fern & Field Botanicals | `make nano-large-site-pro-f` | **17.19 s** | S5 skip-orch (−36% vs D) |
 
-Speed: schedule `speed.keep_alive_same_model` reuses `llama-server` when consecutive slots share `model_id`. S3 adds `stop_grace_s` + `skip_redundant_stop`. S4 dual-port warm-during-orch was measured and **reverted**. CLI: `--keep-alive` / `--no-keep-alive`.
+Speed: S2 keep-alive · S3 stop_grace · S4 warm REVERT · S5 `speed.skip_orchestrator` (canonical slots; workers still generate results). CLI: `--keep-alive` / `--no-keep-alive` / `--skip-orchestrator`.
 
 **Rule:** never hand-edit `out/proposal/` site files; archive before each new site run.

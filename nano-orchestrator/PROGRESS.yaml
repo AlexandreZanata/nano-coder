@@ -106,6 +106,8 @@ notes: |
   Cedar archived; orch_bound=5; stop_grace=0.2 + skip_redundant_stop.
   2026-07-21: Pro-site E GREEN — Solstice Yoga; S4 warm-during-orch REVERT (not faster);
   final under S3 32.02s; Ember archived; orch_bound=5.
+  2026-07-21: Pro-site F GREEN — Fern & Field; S5 KEEP skip-orch (17.19s vs 26.87s, −36%);
+  Solstice archived; workers 5/5 openable 4/4.
 
 pro_site_benchmarks:
   protocol: orchestrator_only_results_no_hand_edit
@@ -126,30 +128,28 @@ pro_site_benchmarks:
       baseline_wall_s: 26.87
       measured_walls_s: [27.31, 31.23, 32.7]
       reason: not_faster
+    S5_skip_orchestrator:
+      status: kept
+      baseline_wall_s: 26.87
+      measured_wall_s: 17.19
+      delta_s: -9.68
+      note: canonical slots only; workers still nano-orchestrator
   A_harbor_coffee:
     status: archived
-    schedule: benchmarks/large_site_schedule_pro.json
   B_summit_trail:
     status: archived
-    schedule: benchmarks/large_site_schedule_pro_b.json
-    wall_clock_s: 53.31
   C_cedar_library:
     status: archived
-    schedule: benchmarks/large_site_schedule_pro_c.json
-    wall_clock_s: 30.04
   D_ember_oak:
     status: archived
-    schedule: benchmarks/large_site_schedule_pro_d.json
-    wall_clock_s: 26.87
-    orch_bound: 5
-    workers_passed: "5/5"
-    openable_pages: 4
-    report: benchmarks/runs/large_site_schedule_pro_d.json
   E_solstice_yoga:
-    status: done
-    schedule: benchmarks/large_site_schedule_pro_e.json
+    status: archived
     wall_clock_s: 32.02
-    orch_bound: 5
+  F_fern_field:
+    status: done
+    schedule: benchmarks/large_site_schedule_pro_f.json
+    wall_clock_s: 17.19
+    orch: skipped_S5
     workers_passed: "5/5"
     openable_pages: 4
-    report: benchmarks/runs/large_site_schedule_pro_e.json
+    report: benchmarks/runs/large_site_schedule_pro_f.json

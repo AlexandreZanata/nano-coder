@@ -314,6 +314,9 @@ def main() -> int:
     settle_s = float(speed_cfg.get("settle_s", 0.5))
     stop_grace_s = float(speed_cfg.get("stop_grace_s", 1.0))
     skip_redundant_stop = bool(speed_cfg.get("skip_redundant_stop", False))
+    skip_orchestrator = bool(args.skip_orchestrator) or bool(
+        speed_cfg.get("skip_orchestrator", False)
+    )
     json_out = args.json_out or (
         ROOT / "benchmarks" / "runs" / f"{args.schedule.stem}.json"
     )
@@ -322,12 +325,13 @@ def main() -> int:
     print(
         f"schedule={args.schedule.name} unique_models={schedule.get('require_unique_models')}"
         f" keep_alive={keep_alive} settle_s={settle_s} stop_grace_s={stop_grace_s}"
+        f" skip_orchestrator={skip_orchestrator}"
     )
     orch_report: dict
     orch_bind_meta: dict = {"bound": 0, "mode": "skipped"}
-    if args.skip_orchestrator:
-        orch_report = {"ok": None, "skipped": True}
-        print("[O0] orchestrator skipped")
+    if skip_orchestrator:
+        orch_report = {"ok": None, "skipped": True, "reason": "speed.skip_orchestrator"}
+        print("[O0] orchestrator skipped (speed mode / flag)")
     else:
         print(f"[O0] orchestrator {orch_model} decompose (one task → one model)…")
         orch_report = run_orchestrator_slot(
@@ -368,7 +372,7 @@ def main() -> int:
     peak_all = vram_used_mb()
     models_used: list[str] = []
     loaded_model: str | None = None
-    port_clear_after_orch = (not args.skip_orchestrator) and skip_redundant_stop
+    port_clear_after_orch = (not skip_orchestrator) and skip_redundant_stop
 
     for idx, slot in enumerate(slots, start=1):
         task = slot_to_task(slot)
@@ -464,7 +468,7 @@ def main() -> int:
         "orchestrator": orch_report,
         "orch_bind": orch_bind_meta,
         "models_monitored": {
-            "orchestrator": None if args.skip_orchestrator else orch_model,
+            "orchestrator": None if skip_orchestrator else orch_model,
             "workers": unique_models,
             "unique_worker_count": len(unique_models),
         },
@@ -483,6 +487,7 @@ def main() -> int:
             "settle_s": settle_s,
             "stop_grace_s": stop_grace_s,
             "skip_redundant_stop": skip_redundant_stop,
+            "skip_orchestrator": skip_orchestrator,
             "slots_reused": sum(1 for s in slot_results if s.server_reused),
             "slots_kept_alive": sum(1 for s in slot_results if s.server_kept_alive),
         },

@@ -22,12 +22,55 @@
 | S2 | `keep_alive_same_model` + settle 0.15s | 53.31 s | Site C **30.04 s** | **−23.27 s (−44%)** | **KEEP** |
 | S3 | S2 + `stop_grace_s=0.2` + `skip_redundant_stop` + `settle_s=0` | 30.04 s | Site D **26.87 s** | **−3.17 s (−11%)** | **KEEP** |
 | S4 | Warm worker on `:8082` during orch (parallel load) | 26.87 s | 27.31 / 31.23 / 32.70 s | not faster | **REVERT** |
+| S5 | `speed.skip_orchestrator` + S3 keep-alive (canonical slots) | 26.87 s | Site F **17.19 s** | **−9.68 s (−36%)** | **KEEP** |
 
 S2: reuse `llama-server` across consecutive same `model_id` slots.  
 S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.  
-S4: overlapped worker GGUF load with orch decompose (dual-port). Warm OK but wall ≥ baseline → code restored to S3.
+S4: overlapped worker GGUF load with orch decompose (dual-port). Warm OK but wall ≥ baseline → code restored to S3.  
+S5: skip live orch decompose when schedule already has canonical CSS/HTML slots; workers still generate all files via nano-orchestrator. Use when speed matters more than orch-bind telemetry.
 
 First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## F — Fern & Field Botanicals (`pro-site-F-fern-field`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-solstice-yoga-pro-archived/` @ 2026-07-21T15:14:58Z |
+| Site | Fern & Field Botanicals (plant shop) |
+| Schedule | [`large_site_schedule_pro_f.json`](large_site_schedule_pro_f.json) |
+| Why this task | New retail/plants domain; measure S5 skip-orch speed mode |
+| Speed | **S5** (skip orch + S3 keep-alive) |
+| Command | `make nano-large-site-pro-f` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| Full make | **17.19 s** |
+| vs Site D S3 baseline | **−36%** |
+| Orch O0 | skipped |
+
+| Slot | elapsed_s | reused |
+|------|-----------|--------|
+| styles | 5.95 | no |
+| home | 2.21 | yes |
+| menu | 2.21 | yes |
+| about | 4.18 | yes |
+| contact | 2.47 | yes |
+
+### Results
+
+| Check | Value |
+|-------|-------|
+| Orch | skipped (intentional S5) |
+| Workers | **5/5** |
+| Pass bar | **MET** |
+| Openable | **4/4** |
+| Hand edits | **none** |
+| Report | [`runs/large_site_schedule_pro_f.json`](runs/large_site_schedule_pro_f.json) |
 
 ---
 
@@ -41,7 +84,8 @@ First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5
 | Why this task | New wellness domain; measure S4 warm-during-orch vs S3 |
 | Speed | S4 **REVERT**; Site E final timed under **S3** |
 | Command | `make nano-large-site-pro-e` |
-| Status | **done — GREEN** |
+| Status | **archived** (superseded by F) |
+| Archive path | `out/archive/2026-07-21-solstice-yoga-pro-archived/` |
 
 ### Timing
 
