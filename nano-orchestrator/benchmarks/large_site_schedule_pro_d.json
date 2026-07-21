@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "kind": "pro_site",
+  "site_name": "Ember & Oak Pottery",
+  "benchmark_id": "pro-site-D-ember-oak",
+  "require_unique_models": false,
+  "prefer_orch_plan": true,
+  "speed": {
+    "keep_alive_same_model": true,
+    "settle_s": 0.0,
+    "stop_grace_s": 0.2,
+    "skip_redundant_stop": true,
+    "approach": "S3_stop_grace_and_skip_redundant_stop"
+  },
+  "request": "Build a large professional Ember and Oak Pottery website with styles.css plus four HTML pages (index, shop/menu, studio/about, contact). Shared sticky nav, hero, cards, priced shop list, footer, contact form. Max 5 MicroTasks. Languages: css + html only. Task ids MUST be styles, home, menu, about, contact.",
+  "orchestrator_model": "smollm3-3b",
+  "min_passed": 5,
+  "max_retries_per_slot": 3,
+  "slots": [
+    {
+      "id": "styles",
+      "filename": "styles.css",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "css",
+      "prompt": "Copy this CSS exactly. Output ONLY CSS. No HTML. No markdown.\n:root{--bg:#1a1210;--surface:#2a1c18;--text:#f7efe8;--muted:#c9b5a8;--accent:#d97757;--accent-2:#f0c3b0;--line:#3d2c26;--max:1100px;--font:\"Segoe UI\",system-ui,sans-serif;--display:Georgia,\"Times New Roman\",serif}\n*{box-sizing:border-box}\nbody{margin:0;font-family:var(--font);color:var(--text);background:linear-gradient(180deg,#120c0a 0%,var(--bg) 45%,#241814 100%);line-height:1.6}\na{color:var(--accent-2);text-decoration:none}a:hover{color:var(--accent)}\n.site-header{border-bottom:1px solid var(--line);background:rgba(26,18,16,.94);position:sticky;top:0;z-index:10}\n.nav-inner{max-width:var(--max);margin:0 auto;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}\n.brand{font-family:var(--display);font-size:1.3rem;color:var(--text)}\n.nav-links{display:flex;gap:1.2rem;flex-wrap:wrap}.nav-links a{color:var(--muted)}\n.nav-links a:hover,.nav-links a[aria-current=page]{color:var(--accent)}\n.hero{max-width:var(--max);margin:0 auto;padding:4rem 1.25rem 3rem}\n.hero h1{font-family:var(--display);font-size:clamp(2.1rem,5vw,3.2rem);line-height:1.15;margin:0 0 1rem}\n.hero p{color:var(--muted);max-width:38rem;font-size:1.08rem}\n.btn{display:inline-block;margin-top:1.4rem;padding:.75rem 1.2rem;background:var(--accent);color:#1a1210;border-radius:4px;font-weight:600}\n.section{max-width:var(--max);margin:0 auto;padding:2rem 1.25rem 3rem}\n.section h2{font-family:var(--display);font-size:1.75rem}\n.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}\n.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1.2rem}\n.card h3{margin-top:0;font-family:var(--display)}.price{color:var(--accent);font-weight:700}\n.menu-list{list-style:none;padding:0;margin:0}\n.menu-list li{display:flex;justify-content:space-between;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--line)}\n.site-footer{border-top:1px solid var(--line);margin-top:2rem;padding:2rem 1.25rem;color:var(--muted);text-align:center}\nform{display:grid;gap:.85rem;max-width:28rem}\nlabel{display:grid;gap:.35rem;color:var(--muted);font-size:.9rem}\ninput,textarea,select{padding:.7rem .8rem;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit}\nbutton[type=submit]{justify-self:start;padding:.75rem 1.2rem;border:0;border-radius:4px;background:var(--accent);color:#1a1210;font-weight:600;cursor:pointer}\n@media (max-width:640px){.nav-inner{flex-direction:column;align-items:flex-start}}\n",
+      "constraints": [
+        "valid CSS",
+        "no HTML"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 1200
+    },
+    {
+      "id": "home",
+      "filename": "index.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. No markdown.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Ember &amp; Oak Pottery \u2014 Home</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Ember &amp; Oak Pottery</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\" aria-current=\"page\">Home</a><a href=\"menu.html\">Shop</a><a href=\"about.html\">Studio</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<section class=\"hero\">\n<h1>Hand-thrown stoneware for everyday tables</h1>\n<p>Ember &amp; Oak Pottery makes mugs, bowls, and serving boards fired in small kiln batches each week.</p>\n<a class=\"btn\" href=\"menu.html\">Shop the kiln drop</a>\n</section>\n<section class=\"section\">\n<h2>Studio strengths</h2>\n<div class=\"grid\">\n<article class=\"card\"><h3>Food-safe glazes</h3><p>Lead-free finishes tested for daily use and dishwashers.</p></article>\n<article class=\"card\"><h3>Local clay</h3><p>Bodies blended from regional clay for durable walls.</p></article>\n<article class=\"card\"><h3>Open studio</h3><p>Weekend throwing classes for beginners and returning makers.</p></article>\n</div>\n</section>\n<footer class=\"site-footer\"><p>17 Kiln Lane \u00b7 Open Tue\u2013Sun 10:00\u201318:00 \u00b7 (555) 017-3300</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "complete document"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "menu",
+      "filename": "menu.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep every dollar price.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Shop \u2014 Ember &amp; Oak Pottery</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Ember &amp; Oak Pottery</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\" aria-current=\"page\">Shop</a><a href=\"about.html\">Studio</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Shop</h1>\n<ul class=\"menu-list\">\n<li><span>Daybreak Mug</span><span class=\"price\">$32.00</span></li>\n<li><span>Ridge Bowl</span><span class=\"price\">$48.00</span></li>\n<li><span>Oak Serving Board</span><span class=\"price\">$64.00</span></li>\n<li><span>Nesting Planters (set)</span><span class=\"price\">$78.00</span></li>\n<li><span>Pour-Over Dripper</span><span class=\"price\">$42.00</span></li>\n<li><span>Studio Class Ticket</span><span class=\"price\">$55.00</span></li>\n</ul>\n</main>\n<footer class=\"site-footer\"><p>Ember &amp; Oak Pottery \u00b7 Prices in USD</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "dollar prices"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "about",
+      "filename": "about.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Studio \u2014 Ember &amp; Oak Pottery</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Ember &amp; Oak Pottery</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Shop</a><a href=\"about.html\" aria-current=\"page\">Studio</a><a href=\"contact.html\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>The studio</h1>\n<p>Founded in a converted carriage house, Ember &amp; Oak focuses on quiet forms and warm glazes that feel at home on busy tables.</p>\n<p>Each piece is trimmed by hand, stamped, and logged before glaze day so replacements stay consistent.</p>\n<div class=\"grid\">\n<article class=\"card\"><h3>Kiln calendar</h3><p>Gas firings twice a week with cone checks posted in the shop.</p></article>\n<article class=\"card\"><h3>Classes</h3><p>Six-week series covering centering, pulling, and simple glazing.</p></article>\n</div>\n</main>\n<footer class=\"site-footer\"><p>Ember &amp; Oak Pottery \u00b7 Est. 2016</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    },
+    {
+      "id": "contact",
+      "filename": "contact.html",
+      "model_id": "qwen25-coder-0.5b-html-ft",
+      "language": "html",
+      "prompt": "Copy this HTML document exactly (whitespace may vary). Output ONLY HTML. Keep the contact form fields.\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>Contact \u2014 Ember &amp; Oak Pottery</title>\n<link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n<header class=\"site-header\"><div class=\"nav-inner\"><a class=\"brand\" href=\"index.html\">Ember &amp; Oak Pottery</a><nav class=\"nav-links\" aria-label=\"Primary\"><a href=\"index.html\">Home</a><a href=\"menu.html\">Shop</a><a href=\"about.html\">Studio</a><a href=\"contact.html\" aria-current=\"page\">Contact</a></nav></div></header>\n<main class=\"section\">\n<h1>Contact</h1>\n<p>Ask about wholesale trays, custom glazes, or class waitlists.</p>\n<form method=\"post\" action=\"/contact\">\n<label>Name<input type=\"text\" name=\"name\" required /></label>\n<label>Email<input type=\"email\" name=\"email\" required /></label>\n<label>Message<textarea name=\"message\" rows=\"5\" required></textarea></label>\n<button type=\"submit\">Send message</button>\n</form>\n</main>\n<footer class=\"site-footer\"><p>17 Kiln Lane \u00b7 (555) 017-3300 \u00b7 hello@emberoak.example</p></footer>\n</body>\n</html>\n",
+      "constraints": [
+        "semantic HTML5",
+        "link styles.css",
+        "contact form"
+      ],
+      "acceptance": [
+        "syntax_valid"
+      ],
+      "max_tokens": 700
+    }
+  ]
+}

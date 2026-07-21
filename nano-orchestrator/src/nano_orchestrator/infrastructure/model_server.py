@@ -12,6 +12,7 @@ from nano_orchestrator.infrastructure.llamacpp_adapter import LlamaCppAdapter
 
 ROOT = Path(__file__).resolve().parents[3]  # nano-orchestrator/
 START_SH = ROOT / "scripts" / "start_model_server.sh"
+DEFAULT_STOP_GRACE_S = float(os.environ.get("NANO_ORCH_STOP_GRACE_S", "1.0"))
 
 
 def vram_used_mb() -> int | None:
@@ -35,21 +36,30 @@ def vram_used_mb() -> int | None:
         return None
 
 
-def stop_server(port: int = 8081) -> Result[None, str]:
+def stop_server(port: int = 8081, *, grace_s: float | None = None) -> Result[None, str]:
+    wait = DEFAULT_STOP_GRACE_S if grace_s is None else max(0.0, float(grace_s))
     subprocess.run(
         ["fuser", "-k", f"{port}/tcp"],
         check=False,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
-    time.sleep(1.0)
+    if wait > 0:
+        time.sleep(wait)
     return Ok(None)
 
 
-def start_server(model_id: str, *, port: int = 8081) -> Result[str, str]:
+def start_server(
+    model_id: str,
+    *,
+    port: int = 8081,
+    force_stop: bool = True,
+    stop_grace_s: float | None = None,
+) -> Result[str, str]:
     if not START_SH.is_file():
         return Err("start_script_missing")
-    stop_server(port)
+    if force_stop:
+        stop_server(port, grace_s=stop_grace_s)
     env = os.environ.copy()
     env["PORT"] = str(port)
     proc = subprocess.run(

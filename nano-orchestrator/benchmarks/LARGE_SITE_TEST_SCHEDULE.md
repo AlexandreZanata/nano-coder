@@ -123,8 +123,9 @@ Canonical backlog: [`PRO_SITE_BACKLOG.md`](PRO_SITE_BACKLOG.md).
 |----|------|-------------|---------------|-------|
 | A | Harbor Coffee | `make nano-large-site-pro` | — | archived |
 | B | Summit Trail | `make nano-large-site-pro-b` | 53.31 s | cold start/stop baseline |
-| C | Cedar Civic Library | `make nano-large-site-pro-c` | **30.04 s** | keep-alive S2 (−44%) |
+| C | Cedar Civic Library | `make nano-large-site-pro-c` | 30.04 s | S2 keep-alive (−44% vs B) |
+| D | Ember & Oak Pottery | `make nano-large-site-pro-d` | **26.87 s** | S3 stop_grace (−11% vs C) |
 
-Speed: schedule `speed.keep_alive_same_model` reuses `llama-server` when consecutive slots share `model_id`. CLI: `--keep-alive` / `--no-keep-alive`.
+Speed: schedule `speed.keep_alive_same_model` reuses `llama-server` when consecutive slots share `model_id`. S3 adds `stop_grace_s` + `skip_redundant_stop`. CLI: `--keep-alive` / `--no-keep-alive`.
 
 **Rule:** never hand-edit `out/proposal/` site files; archive before each new site run.

@@ -20,8 +20,54 @@
 |----|----------|----------|----------|-------|----------|
 | S1 | Cold start/stop every worker slot | — | Site B **53.31 s** | — | prior default |
 | S2 | `keep_alive_same_model` + settle 0.15s | 53.31 s | Site C **30.04 s** | **−23.27 s (−44%)** | **KEEP** |
+| S3 | S2 + `stop_grace_s=0.2` + `skip_redundant_stop` + `settle_s=0` | 30.04 s | Site D **26.87 s** | **−3.17 s (−11%)** | **KEEP** |
 
-S2 details: reuse `llama-server` across consecutive slots with the same `model_id` (pro schedules use one HTML-FT worker for all 5 files). Flags: schedule `speed.keep_alive_same_model` or CLI `--keep-alive` / `--no-keep-alive`.
+S2: reuse `llama-server` across consecutive same `model_id` slots.  
+S3: shorter post-kill grace; skip extra `stop` when orch already freed the port; zero settle after health.
+
+First S3 attempt orch JSON failed → temporary revert; retry with `orch_bound=5` then KEEP.
+
+---
+
+## D — Ember & Oak Pottery (`pro-site-D-ember-oak`)
+
+| Field | Value |
+|-------|-------|
+| Archive prior | `out/archive/2026-07-21-cedar-library-pro-archived/` @ 2026-07-21T14:58:49Z |
+| Run (UTC) | 2026-07-21T15:01+ (successful orch-bound attempt) |
+| Site | Ember & Oak Pottery (craft studio / kiln shop) |
+| Schedule | [`large_site_schedule_pro_d.json`](large_site_schedule_pro_d.json) |
+| Why this task | New craft domain; measure S3 atop keep-alive |
+| Speed | S3 |
+| Command | `make nano-large-site-pro-d` |
+| Status | **done — GREEN** |
+
+### Timing
+
+| Phase | Wall time |
+|-------|-----------|
+| Full make (orch-bound) | **26.87 s** |
+| vs Site C (S2) | **−11%** |
+| Orch O0 | 11.78 s |
+
+| Slot | elapsed_s | reused | latency_ms |
+|------|-----------|--------|------------|
+| styles | 5.80 | no | 3547 |
+| home | 2.22 | yes | 2014 |
+| menu | 2.24 | yes | 1997 |
+| about | 2.20 | yes | 1990 |
+| contact | 2.47 | yes | 1986 |
+
+### Results
+
+| Check | Value |
+|-------|-------|
+| Orch | ok · `orch_bound=5` |
+| Workers | **5/5** |
+| Pass bar | **MET** |
+| Openable | **4/4** |
+| Hand edits | **none** |
+| Report | [`runs/large_site_schedule_pro_d.json`](runs/large_site_schedule_pro_d.json) |
 
 ---
 
@@ -36,7 +82,8 @@ S2 details: reuse `llama-server` across consecutive slots with the same `model_i
 | Why this task | New domain (library vs outdoor/coffee); stress same CSS+4 HTML shape; first measured keep-alive run |
 | Speed | S2 keep-alive enabled |
 | Command | `make nano-large-site-pro-c` |
-| Status | **done — GREEN** |
+| Status | **archived** (superseded by D) |
+| Archive path | `out/archive/2026-07-21-cedar-library-pro-archived/` |
 
 ### Timing
 

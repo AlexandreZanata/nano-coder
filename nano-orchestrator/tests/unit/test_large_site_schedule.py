@@ -177,6 +177,16 @@ def test_keep_alive_helpers() -> None:
     assert next_slot_same_model(slots, 2) is False
 
 
+def test_model_server_stop_grace_params() -> None:
+    import inspect
+
+    from nano_orchestrator.infrastructure.model_server import start_server, stop_server
+
+    assert "grace_s" in inspect.signature(stop_server).parameters
+    assert "force_stop" in inspect.signature(start_server).parameters
+    assert "stop_grace_s" in inspect.signature(start_server).parameters
+
+
 def test_bind_orch_plan_maps_by_id() -> None:
     from nano_orchestrator.application.large_site_schedule import bind_orch_plan_to_slots
 

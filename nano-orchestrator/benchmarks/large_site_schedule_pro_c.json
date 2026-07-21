@@ -7,8 +7,10 @@
   "prefer_orch_plan": true,
   "speed": {
     "keep_alive_same_model": true,
-    "settle_s": 0.15,
-    "approach": "reuse_llama_server_across_same_model_slots"
+    "settle_s": 0.0,
+    "stop_grace_s": 0.2,
+    "skip_redundant_stop": true,
+    "approach": "S3_stop_grace_and_skip_redundant_stop"
   },
   "request": "Build a large professional Cedar Civic Library website with styles.css plus four HTML pages (index, catalog/menu, programs/about, contact). Shared sticky nav, hero, cards, fee list with prices, footer, contact form. Max 5 MicroTasks. Languages: css + html only. Task ids MUST be styles, home, menu, about, contact.",
   "orchestrator_model": "smollm3-3b",

@@ -82,10 +82,13 @@ def run_orchestrator_slot(
     request: str,
     port: int,
     base_url: str,
+    stop_grace_s: float = 1.0,
 ) -> dict:
     started_at = time.perf_counter()
     peak = vram_used_mb()
-    started = start_server(model_id, port=port)
+    started = start_server(
+        model_id, port=port, force_stop=True, stop_grace_s=stop_grace_s
+    )
     if started.is_err():
         return {
             "ok": False,
@@ -99,7 +102,7 @@ def run_orchestrator_slot(
     orch = OrchestrateUseCase(adapter, max_tokens=768)
     decomposed = orch.decompose(request)
     peak = _peak(peak, vram_used_mb())
-    stop_server(port)
+    stop_server(port, grace_s=stop_grace_s)
     elapsed = time.perf_counter() - started_at
     if decomposed.is_err():
         return {
@@ -133,6 +136,8 @@ def run_worker_slot(
     reuse_server: bool = False,
     keep_alive: bool = False,
     settle_s: float = 0.5,
+    force_stop: bool = True,
+    stop_grace_s: float = 1.0,
 ) -> tuple[SlotResult, WorkerResponse | None, JudgeVerdict | None]:
     t0 = time.perf_counter()
     peak = vram_used_mb()
@@ -144,7 +149,12 @@ def run_worker_slot(
     if reuse_server:
         reused = True
     else:
-        started = start_server(model_id, port=port)
+        started = start_server(
+            model_id,
+            port=port,
+            force_stop=force_stop,
+            stop_grace_s=stop_grace_s,
+        )
         if started.is_err():
             return (
                 SlotResult(
@@ -188,7 +198,7 @@ def run_worker_slot(
         if keep_alive:
             kept = True
         else:
-            stop_server(port)
+            stop_server(port, grace_s=stop_grace_s)
         peak_final = _peak(peak, vram_used_mb())
         return (
             SlotResult(
@@ -302,6 +312,8 @@ def main() -> int:
     if args.no_keep_alive:
         keep_alive = False
     settle_s = float(speed_cfg.get("settle_s", 0.5))
+    stop_grace_s = float(speed_cfg.get("stop_grace_s", 1.0))
+    skip_redundant_stop = bool(speed_cfg.get("skip_redundant_stop", False))
     json_out = args.json_out or (
         ROOT / "benchmarks" / "runs" / f"{args.schedule.stem}.json"
     )
@@ -309,7 +321,7 @@ def main() -> int:
     print(f"=== LARGE SITE SCHEDULE start {datetime.now(timezone.utc).isoformat()} ===")
     print(
         f"schedule={args.schedule.name} unique_models={schedule.get('require_unique_models')}"
-        f" keep_alive={keep_alive}"
+        f" keep_alive={keep_alive} settle_s={settle_s} stop_grace_s={stop_grace_s}"
     )
     orch_report: dict
     orch_bind_meta: dict = {"bound": 0, "mode": "skipped"}
@@ -323,6 +335,7 @@ def main() -> int:
             request=request,
             port=args.port,
             base_url=args.base_url,
+            stop_grace_s=stop_grace_s,
         )
         print(
             json.dumps(
@@ -355,6 +368,7 @@ def main() -> int:
     peak_all = vram_used_mb()
     models_used: list[str] = []
     loaded_model: str | None = None
+    port_clear_after_orch = (not args.skip_orchestrator) and skip_redundant_stop
 
     for idx, slot in enumerate(slots, start=1):
         task = slot_to_task(slot)
@@ -363,11 +377,16 @@ def main() -> int:
         orch_note = slot.get("orch_task_id")
         reuse = should_reuse_server(loaded_model, model_id, keep_alive=keep_alive)
         keep_after = keep_alive and next_slot_same_model(slots, idx - 1)
+        force_stop = True
+        if (not reuse) and port_clear_after_orch and idx == 1:
+            force_stop = False
+            port_clear_after_orch = False
         print(
             f"[W{idx}] {task.id} → {model_id} ({task.language.value})"
             + (f" orch={orch_note}" if orch_note else "")
             + (" reuse" if reuse else " cold")
             + (" keep" if keep_after else " stop")
+            + (" nostop" if not force_stop and not reuse else "")
             + "…"
         )
         result, response, verdict = run_worker_slot(
@@ -380,6 +399,8 @@ def main() -> int:
             reuse_server=reuse,
             keep_alive=keep_after,
             settle_s=settle_s,
+            force_stop=force_stop,
+            stop_grace_s=stop_grace_s,
         )
         if result.server_kept_alive:
             loaded_model = model_id
@@ -395,7 +416,7 @@ def main() -> int:
         peak_all = _peak(peak_all, result.vram_mb)
 
     if loaded_model is not None:
-        stop_server(args.port)
+        stop_server(args.port, grace_s=stop_grace_s)
         loaded_model = None
 
     filenames = slot_filenames(slots)
@@ -460,6 +481,8 @@ def main() -> int:
         "speed": {
             "keep_alive_same_model": keep_alive,
             "settle_s": settle_s,
+            "stop_grace_s": stop_grace_s,
+            "skip_redundant_stop": skip_redundant_stop,
             "slots_reused": sum(1 for s in slot_results if s.server_reused),
             "slots_kept_alive": sum(1 for s in slot_results if s.server_kept_alive),
         },

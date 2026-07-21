@@ -443,6 +443,7 @@ make nano-large-site-all
 make nano-large-site-pro      # Harbor Coffee
 make nano-large-site-pro-b    # Summit Trail
 make nano-large-site-pro-c    # Cedar Library + keep-alive speed
+make nano-large-site-pro-d    # Ember & Oak + S3 stop_grace
 
 # Arena playground — browse out/proposal + schedule runs
 make nano-arena

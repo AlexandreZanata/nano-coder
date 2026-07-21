@@ -91,7 +91,9 @@
   ],
   "speed": {
     "keep_alive_same_model": true,
-    "settle_s": 0.15,
-    "approach": "reuse_llama_server_across_same_model_slots"
+    "settle_s": 0.0,
+    "stop_grace_s": 0.2,
+    "skip_redundant_stop": true,
+    "approach": "S3_stop_grace_and_skip_redundant_stop"
   }
 }
