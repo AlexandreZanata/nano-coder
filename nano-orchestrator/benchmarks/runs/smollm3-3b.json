@@ -1,0 +1,12 @@
+{
+  "model_id": "smollm3-3b",
+  "role": "orchestrator",
+  "pass_js": "0.40",
+  "pass_html": "",
+  "pass_ftl": "",
+  "p50_ms": "7908",
+  "vram_mb": 3547,
+  "tokens_per_sec": 97.82411841134706,
+  "notes": "JSON-valid MicroTask rate 4/10",
+  "overall": 0.4
+}

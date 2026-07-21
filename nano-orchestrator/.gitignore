@@ -6,6 +6,7 @@ __pycache__/
 htmlcov/
 logs/
 out/
+benchmarks/runs/*.log
 *.gguf
 target/
 node_modules/

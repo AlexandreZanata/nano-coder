@@ -1,0 +1,12 @@
+{
+  "model_id": "qwen25-coder-0.5b",
+  "role": "baseline",
+  "pass_js": "0.90",
+  "pass_html": "0.90",
+  "pass_ftl": "0.00",
+  "p50_ms": "357",
+  "vram_mb": 1577,
+  "tokens_per_sec": 367.64023335799294,
+  "notes": "measured via sandbox Pass@1",
+  "overall": 0.6
+}

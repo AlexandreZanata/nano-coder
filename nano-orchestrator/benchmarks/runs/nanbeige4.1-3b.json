@@ -1,0 +1,12 @@
+{
+  "model_id": "nanbeige4.1-3b",
+  "role": "orchestrator",
+  "pass_js": "0.10",
+  "pass_html": "",
+  "pass_ftl": "",
+  "p50_ms": "1320",
+  "vram_mb": 3761,
+  "tokens_per_sec": 84.64239476814163,
+  "notes": "JSON-valid MicroTask rate 1/10",
+  "overall": 0.1
+}

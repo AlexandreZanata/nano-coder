@@ -3,35 +3,35 @@
 # Status values: pending | in_progress | done | blocked | skipped
 
 updated: "2026-07-21"
-current_phase: 1
-mvp_day: 3
-next_task: "T-020"
+current_phase: 2
+mvp_day: 5
+next_task: "T-030"
 
 phase_0_contract:
-  entities_py: done          # T-001
-  result_py: done            # T-002
-  rubric_stub: done          # T-003
-  unit_tests: done           # T-005
-  validate_schema_script: done  # T-006
-  gold_exemplars_min_3: done # T-007
-  smoke_runner_demo: done    # T-008
-  gold_js_complete: done     # T-010
-  gold_html_complete: done   # T-011
-  gold_ftl_complete: done    # T-012
-  gold_30_handwritten: done  # T-014
-  held_out_min_6: done       # T-013
+  entities_py: done
+  result_py: done
+  rubric_stub: done
+  unit_tests: done
+  validate_schema_script: done
+  gold_exemplars_min_3: done
+  smoke_runner_demo: done
+  gold_js_complete: done
+  gold_html_complete: done
+  gold_ftl_complete: done
+  gold_30_handwritten: done
+  held_out_min_6: done
 
 phase_1_bakeoff:
-  baseline_server: pending   # T-020
-  setup_models: pending      # T-021
-  bakeoff_script: pending    # T-022
-  worker_rows: pending       # T-023
-  orchestrator_rows: pending # T-024
-  results_md_filled: pending
+  baseline_server: done      # T-020
+  setup_models: done         # T-021
+  bakeoff_script: done       # T-022
+  worker_rows: done          # T-023
+  orchestrator_rows: done    # T-024
+  results_md_filled: done
   winners_locked:
-    worker_a: null
-    worker_b: null
-    orchestrator: null       # T-025
+    worker_a: qwen25-coder-0.5b
+    worker_b: smollm2-360m
+    orchestrator: smollm3-3b  # T-025
 
 phase_2_runner:
   llamacpp_adapter: pending  # T-030
@@ -44,40 +44,40 @@ phase_2_runner:
   smoke_e2e: pending         # T-037
 
 phase_4_judge:
-  js_sandbox: pending        # T-040
-  html_validate: pending     # T-041
-  ftl_jvm_spike: pending     # T-042
-  ftl_wired: pending         # T-043
-  llm_secondary_only: pending  # T-044
-  llm_call_log: pending      # T-045
+  js_sandbox: pending
+  html_validate: pending
+  ftl_jvm_spike: pending
+  ftl_wired: pending
+  llm_secondary_only: pending
+  llm_call_log: pending
 
 phase_3_finetune:
-  train_jsonl: pending       # T-050
-  teacher_distill: pending   # T-051
-  unsloth_smoke: pending     # T-052
-  gguf_export: pending       # T-053
-  held_out_pass_not_worse: pending  # T-054
-  worker_html_ft: pending    # T-055
-  worker_ftl_ft: pending     # T-056
+  train_jsonl: pending
+  teacher_distill: pending
+  unsloth_smoke: pending
+  gguf_export: pending
+  held_out_pass_not_worse: pending
+  worker_html_ft: pending
+  worker_ftl_ft: pending
 
 phase_5_dynamic:
-  status: skipped            # unlock via T-060 after E2+E4
+  status: skipped
 
 mvp_gates:
-  orchestration_beats_solo_0_5b: pending  # GATE-001
-  vram_peak_mb_le_6000: pending           # GATE-002
-  p50_latency_ms_le_target: pending       # GATE-003
-  negative_result_documented: pending     # GATE-NEG if needed
+  orchestration_beats_solo_0_5b: pending
+  vram_peak_mb_le_6000: pending
+  p50_latency_ms_le_target: pending
+  negative_result_documented: pending
 
 polish:
-  adr_promoted: pending      # T-070
-  cli_entrypoint: pending    # T-071
-  makefile_targets: pending  # T-072
-  ci_cpu_job: pending        # T-073
-  security_pass: pending     # T-074
-  readme_final: pending      # T-075
+  adr_promoted: pending
+  cli_entrypoint: pending
+  makefile_targets: pending
+  ci_cpu_job: pending
+  security_pass: pending
+  readme_final: pending
 
 notes: |
-  2026-07-21: T-010..T-014 done. Gold v1 frozen (30 train + 6 held-out).
-  Validators: scripts/validate_schema.py + scripts/validate_gold_code.py
-  Next: T-020 baseline llama-server on :8081
+  2026-07-21: E1 complete. Workers: qwen25-coder-0.5b > smollm2-360m > qwen3-0.6b > gemma3-270m.
+  Orchestrator: smollm3-3b (4/10 JSON) > nanbeige4.1-3b (1/10). FTL Pass@1 blocked on T-042.
+  Next: T-030 / Phase 2 minimal orchestrator loop.

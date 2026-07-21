@@ -1,0 +1,12 @@
+{
+  "model_id": "smollm2-360m",
+  "role": "worker",
+  "pass_js": "0.80",
+  "pass_html": "0.70",
+  "pass_ftl": "0.00",
+  "p50_ms": "299",
+  "vram_mb": 1675,
+  "tokens_per_sec": 443.6680255918865,
+  "notes": "measured via sandbox Pass@1",
+  "overall": 0.5
+}

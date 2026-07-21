@@ -1,0 +1,12 @@
+{
+  "model_id": "qwen3-0.6b",
+  "role": "worker",
+  "pass_js": "0.50",
+  "pass_html": "0.40",
+  "pass_ftl": "0.00",
+  "p50_ms": "438",
+  "vram_mb": 2371,
+  "tokens_per_sec": 311.9476954783729,
+  "notes": "measured via sandbox Pass@1",
+  "overall": 0.3
+}

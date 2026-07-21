@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "description": "Sample user requests for orchestrator JSON-decompose bake-off (T-024)",
+  "requests": [
+    "Create a JS function that clamps a number and an HTML form with a Submit button.",
+    "Build a FreeMarker product list with ?html and a JS uniqueSorted helper.",
+    "Add an accessible HTML nav with aria-current and a JS parsePositiveInt function.",
+    "Write FreeMarker admin/member badge and an HTML definition list for Name/Email/Role.",
+    "Produce JS safeJsonParse and an HTML table with caption Inventory.",
+    "Create HTML figure with alt text and FreeMarker price formatting 0.00.",
+    "Write JS toQueryString and a FreeMarker #list with #sep for names.",
+    "Add HTML fieldset Yes/No radios and JS groupBy helper.",
+    "Create FreeMarker empty-list message and HTML breadcrumb Home/Catalog/Item.",
+    "Write JS deepFreeze and FreeMarker pageTitle macro called with Dashboard."
+  ]
+}

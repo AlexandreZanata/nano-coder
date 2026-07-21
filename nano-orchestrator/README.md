@@ -357,15 +357,17 @@ Pass@1 definition for a micro-task: `JudgeVerdict.passed == true` after sandbox 
 
 ### Today (Phase 0 kickoff)
 
-**Next task:** [T-020 in TASKS.md](TASKS.md) — baseline llama-server on port 8081.
+**Next task:** [T-030 in TASKS.md](TASKS.md) — Phase 2 LlamaCppAdapter / decompose loop.
 
-Gold v1 is **frozen** (30 + 6 held-out). Validate with:
+Phase 1 bake-off **complete** — winners locked in PROGRESS.yaml. See [benchmarks/RESULTS.md](benchmarks/RESULTS.md).
 
 ```bash
 cd nano-orchestrator
 python scripts/validate_schema.py
 python scripts/validate_gold_code.py
 python -m pytest tests/unit -q
+./scripts/start_model_server.sh qwen25-coder-0.5b
+python benchmarks/worker_bakeoff.py --mode worker --model-id qwen25-coder-0.5b --write-results
 ```
 
 ### Tomorrow

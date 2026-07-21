@@ -1,32 +1,42 @@
 #!/usr/bin/env bash
-# Pull bake-off candidates via Ollama (optional path).
-# Primary runtime remains llama.cpp GGUF under .local/models/.
+# Download bake-off GGUFs via Hugging Face CLI (Ollama optional).
 set -euo pipefail
 
-echo "== Nano-Orchestrator model setup =="
-echo "Hardware note: unload models between pulls if VRAM is tight."
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+MODELS="$ROOT/.local/models"
 
-if ! command -v ollama >/dev/null 2>&1; then
-  echo "Ollama not found — skip pulls. Use HF→GGUF + llama-server instead."
-  echo "Baseline already expected at: .local/models/qwen25-coder-0.5b/"
-  exit 0
-fi
+echo "== Nano-Orchestrator model setup (HF → GGUF) =="
+mkdir -p "$MODELS"/{qwen3-0.6b,gemma3-270m,smollm2-360m,smollm3-3b,nanbeige4.1-3b}
 
-pull() {
-  local tag="$1"
-  echo "--- ollama pull ${tag}"
-  ollama pull "${tag}"
+download() {
+  local repo="$1" dir="$2"
+  echo "--- hf download $repo → $dir"
+  hf download "$repo" --include '*Q4_K_M*' --local-dir "$dir"
 }
 
-pull "qwen2.5-coder:0.5b"
-pull "qwen3:0.6b" || echo "WARN: qwen3:0.6b tag may differ — check ollama.com/library"
-pull "gemma3:270m" || echo "WARN: gemma3:270m tag may differ"
-pull "smollm2:360m" || echo "WARN: smollm2:360m tag may differ"
+if command -v ollama >/dev/null 2>&1; then
+  echo "Ollama detected — optional pulls:"
+  ollama pull qwen2.5-coder:0.5b || true
+fi
+
+if ! command -v hf >/dev/null 2>&1; then
+  echo "FAIL: hf CLI required (pip install huggingface_hub)" >&2
+  exit 1
+fi
+
+# Baseline expected pre-seeded; skip if present
+if [[ ! -f "$MODELS/qwen25-coder-0.5b/"*.gguf ]]; then
+  echo "WARN: baseline qwen25-coder-0.5b GGUF missing — place under .local/models/qwen25-coder-0.5b/"
+fi
+
+download "unsloth/Qwen3-0.6B-GGUF" "$MODELS/qwen3-0.6b"
+download "bartowski/google_gemma-3-270m-it-GGUF" "$MODELS/gemma3-270m"
+download "QuantFactory/SmolLM2-360M-Instruct-GGUF" "$MODELS/smollm2-360m"
+download "bartowski/HuggingFaceTB_SmolLM3-3B-GGUF" "$MODELS/smollm3-3b"
+download "mradermacher/Nanbeige4.1-3B-GGUF" "$MODELS/nanbeige4.1-3b" \
+  || download "tantk/Nanbeige4.1-3B-GGUF" "$MODELS/nanbeige4.1-3b"
 
 echo
-echo "Orchestrator (~3B) — pull only when ready to benchmark (VRAM):"
-echo "  Prefer HF download + GGUF for SmolLM3-3B / Nanbeige4.1-3B"
-echo "  See README §6 Phase 1 table"
-echo
-echo "DONE. Record peak VRAM during bake-off in benchmarks/RESULTS.md"
+echo "DONE. Inventory: nano-orchestrator/benchmarks/models_inventory.md"
 echo "NEVER pull MobileLLM-R1 into a product path (FAIR NC)."
+find "$MODELS" -name '*.gguf' | sort

@@ -77,30 +77,30 @@ grep -n '^\- \[ \]' TASKS.md | head -20   # next open tasks
 
 ## E1 — Bake-off (Phase 1)
 
-- [ ] **T-020** Confirm baseline GGUF path + start llama-server on port `8081`  
-  - **Cmd:** `.local/llama-prism-cuda/llama-server -m .local/models/qwen25-coder-0.5b/*.gguf -ngl 99 -c 8192 --port 8081`  
+- [x] **T-020** Confirm baseline GGUF path + start llama-server on port `8081`  
+  - **Cmd:** `./scripts/start_model_server.sh qwen25-coder-0.5b`  
   - **DoD:** HTTP `/completion` responds; note VRAM MB in RESULTS.md notes  
-  - **Effort:** 1 h
+  - **Effort:** 1 h · **Done:** 2026-07-21 (VRAM ~1577 MB with dual 0.5B; health+completion OK)
 
-- [ ] **T-021** Run `./scripts/setup_models.sh` (Ollama path) **or** document HF→GGUF for each candidate  
+- [x] **T-021** Run `./scripts/setup_models.sh` (Ollama path) **or** document HF→GGUF for each candidate  
   - **Deps:** none · **DoD:** checklist of available models in PROGRESS notes  
-  - **PROGRESS:** `setup_models` · **Effort:** 2–4 h (downloads)
+  - **PROGRESS:** `setup_models` · **Effort:** 2–4 h (downloads) · **Done:** 2026-07-21 — see `benchmarks/models_inventory.md`
 
-- [ ] **T-022** Implement `benchmarks/worker_bakeoff.py` for real: load gold → call worker → sandbox → Pass@1 / p50 / VRAM  
+- [x] **T-022** Implement `benchmarks/worker_bakeoff.py` for real: load gold → call worker → sandbox → Pass@1 / p50 / VRAM  
   - **Deps:** T-014, T-020 · **DoD:** CLI prints table; writes/appends measured rows  
-  - **Effort:** 1 day
+  - **Effort:** 1 day · **Done:** 2026-07-21
 
-- [ ] **T-023** Bake-off **workers:** Qwen2.5-Coder-0.5B (baseline), Qwen3-0.6B, Gemma3-270M, SmolLM2-360M  
+- [x] **T-023** Bake-off **workers:** Qwen2.5-Coder-0.5B (baseline), Qwen3-0.6B, Gemma3-270M, SmolLM2-360M  
   - **Deps:** T-022 · **DoD:** all 4 rows in [RESULTS.md](benchmarks/RESULTS.md) with numbers (not blanks)  
-  - **Effort:** 1–2 days · **Skip:** MobileLLM-R1 in product path (FAIR NC) — optional research-only row OK
+  - **Effort:** 1–2 days · **Done:** 2026-07-21 · MobileLLM-R1 skipped (FAIR NC)
 
-- [ ] **T-024** Bake-off **orchestrators:** SmolLM3-3B, Nanbeige4.1-3B (decompose quality on 10 sample requests)  
+- [x] **T-024** Bake-off **orchestrators:** SmolLM3-3B, Nanbeige4.1-3B (decompose quality on 10 sample requests)  
   - **Deps:** T-022 · **DoD:** RESULTS.md orchestrator rows + qualitative note (JSON valid rate)  
-  - **Effort:** 1 day
+  - **Effort:** 1 day · **Done:** 2026-07-21 (4/10 vs 1/10 after one-shot)
 
-- [ ] **T-025** Lock winners in PROGRESS.yaml (`worker_a`, `worker_b`, `orchestrator`)  
+- [x] **T-025** Lock winners in PROGRESS.yaml (`worker_a`, `worker_b`, `orchestrator`)  
   - **Deps:** T-023, T-024 · **DoD:** non-null IDs + one-paragraph rationale in RESULTS.md  
-  - **PROGRESS:** `winners_locked`, `results_md_filled`
+  - **PROGRESS:** `winners_locked`, `results_md_filled` · **Done:** 2026-07-21
 
 ---
 
@@ -269,7 +269,7 @@ T-050 → T-052 → T-053 → T-054 → T-055 → T-056
 T-060… (optional) → T-070…T-075
 ```
 
-**Next action right now:** **T-020** (confirm baseline llama-server on port 8081).
+**Next action right now:** **T-030** (harden LlamaCppAdapter) or **T-040** (JS sandbox polish) in parallel with Phase 2.
 
 ---
 
@@ -279,4 +279,5 @@ T-060… (optional) → T-070…T-075
 |------|----------|---------|
 | 2026-07-21 | T-001…T-008 | Scaffold done; moved to repo |
 | 2026-07-21 | T-010…T-014 | Gold v1 frozen (30+6); schema + node checks green |
+| 2026-07-21 | T-020…T-025 | Bake-off measured; winners locked (qwen25 / smollm2 / smollm3) |
 | | | |
